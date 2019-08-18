@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  mongodb:
+    image: mongo:4.0.10
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: "echo 'db.stats().ok' | mongo localhost:27017/bookdb --quiet"
+      start_period: 10s
+
+  cassandra:
+    image: cassandra:3.11.4
+    container_name: cassandra
+    restart: unless-stopped
+    ports:
+      - "9042:9042"
+      - "7199:7199"
+      - "9160:9160"
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      start_period: 10s

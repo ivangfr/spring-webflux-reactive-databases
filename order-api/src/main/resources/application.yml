@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: order-api
+  data:
+    cassandra:
+      keyspace-name: mycompany
+      contact-points: ${CASSANDRA_HOST:localhost}
+      port: ${CASSANDRA_PORT:9042}
+      schema-action: CREATE_IF_NOT_EXISTS
