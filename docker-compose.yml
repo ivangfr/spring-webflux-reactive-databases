@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.7'
 
 services:
 
@@ -24,6 +24,17 @@ services:
       - POSTGRES_USER=postgres
     healthcheck:
       test: "pg_isready -U postgres"
+      start_period: 30s
+
+  couchbase:
+    image: couchbase:6.0.2
+    container_name: couchbase
+    restart: unless-stopped
+    ports:
+      - "8091-8094:8091-8094"
+      - "11210:11210"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-s", "-u", "Administrator:password", "http://localhost:8091/pools"]
       start_period: 30s
 
 #  cassandra:

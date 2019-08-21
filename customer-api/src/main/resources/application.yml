@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: customer-api
+  data:
+    couchbase:
+      auto-index: true
+  couchbase:
+    bootstrap-hosts: localhost
+    bucket:
+      name: customers
+      password: password
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure.include: "*"
+  endpoint:
+    health:
+      show-details: always

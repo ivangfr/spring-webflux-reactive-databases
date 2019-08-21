@@ -6,15 +6,17 @@
 ./mvnw spring-boot:run --projects product-api -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
 ```
 
+## customer-api
+
+```
+./mvnw spring-boot:run --projects customer-api -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
+```
+
 ## order-api
 
 ```
-./mvnw spring-boot:run --projects order-api -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
+./mvnw spring-boot:run --projects order-api -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
 ```
-
-## Reference
-
-- Using R2DBC & Postgres: https://dimitr.im/reactive-relational-databases-r2dbc-spring
 
 ## Issues
 
