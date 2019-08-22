@@ -14,7 +14,7 @@ public class CreateProductDto {
     @NotBlank
     private String name;
 
-    @ApiModelProperty(position = 1, example = "299.99")
+    @ApiModelProperty(example = "299.99", position = 1)
     @NotNull
     private BigDecimal price;
 

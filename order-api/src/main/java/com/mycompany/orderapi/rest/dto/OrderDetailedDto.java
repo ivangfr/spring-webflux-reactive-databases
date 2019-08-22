@@ -14,11 +14,11 @@ public class OrderDetailedDto {
     private UUID orderId;
     private Order.Status status;
     private LocalDateTime created;
-    private Set<Item> items;
-    private Customer customer;
+    private Set<ItemDto> items;
+    private CustomerDto customer;
 
     @Data
-    public static class Item {
+    public static class ItemDto {
 
         private String id;
         private String name;
@@ -28,7 +28,7 @@ public class OrderDetailedDto {
     }
 
     @Data
-    public static class Customer {
+    public static class CustomerDto {
 
         private String id;
         private String name;

@@ -1,5 +1,6 @@
 package com.mycompany.customerapi.service;
 
+import com.mycompany.customerapi.exception.CustomerNotFoundException;
 import com.mycompany.customerapi.model.Customer;
 import com.mycompany.customerapi.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Mono<Customer> validateAndGetCustomer(String id) {
-        return customerRepository.findById(id);
+        return customerRepository.findById(id)
+                .switchIfEmpty(Mono.error(new CustomerNotFoundException(String.format("Customer with id %s not found.", id))));
     }
 
     @Override
@@ -26,6 +28,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Mono<Customer> saveCustomer(Customer customer) {
         return customerRepository.save(customer);
+    }
+
+    @Override
+    public Mono<Void> deleteCustomer(Customer customer) {
+        return customerRepository.delete(customer);
     }
 
 }

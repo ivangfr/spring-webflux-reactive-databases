@@ -15,4 +15,10 @@ public class Customer {
     @Field
     private String name;
 
+    @Field
+    private String email;
+
+    @Field
+    private Address address;
+
 }

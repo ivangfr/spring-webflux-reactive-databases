@@ -18,10 +18,10 @@ public class CreateOrderDto {
 
     @ApiModelProperty(position = 1)
     @NotEmpty
-    private Set<Item> items;
+    private Set<ItemDto> items;
 
     @Data
-    public static class Item {
+    public static class ItemDto {
 
         @ApiModelProperty(example = "123")
         @NotBlank

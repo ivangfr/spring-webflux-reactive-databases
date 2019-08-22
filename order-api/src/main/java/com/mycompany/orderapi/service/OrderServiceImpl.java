@@ -24,7 +24,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Mono<Order> validateAndGetOrder(UUID id) {
         return orderRepository.findByKeyOrderId(id)
-                .switchIfEmpty(Mono.error(new OrderNotFoundException(String.format("Order with id %s not found", id))));
+                .switchIfEmpty(Mono.error(new OrderNotFoundException(String.format("Order with id %s not found.", id))));
     }
 
     @Override

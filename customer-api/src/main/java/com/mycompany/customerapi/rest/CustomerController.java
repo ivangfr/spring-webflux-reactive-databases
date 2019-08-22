@@ -3,12 +3,15 @@ package com.mycompany.customerapi.rest;
 import com.mycompany.customerapi.model.Customer;
 import com.mycompany.customerapi.rest.dto.CreateCustomerDto;
 import com.mycompany.customerapi.rest.dto.CustomerDto;
+import com.mycompany.customerapi.rest.dto.UpdateCustomerDto;
 import com.mycompany.customerapi.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +46,23 @@ public class CustomerController {
         Customer customer = mapperFacade.map(createCustomerDto, Customer.class);
         customer.setId(UUID.randomUUID().toString());
         return customerService.saveCustomer(customer)
+                .map(c -> mapperFacade.map(c, CustomerDto.class));
+    }
+
+    @PutMapping("/{id}")
+    public Mono<CustomerDto> updateCustomer(@PathVariable String id, @Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
+        return customerService.validateAndGetCustomer(id)
+                .doOnSuccess(customer -> {
+                    mapperFacade.map(updateCustomerDto, customer);
+                    customerService.saveCustomer(customer).subscribe();
+                })
+                .map(c -> mapperFacade.map(c, CustomerDto.class));
+    }
+
+    @DeleteMapping("/{id}")
+    public Mono<CustomerDto> deleteCustomer(@PathVariable String id) {
+        return customerService.validateAndGetCustomer(id)
+                .doOnSuccess(customer -> customerService.deleteCustomer(customer).subscribe())
                 .map(c -> mapperFacade.map(c, CustomerDto.class));
     }
 

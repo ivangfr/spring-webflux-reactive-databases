@@ -53,15 +53,13 @@ public class OrderController {
     @GetMapping("/{orderId}/detailed")
     public Mono<OrderDetailedDto> getOrderDetailed(@PathVariable UUID orderId) {
         return orderService.validateAndGetOrder(orderId).map(order -> {
+            OrderDetailedDto orderDetailedDto = mapperFacade.map(order, OrderDetailedDto.class);
+
             // get customer details from customer-api
             // get product details from product-api
 
-            OrderDetailedDto orderDetailedDto = new OrderDetailedDto();
-            orderDetailedDto.setOrderId(order.getKey().getOrderId());
-            orderDetailedDto.setStatus(order.getStatus());
-            orderDetailedDto.setCreated(order.getKey().getCreated());
             orderDetailedDto.setItems(new HashSet<>());
-            orderDetailedDto.setCustomer(new OrderDetailedDto.Customer());
+            orderDetailedDto.setCustomer(new OrderDetailedDto.CustomerDto());
 
             return orderDetailedDto;
         });

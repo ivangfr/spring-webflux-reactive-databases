@@ -11,7 +11,7 @@ public class UpdateProductDto {
     @ApiModelProperty(example = "iPhone 8")
     private String name;
 
-    @ApiModelProperty(position = 1, example = "399.99")
+    @ApiModelProperty(example = "399.99", position = 1)
     private BigDecimal price;
 
 }
