@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <dropwizard-metrics.version>3.2.6</dropwizard-metrics.version>
     </properties>
 
     <dependencies>
@@ -25,18 +26,21 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-data-cassandra-reactive</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
+        <!-- This dependency is needed by Cassandra. Otherwise, we have:
+             java.lang.ClassNotFoundException: com.codahale.metrics.JmxReporter -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>${dropwizard-metrics.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

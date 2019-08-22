@@ -5,6 +5,10 @@ import com.mycompany.orderapi.model.Order;
 import com.mycompany.orderapi.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -13,13 +17,18 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
     @Override
-    public Order validateAndGetOrder(Long id) throws OrderNotFoundException {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException(String.format("Order with id %s not found.", id)));
+    public Flux<Order> getOrders() {
+        return orderRepository.findAll();
     }
 
     @Override
-    public Order saveOrder(Order order) {
+    public Mono<Order> validateAndGetOrder(UUID id) {
+        return orderRepository.findByKeyOrderId(id)
+                .switchIfEmpty(Mono.error(new OrderNotFoundException(String.format("Order with id %s not found", id))));
+    }
+
+    @Override
+    public Mono<Order> saveOrder(Order order) {
         return orderRepository.save(order);
     }
 

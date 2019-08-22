@@ -9,20 +9,29 @@ import java.util.Set;
 import java.util.UUID;
 
 @Data
-public class OrderDto {
+public class OrderDetailedDto {
 
     private UUID orderId;
     private Order.Status status;
     private LocalDateTime created;
     private Set<Item> items;
-    private String customerId;
+    private Customer customer;
 
     @Data
     public static class Item {
 
         private String id;
+        private String name;
         private Integer quantity;
         private BigDecimal price;
+
+    }
+
+    @Data
+    public static class Customer {
+
+        private String id;
+        private String name;
 
     }
 

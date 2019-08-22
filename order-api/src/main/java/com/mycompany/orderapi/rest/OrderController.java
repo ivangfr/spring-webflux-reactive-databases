@@ -1,16 +1,14 @@
 package com.mycompany.orderapi.rest;
 
-import com.mycompany.orderapi.exception.OrderNotFoundException;
 import com.mycompany.orderapi.model.Order;
-import com.mycompany.orderapi.model.OrderItem;
-import com.mycompany.orderapi.rest.dto.AddOrderItemDto;
+import com.mycompany.orderapi.model.OrderKey;
 import com.mycompany.orderapi.rest.dto.CreateOrderDto;
+import com.mycompany.orderapi.rest.dto.OrderDetailedDto;
 import com.mycompany.orderapi.rest.dto.OrderDto;
 import com.mycompany.orderapi.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,35 +32,39 @@ public class OrderController {
     private final OrderService orderService;
     private final MapperFacade mapperFacade;
 
-    @Transactional
+    @GetMapping
+    public Flux<OrderDto> getOrders() {
+        return orderService.getOrders().map(order -> mapperFacade.map(order, OrderDto.class));
+    }
+
     @GetMapping("/{orderId}")
-    public OrderDto getOrder(@PathVariable Long orderId) throws OrderNotFoundException {
-        Order order = orderService.validateAndGetOrder(orderId);
-        return mapperFacade.map(order, OrderDto.class);
+    public Mono<OrderDto> getOrder(@PathVariable UUID orderId) {
+        return orderService.validateAndGetOrder(orderId).map(order -> mapperFacade.map(order, OrderDto.class));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public OrderDto createOrder(@Valid @RequestBody CreateOrderDto createOrderDto) {
+    public Mono<OrderDto> createOrder(@Valid @RequestBody CreateOrderDto createOrderDto) {
         Order order = mapperFacade.map(createOrderDto, Order.class);
-        order.setCreated(LocalDateTime.now());
-        order = orderService.saveOrder(order);
-        return mapperFacade.map(order, OrderDto.class);
+        order.setKey(new OrderKey(UUID.randomUUID(), LocalDateTime.now()));
+        return orderService.saveOrder(order).map(o -> mapperFacade.map(o, OrderDto.class));
     }
 
-    @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{orderId}/items")
-    public OrderDto addOrderItem(@PathVariable Long orderId, @Valid @RequestBody AddOrderItemDto addOrderItemDto)
-            throws OrderNotFoundException {
-        Order order = orderService.validateAndGetOrder(orderId);
+    @GetMapping("/{orderId}/detailed")
+    public Mono<OrderDetailedDto> getOrderDetailed(@PathVariable UUID orderId) {
+        return orderService.validateAndGetOrder(orderId).map(order -> {
+            // get customer details from customer-api
+            // get product details from product-api
 
-        OrderItem orderItem = mapperFacade.map(addOrderItemDto, OrderItem.class);
-        orderItem.setOrder(order);
-        order.getItems().add(orderItem);
+            OrderDetailedDto orderDetailedDto = new OrderDetailedDto();
+            orderDetailedDto.setOrderId(order.getKey().getOrderId());
+            orderDetailedDto.setStatus(order.getStatus());
+            orderDetailedDto.setCreated(order.getKey().getCreated());
+            orderDetailedDto.setItems(new HashSet<>());
+            orderDetailedDto.setCustomer(new OrderDetailedDto.Customer());
 
-        order = orderService.saveOrder(order);
-        return mapperFacade.map(order, OrderDto.class);
+            return orderDetailedDto;
+        });
     }
 
 }

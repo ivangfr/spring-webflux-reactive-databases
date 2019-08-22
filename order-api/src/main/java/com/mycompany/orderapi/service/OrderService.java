@@ -1,12 +1,17 @@
 package com.mycompany.orderapi.service;
 
-import com.mycompany.orderapi.exception.OrderNotFoundException;
 import com.mycompany.orderapi.model.Order;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 public interface OrderService {
 
-    Order validateAndGetOrder(Long id) throws OrderNotFoundException;
+    Flux<Order> getOrders();
 
-    Order saveOrder(Order order);
+    Mono<Order> validateAndGetOrder(UUID id);
+
+    Mono<Order> saveOrder(Order order);
 
 }

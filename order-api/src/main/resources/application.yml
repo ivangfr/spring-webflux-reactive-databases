@@ -1,17 +1,12 @@
 spring:
   application:
     name: order-api
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate:
-        temp.use_jdbc_metadata_defaults: false # fix for exception: Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented
-  datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/orderdb
-    username: postgres
-    password: postgres
+  data:
+    cassandra:
+      keyspace-name: mycompany
+      contact-points: ${CASSANDRA_HOST:localhost}
+      port: ${CASSANDRA_PORT:9042}
+      schema-action: CREATE_IF_NOT_EXISTS
 
 management:
   security:
