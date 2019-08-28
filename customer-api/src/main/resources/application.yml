@@ -10,6 +10,9 @@ spring:
       name: customers
       password: password
 
+runner:
+  num-customers: 10
+
 management:
   security:
     enabled: false

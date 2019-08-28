@@ -5,6 +5,9 @@ spring:
     mongodb:
       uri: mongodb://${MONGODB_HOST:localhost}:${MONGODB_PORT:27017}/productdb
 
+runner:
+  num-products: 100
+
 management:
   security:
     enabled: false

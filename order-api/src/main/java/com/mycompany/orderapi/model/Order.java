@@ -14,7 +14,7 @@ public class Order {
     private OrderKey key;
 
     private Status status = Status.OPEN;
-    private Set<Item> items;
+    private Set<Product> products;
     private String customerId;
 
     public enum Status {

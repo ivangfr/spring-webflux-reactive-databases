@@ -6,7 +6,6 @@ import com.mycompany.productapi.rest.dto.ProductDto;
 import com.mycompany.productapi.rest.dto.UpdateProductDto;
 import com.mycompany.productapi.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +22,6 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
-@Log4j2
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/products")

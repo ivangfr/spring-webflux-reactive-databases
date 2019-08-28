@@ -8,6 +8,12 @@ spring:
       port: ${CASSANDRA_PORT:9042}
       schema-action: CREATE_IF_NOT_EXISTS
 
+product-api:
+  url: http://localhost:9080/api/products
+
+customer-api:
+  url: http://localhost:9081/api/customers
+
 management:
   security:
     enabled: false
