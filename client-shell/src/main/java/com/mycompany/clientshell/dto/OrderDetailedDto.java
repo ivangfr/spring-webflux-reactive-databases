@@ -1,9 +1,8 @@
-package com.mycompany.orderapi.rest.dto;
+package com.mycompany.clientshell.dto;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,7 +11,7 @@ public class OrderDetailedDto {
 
     private UUID orderId;
     private Status status;
-    private LocalDateTime created;
+    private String created;
     private Set<ProductDto> products;
     private CustomerDto customer;
 

@@ -25,6 +25,7 @@
         <module>order-api</module>
         <module>product-api</module>
         <module>customer-api</module>
+        <module>client-shell</module>
     </modules>
 
     <properties>
