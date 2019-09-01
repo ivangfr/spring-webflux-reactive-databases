@@ -10,14 +10,10 @@ import java.util.UUID;
 public class OrderDto {
 
     private UUID orderId;
-    private Status status;
+    private String status;
     private LocalDateTime created;
     private Set<ProductDto> products;
     private String customerId;
-
-    public enum Status {
-        OPEN, CANCELLED, DELIVERED
-    }
 
     @Data
     public static class ProductDto {

@@ -64,33 +64,35 @@ public class OrderController {
 
     @GetMapping("/{orderId}/detailed")
     public Mono<OrderDetailedDto> getOrderDetailed(@PathVariable UUID orderId) {
-        return orderService.validateAndGetOrder(orderId).map(order -> {
-            Instant start = Instant.now();
+        return orderService.validateAndGetOrder(orderId).map(this::getOrderDetailed);
+    }
 
-            CompletableFuture<OrderDetailedDto.CustomerDto> customerCompletableFuture =
-                    CompletableFuture.supplyAsync(() -> {
-                        CustomerDto customerDto = customerApiClient.getCustomer(order.getCustomerId()).block();
-                        return mapperFacade.map(customerDto, OrderDetailedDto.CustomerDto.class);
-                    });
+    private OrderDetailedDto getOrderDetailed(Order order) {
+        Instant start = Instant.now();
 
-            CompletableFuture<Set<OrderDetailedDto.ProductDto>> productsCompletableFuture =
-                    CompletableFuture.supplyAsync(() -> order.getProducts().parallelStream().map(product -> {
-                        OrderDetailedDto.ProductDto productDto = mapperFacade.map(product, OrderDetailedDto.ProductDto.class);
-                        ProductDto productApiDto = productApiClient.getProduct(product.getId()).block();
-                        mapperFacade.map(productApiDto, productDto);
-                        return productDto;
-                    }).collect(Collectors.toSet()));
+        CompletableFuture<OrderDetailedDto.CustomerDto> customerCompletableFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    CustomerDto customerDto = customerApiClient.getCustomer(order.getCustomerId()).block();
+                    return mapperFacade.map(customerDto, OrderDetailedDto.CustomerDto.class);
+                });
 
-            OrderDetailedDto orderDetailedDto = mapperFacade.map(order, OrderDetailedDto.class);
-            CompletableFuture.allOf(customerCompletableFuture, productsCompletableFuture).thenAccept(aVoid -> {
-                orderDetailedDto.setCustomer(customerCompletableFuture.join());
-                orderDetailedDto.setProducts(productsCompletableFuture.join());
-            }).join();
+        CompletableFuture<Set<OrderDetailedDto.ProductDto>> productsCompletableFuture =
+                CompletableFuture.supplyAsync(() -> order.getProducts().parallelStream().map(product -> {
+                    OrderDetailedDto.ProductDto productDto = mapperFacade.map(product, OrderDetailedDto.ProductDto.class);
+                    ProductDto productApiDto = productApiClient.getProduct(product.getId()).block();
+                    mapperFacade.map(productApiDto, productDto);
+                    return productDto;
+                }).collect(Collectors.toSet()));
 
-            log.info("Execution time: {}", Duration.between(start, Instant.now()).getSeconds());
+        OrderDetailedDto orderDetailedDto = mapperFacade.map(order, OrderDetailedDto.class);
+        CompletableFuture.allOf(customerCompletableFuture, productsCompletableFuture).thenAccept(aVoid -> {
+            orderDetailedDto.setCustomer(customerCompletableFuture.join());
+            orderDetailedDto.setProducts(productsCompletableFuture.join());
+        }).join();
 
-            return orderDetailedDto;
-        });
+        log.info("Execution time: {}", Duration.between(start, Instant.now()).getSeconds());
+
+        return orderDetailedDto;
     }
 
 }

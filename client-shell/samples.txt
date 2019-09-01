@@ -1,0 +1,54 @@
+create-product product-1 199.99
+create-product product-2 299.99
+create-product product-3 399.99
+create-product product-4 499.99
+create-product product-5 599.99
+create-product product-6 699.99
+create-product product-7 799.99
+create-product product-8 899.99
+create-product product-9 999.99
+create-product product-10 1099.99
+create-product product-11 1199.99
+create-product product-12 1299.99
+create-product product-13 1399.99
+create-product product-14 1499.99
+create-product product-15 1599.99
+create-product product-16 1699.99
+create-product product-17 1799.99
+create-product product-18 1899.99
+create-product product-19 1999.99
+create-product product-20 2099.99
+create-product product-21 2199.99
+create-product product-22 2399.99
+create-product product-23 2399.99
+create-product product-24 2499.99
+create-product product-25 2599.99
+create-product product-26 2699.99
+create-product product-27 2799.99
+create-product product-28 2899.99
+create-product product-29 2999.99
+create-product product-30 3099.99
+create-product product-31 3199.99
+create-product product-32 3299.99
+create-product product-33 3399.99
+create-product product-34 3499.99
+create-product product-35 3599.99
+create-product product-36 3699.99
+create-product product-37 3799.99
+create-product product-38 3899.99
+create-product product-39 3999.99
+create-product product-40 4099.99
+create-product product-41 4199.99
+create-product product-42 4299.99
+create-product product-43 4399.99
+create-product product-44 4499.99
+create-product product-45 4599.99
+create-product product-46 4699.99
+create-product product-47 4799.99
+create-product product-48 4899.99
+create-product product-49 4999.99
+create-product product-50 5099.99
+
+create-customer "Customer A" customer.a@test.com Berlin "NYC Strasse" "123"
+create-customer "Customer B" customer.b@test.com Berlin "LA Strasse" "234"
+create-customer "Customer C" customer.c@test.com Berlin "DC Strasse" "345"

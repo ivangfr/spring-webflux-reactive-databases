@@ -29,7 +29,7 @@ public class OrderApiClient {
                 .bodyToMono(OrderDto.class);
     }
 
-    public Mono<OrderDetailedDto> getDetailedOrder(UUID id) {
+    public Mono<OrderDetailedDto> getOrderDetailed(UUID id) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/{id}/detailed").build(id))
                 .retrieve()

@@ -2,10 +2,12 @@
 
 The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)
 on client and server side. For it, we will implement some [`Spring Boot`](https://spring.io/projects/spring-boot)
-Java Web applications, `product-api`, `customer-api` and `order-api`, and use reactive NoSQL database like
-[`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/) and [`Couchbase`](https://www.couchbase.com/).
+Java Web applications, `product-api`, `customer-api`, `order-api` and `client-shell`, and use reactive NoSQL database
+like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/) and [`Couchbase`](https://www.couchbase.com/).
 
 ## Project Architecture
+
+![project-diagram](images/project-diagram.png)
 
 ## Microservices
 
@@ -27,7 +29,8 @@ fetch those information from `customer-api` and `product-api`.
 
 ### client-shell
 
-Spring Boot Shell Java application that has a couple of commands to call `product-api`, `customer-api` and `order-api`.
+Spring Boot Shell Java application that has a couple of commands to interact with `product-api`, `customer-api` and
+`order-api`.
 
 ## Start Environment
 
@@ -41,7 +44,7 @@ Wait a little bit until all containers are Up (healthy). You can check their sta
 docker-compose ps
 ```
 
-Then, still inside inside `spring-webflux-client-server` root folder, run the script below. It will initialize
+Then, still inside `spring-webflux-client-server` root folder, run the script below. It will initialize
 `Couchbase` database that is used by `customer-api`
 ```
 ./setup-couchbase.sh
@@ -133,8 +136,7 @@ password: password
 
 ## TODO
 
-- implement batch insert of a list of products/clients/orders in `client-shell`;
-- remove simplify the use dto's in `product-api`, `customer-api` and `order-api`;
+- validate if customer and products exist before creating an order
 
 ## Issues
 
