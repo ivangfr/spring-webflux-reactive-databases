@@ -11,7 +11,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -40,7 +39,6 @@ public class OrderApiClient {
         return webClient.get()
                 .retrieve()
                 .bodyToFlux(OrderDto.class);
-
     }
 
     public Mono<OrderDto> createOrder(String customerId, Set<CreateOrderDto.ProductDto> products) {

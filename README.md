@@ -1,7 +1,7 @@
 # `spring-webflux-client-server`
 
 The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)
-on client and server side. For it, we will implement some [`Spring Boot`](https://spring.io/projects/spring-boot)
+both on client and server side. For it, we will implement some [`Spring Boot`](https://spring.io/projects/spring-boot)
 Java Web applications, `product-api`, `customer-api`, `order-api` and `client-shell`, and use reactive NoSQL database
 like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/) and [`Couchbase`](https://www.couchbase.com/).
 
@@ -30,7 +30,9 @@ fetch those information from `customer-api` and `product-api`.
 ### client-shell
 
 Spring Boot Shell Java application that has a couple of commands to interact with `product-api`, `customer-api` and
-`order-api`.
+`order-api`. The picture below show those commands.
+
+![client-shell](images/client-shell.png)
 
 ## Start Environment
 

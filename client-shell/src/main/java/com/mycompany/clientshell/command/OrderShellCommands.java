@@ -5,7 +5,6 @@ import com.mycompany.clientshell.client.OrderApiClient;
 import com.mycompany.clientshell.client.ProductApiClient;
 import com.mycompany.clientshell.dto.CreateOrderDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
@@ -17,7 +16,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RequiredArgsConstructor
 @ShellComponent
 public class OrderShellCommands {
@@ -42,7 +40,8 @@ public class OrderShellCommands {
         return orderApiClient.getOrders().map(gson::toJson).collectList().block();
     }
 
-    @ShellMethod("Create order. Example: create-order --customer-id <customer-id> --products <product-1-id:quantity>[;<product-n-id:quantity>]")
+    @ShellMethod("Create order.\n" +
+            "\t\tExample: create-order --customer-id <customer-id> --products <product-1-id:quantity>[;<product-n-id:quantity>]")
     public String createOrder(String customerId, Set<CreateOrderDto.ProductDto> products) {
         return orderApiClient.createOrder(customerId, products).map(gson::toJson).block();
     }

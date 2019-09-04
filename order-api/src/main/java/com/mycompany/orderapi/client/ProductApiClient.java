@@ -17,8 +17,8 @@ public class ProductApiClient {
     public Mono<ProductDto> getProduct(String id) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/{productId}").build(id))
-                .retrieve()
-                .bodyToMono(ProductDto.class);
+                .exchange()
+                .flatMap(clientResponse -> clientResponse.bodyToMono(ProductDto.class));
     }
 
 }

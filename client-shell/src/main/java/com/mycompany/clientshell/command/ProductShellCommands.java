@@ -3,14 +3,12 @@ package com.mycompany.clientshell.command;
 import com.google.gson.Gson;
 import com.mycompany.clientshell.client.ProductApiClient;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @ShellComponent
 public class ProductShellCommands {

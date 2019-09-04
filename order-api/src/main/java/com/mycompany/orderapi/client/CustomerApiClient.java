@@ -17,8 +17,8 @@ public class CustomerApiClient {
     public Mono<CustomerDto> getCustomer(String id) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/{customerId}").build(id))
-                .retrieve()
-                .bodyToMono(CustomerDto.class);
+                .exchange()
+                .flatMap(clientResponse -> clientResponse.bodyToMono(CustomerDto.class));
     }
 
 }
