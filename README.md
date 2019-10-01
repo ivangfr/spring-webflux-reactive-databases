@@ -58,28 +58,28 @@ The following commands must be executed inside `spring-webflux-client-server` ro
 
 ### product-api
 
-In order to start `product-api`, run the following Maven command
+In order to start `product-api`, run the following command
 ```
 ./mvnw spring-boot:run --projects product-api -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
 ```
 
 ### customer-api
 
-To start `customer-api`, run the Maven command below
+To start `customer-api`, run the command
 ```
 ./mvnw spring-boot:run --projects customer-api -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
 ```
 
 ### order-api
 
-Run the following Maven command to start `order-api` 
+Run the following command to start `order-api` 
 ```
 ./mvnw spring-boot:run --projects order-api -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
 ```
 
 ### client-shell
 
-Run the following Maven command to build the executable jar file
+Run the following command to build the executable jar file
 ```
 ./mvnw clean package -DskipTests --projects client-shell
 ```
@@ -105,6 +105,14 @@ docker-compose down -v
 ```
 
 ## Useful Commands & Links
+
+### Import fake products and customers
+
+In `client-shell` folder there is the `samples.txt` file that contains some fake products and customers. In order to
+import them, run the following command in `client-shell` terminal
+```
+client-shell> script ../samples.txt
+```
 
 ### Cassandra
 

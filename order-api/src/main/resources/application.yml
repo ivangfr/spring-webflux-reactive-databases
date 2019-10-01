@@ -15,8 +15,6 @@ customer-api:
   url: http://localhost:9081/api/customers
 
 management:
-  security:
-    enabled: false
   endpoints:
     web:
       exposure.include: "*"

@@ -9,8 +9,6 @@ runner:
   num-products: 100
 
 management:
-  security:
-    enabled: false
   endpoints:
     web:
       exposure.include: "*"

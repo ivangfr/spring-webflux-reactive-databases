@@ -14,8 +14,6 @@ runner:
   num-customers: 10
 
 management:
-  security:
-    enabled: false
   endpoints:
     web:
       exposure.include: "*"
