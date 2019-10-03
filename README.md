@@ -1,7 +1,7 @@
 # `spring-webflux-client-server`
 
 The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)
-both on client and server side. For it, we will implement some [`Spring Boot`](https://spring.io/projects/spring-boot)
+both on client and server side. For it, we will implement some [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
 Java Web applications, `product-api`, `customer-api`, `order-api` and `client-shell`, and use reactive NoSQL database
 like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/) and [`Couchbase`](https://www.couchbase.com/).
 
@@ -9,7 +9,7 @@ like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongo
 
 ![project-diagram](images/project-diagram.png)
 
-## Microservices
+## Applications
 
 ### product-api
 
@@ -52,7 +52,7 @@ Then, still inside `spring-webflux-client-server` root folder, run the script be
 ./setup-couchbase.sh
 ```
 
-## Start microservices
+## Start applications
 
 The following commands must be executed inside `spring-webflux-client-server` root folder.
 
@@ -89,9 +89,9 @@ To start `client-shell` run
 ./client-shell/target/client-shell-0.0.1-SNAPSHOT.jar 
 ```
 
-## Microservices Swagger Links
+## Application Swagger URLs
 
-| Microservice   | Swagger Link                          |
+| Application    | Swagger Link                          |
 | -------------- | ------------------------------------- |
 | `product-api`  | http://localhost:9080/swagger-ui.html |
 | `customer-api` | http://localhost:9081/swagger-ui.html |
