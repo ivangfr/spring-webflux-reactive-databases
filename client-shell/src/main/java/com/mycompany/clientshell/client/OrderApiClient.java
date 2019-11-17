@@ -46,7 +46,7 @@ public class OrderApiClient {
 
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
-                .syncBody(createOrderDto)
+                .bodyValue(createOrderDto)
                 .retrieve()
                 .bodyToMono(OrderDto.class);
     }

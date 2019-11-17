@@ -13,15 +13,15 @@ like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongo
 
 ### product-api
 
-Spring Boot Java Web application that exposes a REST API to manage `products`. It uses `MongoDB` as storage.
+`Spring Boot` Java Web application that exposes a REST API to manage `products`. It uses `MongoDB` as storage.
 
 ### customer-api
 
-Spring Boot Java Web application that exposes a REST API to manage `customers`. It uses `Couchbase` as storage.
+`Spring Boot` Java Web application that exposes a REST API to manage `customers`. It uses `Couchbase` as storage.
 
 ### order-api
 
-Spring Boot Java Web application that exposes a REST API to manage `orders`. It uses `Cassandra` as storage. In order
+`Spring Boot` Web Java application that exposes a REST API to manage `orders`. It uses `Cassandra` as storage. In order
 to get more information about an `order`, i.e, the `name` of the customer who placed it or the `name` or `price` of
 the products in the order, `order-api` uses [`WebClient`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client)
 and [`CompletableFuture`](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) to
@@ -29,7 +29,7 @@ fetch those information from `customer-api` and `product-api`.
 
 ### client-shell
 
-Spring Boot Shell Java application that has a couple of commands to interact with `product-api`, `customer-api` and
+`Spring Boot` Shell Java application that has a couple of commands to interact with `product-api`, `customer-api` and
 `order-api`. The picture below show those commands.
 
 ![client-shell](images/client-shell.png)
@@ -54,52 +54,54 @@ Then, still inside `spring-webflux-client-server` root folder, run the script be
 
 ## Start applications
 
-The following commands must be executed inside `spring-webflux-client-server` root folder.
-
 ### product-api
 
-In order to start `product-api`, run the following command
+Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command
 ```
 ./mvnw spring-boot:run --projects product-api -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
 ```
 
 ### customer-api
 
-To start `customer-api`, run the command
+Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command
 ```
 ./mvnw spring-boot:run --projects customer-api -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
 ```
 
 ### order-api
 
-Run the following command to start `order-api` 
+Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command 
 ```
 ./mvnw spring-boot:run --projects order-api -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
 ```
 
 ### client-shell
 
-Run the following command to build the executable jar file
+Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command to build the
+executable jar file
 ```
 ./mvnw clean package -DskipTests --projects client-shell
 ```
 
-To start `client-shell` run
+Then, to start `client-shell` run
 ```
 ./client-shell/target/client-shell-0.0.1-SNAPSHOT.jar 
 ```
 
-## Application Swagger URLs
+## Applications URLs
 
-| Application    | Swagger Link                          |
-| -------------- | ------------------------------------- |
-| `product-api`  | http://localhost:9080/swagger-ui.html |
-| `customer-api` | http://localhost:9081/swagger-ui.html |
-| `order-api`    | http://localhost:9082/swagger-ui.html | 
+| Application  | URL                                   |
+| ------------ | ------------------------------------- |
+| product-api  | http://localhost:9080/swagger-ui.html |
+| customer-api | http://localhost:9081/swagger-ui.html |
+| order-api    | http://localhost:9082/swagger-ui.html | 
 
 ## Shutdown
 
-To stop and remove containers, networks and volumes, run
+Go to `client-shell` terminal and type `exit`. Then, go to `product-api`, `customer-api` and `order-api` terminals
+and press `ctrl-c` on each one.
+
+Finally, to stop and remove containers, networks and volumes, run
 ```
 docker-compose down -v
 ```
@@ -147,7 +149,3 @@ password: password
 ## TODO
 
 - validate if customer and products exist before creating an order
-
-## Issues
-
-- Spring Boot version 2.2.0.M5 has a problem with Springfox: https://github.com/springfox/springfox/issues/2932

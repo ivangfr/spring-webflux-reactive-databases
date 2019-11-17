@@ -25,8 +25,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -68,7 +66,7 @@ public class OrderController {
     }
 
     private OrderDetailedDto getOrderDetailed(Order order) {
-        Instant start = Instant.now();
+        long start = System.currentTimeMillis();
 
         CompletableFuture<OrderDetailedDto.CustomerDto> customerCompletableFuture =
                 CompletableFuture.supplyAsync(() -> {
@@ -90,7 +88,7 @@ public class OrderController {
             orderDetailedDto.setProducts(productsCompletableFuture.join());
         }).join();
 
-        log.info("Execution time: {}", Duration.between(start, Instant.now()).getSeconds());
+        log.info("Execution time: {} ms", System.currentTimeMillis() - start);
 
         return orderDetailedDto;
     }

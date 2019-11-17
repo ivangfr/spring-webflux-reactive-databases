@@ -36,7 +36,7 @@ public class CustomerApiClient {
 
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
-                .syncBody(createCustomerDto)
+                .bodyValue(createCustomerDto)
                 .retrieve()
                 .bodyToMono(CustomerDto.class);
     }
