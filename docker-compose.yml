@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   mongodb:
-    image: mongo:4.2.1
+    image: mongo:4.2.5
     container_name: mongodb
     restart: unless-stopped
     ports:
@@ -13,7 +13,7 @@ services:
       start_period: 30s
 
   couchbase:
-    image: couchbase:6.0.3
+    image: couchbase:6.5.0
     container_name: couchbase
     restart: unless-stopped
     ports:
@@ -24,7 +24,7 @@ services:
       start_period: 30s
 
   cassandra:
-    image: cassandra:3.11.5
+    image: cassandra:3.11.6
     container_name: cassandra
     restart: unless-stopped
     ports:
