@@ -1,12 +1,13 @@
 package com.mycompany.customerapi.rest;
 
+import com.mycompany.customerapi.mapper.CustomerMapper;
 import com.mycompany.customerapi.model.Customer;
 import com.mycompany.customerapi.rest.dto.CreateCustomerDto;
 import com.mycompany.customerapi.rest.dto.CustomerDto;
 import com.mycompany.customerapi.rest.dto.UpdateCustomerDto;
 import com.mycompany.customerapi.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import ma.glasnost.orika.MapperFacade;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,49 +22,52 @@ import reactor.core.publisher.Mono;
 import javax.validation.Valid;
 import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final MapperFacade mapperFacade;
+    private final CustomerMapper customerMapper;
 
     @GetMapping
     public Flux<CustomerDto> getCustomers() {
-        return customerService.getCustomers()
-                .map(c -> mapperFacade.map(c, CustomerDto.class));
+        log.info("==> getCustomers");
+        return customerService.getCustomers().map(customerMapper::toCustomerDto);
     }
 
     @GetMapping("/{id}")
-    public Mono<CustomerDto> getCustomer(@PathVariable String id) {
-        return customerService.validateAndGetCustomer(id)
-                .map(c -> mapperFacade.map(c, CustomerDto.class));
+    public Mono<Customer> getCustomer(@PathVariable String id) {
+        log.info("==> getCustomer {}", id);
+        return customerService.validateAndGetCustomer(id)/*.map(customerMapper::toCustomerDto)*/;
     }
 
     @PostMapping
     public Mono<CustomerDto> createCustomer(@Valid @RequestBody CreateCustomerDto createCustomerDto) {
-        Customer customer = mapperFacade.map(createCustomerDto, Customer.class);
+        log.info("==> createCustomer {} ", createCustomerDto);
+        Customer customer = customerMapper.toCustomer(createCustomerDto);
         customer.setId(UUID.randomUUID().toString());
-        return customerService.saveCustomer(customer)
-                .map(c -> mapperFacade.map(c, CustomerDto.class));
+        return customerService.saveCustomer(customer).map(customerMapper::toCustomerDto);
     }
 
     @PutMapping("/{id}")
     public Mono<CustomerDto> updateCustomer(@PathVariable String id, @Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
+        log.info("==> updateCustomer {} with {}", id, updateCustomerDto);
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> {
-                    mapperFacade.map(updateCustomerDto, customer);
+                    customerMapper.updateCustomerFromDto(updateCustomerDto, customer);
                     customerService.saveCustomer(customer).subscribe();
                 })
-                .map(c -> mapperFacade.map(c, CustomerDto.class));
+                .map(customerMapper::toCustomerDto);
     }
 
     @DeleteMapping("/{id}")
     public Mono<CustomerDto> deleteCustomer(@PathVariable String id) {
+        log.info("==> deleteCustomer {}", id);
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> customerService.deleteCustomer(customer).subscribe())
-                .map(c -> mapperFacade.map(c, CustomerDto.class));
+                .map(customerMapper::toCustomerDto);
     }
 
 }

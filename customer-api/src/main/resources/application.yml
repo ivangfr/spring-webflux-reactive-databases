@@ -4,11 +4,11 @@ spring:
   data:
     couchbase:
       auto-index: true
+      bucket-name: customers
   couchbase:
-    bootstrap-hosts: localhost
-    bucket:
-      name: customers
-      password: password
+    connection-string: couchbase://127.0.0.1
+    username: Administrator
+    password: password
 
 runner:
   num-customers: 10

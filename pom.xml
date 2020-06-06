@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.6.RELEASE</version>
+        <version>2.3.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -17,17 +17,17 @@
     <name>spring-webflux-client-server</name>
     <description>Demo project for Spring Boot</description>
 
+    <properties>
+        <java.version>11</java.version>
+        <springfox.version>3.0.0-SNAPSHOT</springfox.version>
+    </properties>
+
     <modules>
         <module>order-api</module>
         <module>product-api</module>
         <module>customer-api</module>
         <module>client-shell</module>
     </modules>
-
-    <properties>
-        <java.version>1.8</java.version>
-        <springfox.version>3.0.0-SNAPSHOT</springfox.version>
-    </properties>
 
     <dependencies>
         <!-- Swagger2 -->

@@ -31,6 +31,12 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   `Spring Boot` Shell Java application that has a couple of commands to interact with `product-api`, `customer-api` and `order-api`. The picture below show those commands.
 
   ![client-shell](images/client-shell.png)
+  
+## Prerequisites
+
+- `Java 11+`
+- `Docker`
+- `Docker-Compose`
 
 ## Start Environment
 
@@ -64,8 +70,6 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   ```
   ./mvnw clean spring-boot:run --projects customer-api -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
   ```
-  
-  > **Note:** Sometimes, the initialization of `customer-api` fails. Here is the exception [log](https://github.com/ivangfr/spring-webflux-client-server/blob/master/customer-api-couchbase-exception.txt). It is some kind of timeout problem connection to `Couchbase`. The workaround for it is to re-run the command above
 
 - **order-api**
 
@@ -96,14 +100,16 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Playing around
 
-- Go to `client-shell` terminal. Import some products and customers by running the following command
+> **Important:** the ids shown below will be different when you run it
+
+- Go to `client-shell` terminal and import some products and customers by running the following command
   ```
-  client-shell> script ../samples.txt
+  script ../samples.txt
   ```
   
 - Get all customer
   ```
-  client-shell> get-customers
+  get-customers
   ```
   
   It returns
@@ -119,7 +125,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
 - Get all products
   ```
-  client-shell> get-products
+  get-products
   ```
   
   It returns
@@ -131,7 +137,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
 - Create an order where `Customer A` buys `1 unit` of `product-1` and `2 units` of `product-2`
   ```
-  client-shell> create-order --customer-id 48490549-a212-4c0a-a49b-0984d4a35a59 --products 5e81002fdc0f4717978533e8:1;5e81002fdc0f4717978533e9:2
+  create-order --customer-id 48490549-a212-4c0a-a49b-0984d4a35a59 --products 5e81002fdc0f4717978533e8:1;5e81002fdc0f4717978533e9:2
   ```
   
   It returns
@@ -150,7 +156,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
 - Get details about the order created
   ```
-  client-shell> get-order-detailed db5067ad-27c0-4dc8-b106-3ad8ffa43450
+  get-order-detailed db5067ad-27c0-4dc8-b106-3ad8ffa43450
   ```
   
   It returns
@@ -174,7 +180,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
 - To check how fast `order-api` get details about customer and products of an order, create another order where `Customer A` order `50` random products
   ```
-  client-shell> create-order-random --customer-id 48490549-a212-4c0a-a49b-0984d4a35a59 --num-products 50
+  create-order-random --customer-id 48490549-a212-4c0a-a49b-0984d4a35a59 --num-products 50
   ```
   
   It returns
@@ -260,3 +266,29 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 ## TODO
 
 - Validate if customer and products exist before creating an order
+
+## Issues
+
+- `Customer` model in `customer-api` should be saved in `Couchbase` as
+  ```
+  {
+    "address": { "number": "234", "city": "Berlin", "street": "LA Strasse" },
+    "name": "Customer B",
+    "_class": "com.mycompany.customerapi.model.Customer",
+    "email": "customer.b@test.com"
+  }
+  ```
+  
+  However, the address information is added inside a `content`; besides, an `id` and `expiration` to address. I've opened this [issue](https://github.com/spring-projects/spring-data-examples/issues/572) 
+  ```
+  {
+    "address": {
+      "content": { "number": "234", "city": "Berlin", "street": "LA Strasse" },
+      "id": null,
+      "expiration": 0
+    },
+    "name": "Customer B",
+    "_class": "com.mycompany.customerapi.model.Customer",
+    "email": "customer.b@test.com"
+  }
+  ```

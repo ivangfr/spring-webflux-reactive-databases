@@ -4,6 +4,7 @@ import com.mycompany.orderapi.client.CustomerApiClient;
 import com.mycompany.orderapi.client.ProductApiClient;
 import com.mycompany.orderapi.client.dto.CustomerDto;
 import com.mycompany.orderapi.client.dto.ProductDto;
+import com.mycompany.orderapi.mapper.OrderMapper;
 import com.mycompany.orderapi.model.Order;
 import com.mycompany.orderapi.model.OrderKey;
 import com.mycompany.orderapi.rest.dto.CreateOrderDto;
@@ -11,8 +12,7 @@ import com.mycompany.orderapi.rest.dto.OrderDetailedDto;
 import com.mycompany.orderapi.rest.dto.OrderDto;
 import com.mycompany.orderapi.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import ma.glasnost.orika.MapperFacade;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +31,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/orders")
@@ -40,24 +40,27 @@ public class OrderController {
     private final OrderService orderService;
     private final CustomerApiClient customerApiClient;
     private final ProductApiClient productApiClient;
-    private final MapperFacade mapperFacade;
+    private final OrderMapper orderMapper;
 
     @GetMapping
     public Flux<OrderDto> getOrders() {
-        return orderService.getOrders().map(order -> mapperFacade.map(order, OrderDto.class));
+        log.info("==> getOrders");
+        return orderService.getOrders().map(orderMapper::toOrderDto);
     }
 
     @GetMapping("/{orderId}")
     public Mono<OrderDto> getOrder(@PathVariable UUID orderId) {
-        return orderService.validateAndGetOrder(orderId).map(order -> mapperFacade.map(order, OrderDto.class));
+        log.info("==> getOrder {}", orderId);
+        return orderService.validateAndGetOrder(orderId).map(orderMapper::toOrderDto);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Mono<OrderDto> createOrder(@Valid @RequestBody CreateOrderDto createOrderDto) {
-        Order order = mapperFacade.map(createOrderDto, Order.class);
+        log.info("==> createOrder {}", createOrderDto);
+        Order order = orderMapper.toOrder(createOrderDto);
         order.setKey(new OrderKey(UUID.randomUUID(), LocalDateTime.now()));
-        return orderService.saveOrder(order).map(o -> mapperFacade.map(o, OrderDto.class));
+        return orderService.saveOrder(order).map(orderMapper::toOrderDto);
     }
 
     @GetMapping("/{orderId}/detailed")
@@ -71,25 +74,24 @@ public class OrderController {
         CompletableFuture<OrderDetailedDto.CustomerDto> customerCompletableFuture =
                 CompletableFuture.supplyAsync(() -> {
                     CustomerDto customerDto = customerApiClient.getCustomer(order.getCustomerId()).block();
-                    return mapperFacade.map(customerDto, OrderDetailedDto.CustomerDto.class);
+                    return orderMapper.toOrderDetailedDtoCustomerDto(customerDto);
                 });
 
         CompletableFuture<Set<OrderDetailedDto.ProductDto>> productsCompletableFuture =
                 CompletableFuture.supplyAsync(() -> order.getProducts().parallelStream().map(product -> {
-                    OrderDetailedDto.ProductDto productDto = mapperFacade.map(product, OrderDetailedDto.ProductDto.class);
-                    ProductDto productApiDto = productApiClient.getProduct(product.getId()).block();
-                    mapperFacade.map(productApiDto, productDto);
-                    return productDto;
+                    OrderDetailedDto.ProductDto orderDetailedDtoProductDto = orderMapper.toOrderDetailedDtoProductDto(product);
+                    ProductDto productDto = productApiClient.getProduct(product.getId()).block();
+                    orderMapper.updateOrderDetailedDtoProductDtoFromProductDto(productDto, orderDetailedDtoProductDto);
+                    return orderDetailedDtoProductDto;
                 }).collect(Collectors.toSet()));
 
-        OrderDetailedDto orderDetailedDto = mapperFacade.map(order, OrderDetailedDto.class);
+        OrderDetailedDto orderDetailedDto = orderMapper.toOrderDetailedDto(order);
         CompletableFuture.allOf(customerCompletableFuture, productsCompletableFuture).thenAccept(aVoid -> {
             orderDetailedDto.setCustomer(customerCompletableFuture.join());
             orderDetailedDto.setProducts(productsCompletableFuture.join());
         }).join();
 
-        log.info("Execution time: {} ms", System.currentTimeMillis() - start);
-
+        log.info("==> getOrderDetailed {}. Execution time: {} ms", order.getKey().getOrderId(), System.currentTimeMillis() - start);
         return orderDetailedDto;
     }
 

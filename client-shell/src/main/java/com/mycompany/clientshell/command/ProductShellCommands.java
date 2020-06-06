@@ -17,9 +17,7 @@ public class ProductShellCommands {
     private final Gson gson;
 
     @ShellMethod("Get product by id")
-    public String getProduct(String id) {
-        return productApiClient.getProduct(id).map(gson::toJson).block();
-    }
+    public String getProduct(String id) { return productApiClient.getProduct(id).map(gson::toJson).block(); }
 
     @ShellMethod("Get all products")
     public List<String> getProducts() {
