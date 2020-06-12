@@ -1,6 +1,6 @@
 package com.mycompany.orderapi.rest.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -11,22 +11,22 @@ import java.util.Set;
 @Data
 public class CreateOrderDto {
 
-    @ApiModelProperty(example = "...")
+    @Schema(example = "...")
     @NotBlank
     private String customerId;
 
-    @ApiModelProperty(position = 1)
+    @Schema
     @NotEmpty
     private Set<ProductDto> products;
 
     @Data
     public static class ProductDto {
 
-        @ApiModelProperty(example = "...")
+        @Schema(example = "...")
         @NotBlank
         private String id;
 
-        @ApiModelProperty(example = "1")
+        @Schema(example = "1")
         @Positive
         private Integer quantity;
 

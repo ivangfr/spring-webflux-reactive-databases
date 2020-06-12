@@ -1,6 +1,6 @@
 package com.mycompany.customerapi.rest.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -10,31 +10,31 @@ import javax.validation.constraints.NotNull;
 @Data
 public class CreateCustomerDto {
 
-    @ApiModelProperty(example = "Ivan Franchin")
+    @Schema(example = "Ivan Franchin")
     @NotBlank
     private String name;
 
-    @ApiModelProperty(example = "ivan.franchin@test.com", position = 1)
+    @Schema(example = "ivan.franchin@test.com")
     @Email
     @NotBlank
     private String email;
 
-    @ApiModelProperty(position = 2)
+    @Schema
     @NotNull
     private AddressDto address;
 
     @Data
     public static class AddressDto {
 
-        @ApiModelProperty(example = "Berlin")
+        @Schema(example = "Berlin")
         @NotBlank
         private String city;
 
-        @ApiModelProperty(example = "Street New York", position = 1)
+        @Schema(example = "Street New York")
         @NotBlank
         private String street;
 
-        @ApiModelProperty(example = "10", position = 2)
+        @Schema(example = "10")
         private String number;
 
     }

@@ -19,7 +19,6 @@
 
     <properties>
         <java.version>11</java.version>
-        <springfox.version>3.0.0-SNAPSHOT</springfox.version>
     </properties>
 
     <modules>
@@ -29,41 +28,4 @@
         <module>client-shell</module>
     </modules>
 
-    <dependencies>
-        <!-- Swagger2 -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-spring-webflux</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-    <repositories>
-        <!-- added due to springfox snapshot version -->
-        <repository>
-            <id>spring-libs-milestone</id>
-            <name>Spring Milestone Maven Repository</name>
-            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
-        </repository>
-    </repositories>
-    
 </project>

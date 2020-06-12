@@ -292,3 +292,5 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     "email": "customer.b@test.com"
   }
   ```
+  
+- Openapi `@Schema` annotation not working on nested classes as described in this issue [Nested objects not getting exampe values from @Schema](https://github.com/swagger-api/swagger-core/issues/3584)
