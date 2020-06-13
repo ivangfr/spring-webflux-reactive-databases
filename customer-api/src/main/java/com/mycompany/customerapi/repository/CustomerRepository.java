@@ -1,7 +1,7 @@
 package com.mycompany.customerapi.repository;
 
 import com.mycompany.customerapi.model.Customer;
-import org.springframework.data.couchbase.repository.ReactiveCouchbaseRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-public interface CustomerRepository extends ReactiveCouchbaseRepository<Customer, String> {
+public interface CustomerRepository extends ReactiveCrudRepository<Customer, Long> {
 }

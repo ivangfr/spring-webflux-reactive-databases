@@ -31,8 +31,7 @@ public class CustomerApiClient {
     }
 
     public Mono<CustomerDto> createCustomer(String name, String email, String city, String street, String number) {
-        CreateCustomerDto.AddressDto addressDto = new CreateCustomerDto.AddressDto(city, street, number);
-        CreateCustomerDto createCustomerDto = new CreateCustomerDto(name, email, addressDto);
+        CreateCustomerDto createCustomerDto = new CreateCustomerDto(name, email, city, street, number);
 
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)

@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class CreateCustomerDto {
@@ -19,24 +18,15 @@ public class CreateCustomerDto {
     @NotBlank
     private String email;
 
-    @Schema
-    @NotNull
-    private AddressDto address;
+    @Schema(example = "Berlin")
+    @NotBlank
+    private String city;
 
-    @Data
-    public static class AddressDto {
+    @Schema(example = "Street New York")
+    @NotBlank
+    private String street;
 
-        @Schema(example = "Berlin")
-        @NotBlank
-        private String city;
-
-        @Schema(example = "Street New York")
-        @NotBlank
-        private String street;
-
-        @Schema(example = "10")
-        private String number;
-
-    }
+    @Schema(example = "10")
+    private String number;
 
 }

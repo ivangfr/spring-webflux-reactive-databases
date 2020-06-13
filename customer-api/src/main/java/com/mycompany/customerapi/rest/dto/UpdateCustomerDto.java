@@ -15,21 +15,13 @@ public class UpdateCustomerDto {
     @Email
     private String email;
 
-    @Schema
-    private AddressDto address;
+    @Schema(example = "Porto")
+    private String city;
 
-    @Data
-    public static class AddressDto {
+    @Schema(example = "Street Los Angeles")
+    private String street;
 
-        @Schema(example = "Porto")
-        private String city;
-
-        @Schema(example = "Street Los Angeles")
-        private String street;
-
-        @Schema(example = "20")
-        private String number;
-
-    }
+    @Schema(example = "20")
+    private String number;
 
 }

@@ -20,7 +20,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,7 +37,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public Mono<Customer> getCustomer(@PathVariable String id) {
+    public Mono<Customer> getCustomer(@PathVariable Long id) {
         log.info("==> getCustomer {}", id);
         return customerService.validateAndGetCustomer(id)/*.map(customerMapper::toCustomerDto)*/;
     }
@@ -47,12 +46,11 @@ public class CustomerController {
     public Mono<CustomerDto> createCustomer(@Valid @RequestBody CreateCustomerDto createCustomerDto) {
         log.info("==> createCustomer {} ", createCustomerDto);
         Customer customer = customerMapper.toCustomer(createCustomerDto);
-        customer.setId(UUID.randomUUID().toString());
         return customerService.saveCustomer(customer).map(customerMapper::toCustomerDto);
     }
 
     @PutMapping("/{id}")
-    public Mono<CustomerDto> updateCustomer(@PathVariable String id, @Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
+    public Mono<CustomerDto> updateCustomer(@PathVariable Long id, @Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
         log.info("==> updateCustomer {} with {}", id, updateCustomerDto);
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> {
@@ -63,7 +61,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public Mono<CustomerDto> deleteCustomer(@PathVariable String id) {
+    public Mono<CustomerDto> deleteCustomer(@PathVariable Long id) {
         log.info("==> deleteCustomer {}", id);
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> customerService.deleteCustomer(customer).subscribe())

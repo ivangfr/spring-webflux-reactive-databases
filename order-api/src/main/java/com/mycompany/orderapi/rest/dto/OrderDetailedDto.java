@@ -32,16 +32,9 @@ public class OrderDetailedDto {
         private String id;
         private String name;
         private String email;
-        private AddressDto address;
-
-        @Data
-        public static class AddressDto {
-
-            private String city;
-            private String street;
-            private String number;
-
-        }
+        private String city;
+        private String street;
+        private String number;
 
     }
 

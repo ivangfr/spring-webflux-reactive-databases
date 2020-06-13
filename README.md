@@ -1,6 +1,6 @@
 # spring-webflux-client-server
 
-The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html) both on client and server side. For it, we will implement [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web applications (`product-api`, `customer-api`, `order-api` and `client-shell`) and use reactive NoSQL database like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/) and [`Couchbase`](https://www.couchbase.com/).
+The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html) both on client and server side. For it, we will implement [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web applications (`product-api`, `customer-api`, `order-api` and `client-shell`) and use reactive NoSQL database like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/) and [`Postgres`](https://www.postgresql.org/).
 
 ## Project Architecture
 
@@ -16,7 +16,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 - **customer-api**
 
-  `Spring Boot` Java Web application that exposes a REST API to manage `customers`. It uses `Couchbase` as storage.
+  `Spring Boot` Java Web application that exposes a REST API to manage `customers`. It uses `Postgres` as storage.
   
   ![customer-api-swagger](images/customer-api-swagger.png)
 
@@ -48,11 +48,6 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 - Wait a little bit until all containers are Up (healthy). You can check their status running
   ```
   docker-compose ps
-  ```
-
-- Run the script below to initialize `Couchbase` database that is used by `customer-api`
-  ```
-  ./setup-couchbase.sh
   ```
 
 ## Start applications
@@ -114,12 +109,9 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
   It returns
   ```
-  {
-    "id": "48490549-a212-4c0a-a49b-0984d4a35a59",
-    "name": "Customer A",
-    "email": "customer.a@test.com",
-    "address": { "city": "Berlin", "street": "NYC Strasse", "number": "123" }
-  }
+  {"id":"1","name":"Customer A","email":"customer.a@test.com","city":"Berlin","street":"NYC Strasse","number":"123"}
+  {"id":"2","name":"Customer B","email":"customer.b@test.com","city":"Berlin","street":"LA Strasse","number":"234"}
+  {"id":"3","name":"Customer C","email":"customer.c@test.com","city":"Berlin","street":"DC Strasse","number":"345"}
   ...
   ```
   
@@ -130,90 +122,98 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
   It returns
   ```
-  {"id":"5e81002fdc0f4717978533e8","name":"product-1","price":199.99}
-  {"id":"5e81002fdc0f4717978533e9","name":"product-2","price":299.99}
+  {"id":"5ee3ee31b460d868af49f389","name":"product-1","price":199.99}
+  {"id":"5ee3ee32b460d868af49f38a","name":"product-2","price":299.99}
   ...
   ```
   
 - Create an order where `Customer A` buys `1 unit` of `product-1` and `2 units` of `product-2`
   ```
-  create-order --customer-id 48490549-a212-4c0a-a49b-0984d4a35a59 --products 5e81002fdc0f4717978533e8:1;5e81002fdc0f4717978533e9:2
+  create-order --customer-id 1 --products 5ee3ee31b460d868af49f389:1;5ee3ee32b460d868af49f38a:2
   ```
   
   It returns
   ```
   {
-    "orderId": "db5067ad-27c0-4dc8-b106-3ad8ffa43450",
+    "orderId": "5aaad64c-4e80-48e0-926d-8f1b7027955a",
     "status": "OPEN",
-    "created": "2020-03-29T21:19:45.549",
+    "created": "2020-06-12T22:09:59.558232",
     "products": [
-      { "id": "5e81002fdc0f4717978533e9", "quantity": 2 },
-      { "id": "5e81002fdc0f4717978533e8", "quantity": 1 }
+      {"id": "5ee3ee31b460d868af49f389","quantity": 1},
+      {"id": "5ee3ee32b460d868af49f38a","quantity": 2}
     ],
-    "customerId": "48490549-a212-4c0a-a49b-0984d4a35a59"
+    "customerId": "1"
   }
   ```
   
 - Get details about the order created
   ```
-  get-order-detailed db5067ad-27c0-4dc8-b106-3ad8ffa43450
+  get-order-detailed 5aaad64c-4e80-48e0-926d-8f1b7027955a
   ```
   
   It returns
   ```
   {
-    "orderId": "db5067ad-27c0-4dc8-b106-3ad8ffa43450",
+    "orderId": "5aaad64c-4e80-48e0-926d-8f1b7027955a",
     "status": "OPEN",
-    "created": "2020-03-29T21:19:45.549",
+    "created": "2020-06-12T22:09:59.558",
     "products": [
-      { "id": "5e81002fdc0f4717978533e8", "name": "product-1", "quantity": 1, "price": 199.99 },
-      { "id": "5e81002fdc0f4717978533e9", "name": "product-2", "quantity": 2, "price": 299.99 }
+      {"id": "5ee3ee32b460d868af49f38a","name": "product-2","quantity": 2,"price": 299.99},
+      {"id": "5ee3ee31b460d868af49f389","name": "product-1","quantity": 1,"price": 199.99}
     ],
     "customer": {
-      "id": "48490549-a212-4c0a-a49b-0984d4a35a59",
+      "id": "1",
       "name": "Customer A",
       "email": "customer.a@test.com",
-      "address": { "city": "Berlin", "street": "NYC Strasse", "number": "123" }
+      "city": "Berlin",
+      "street": "NYC Strasse",
+      "number": "123"
     }
   }
   ```
   
 - To check how fast `order-api` get details about customer and products of an order, create another order where `Customer A` order `50` random products
   ```
-  create-order-random --customer-id 48490549-a212-4c0a-a49b-0984d4a35a59 --num-products 50
+  create-order-random --customer-id 1 --num-products 50
   ```
   
   It returns
   ```
   {
-    "orderId": "f983e12f-51c6-41e3-ab17-305e62d490f2",
+    "orderId": "87133d36-67f0-4388-b15b-7d66ad739374",
     "status": "OPEN",
-    "created": "2020-03-29T22:47:58.51",
+    "created": "2020-06-12T22:14:08.342338",
     "products": [
-      { "id": "5e810030dc0f471797853409", "quantity": 3 },
+      {"id": "5ee3ee32b460d868af49f38a","quantity": 4},
       ...
-      { "id": "5e81002fdc0f4717978533ea", "quantity": 5 }
+      {"id": "5ee3ee32b460d868af49f396","quantity": 3}
     ],
-    "customerId": "48490549-a212-4c0a-a49b-0984d4a35a59"
+    "customerId": "1"
   }
   ```
   
-- In another terminal, to get the details of the order previously created and the response time of this call, we we are using `order-api`'s endpoint `GET ​/api​/orders​/{orderId}​/detailed`
+- In another terminal, to get the details of the order previously created and the response time of this call, we are using `order-api`'s endpoint `GET ​/api​/orders​/{orderId}​/detailed`
   ```
-  curl -w "\n\nResponse Time: %{time_total}s" -s localhost:9082/api/orders/f983e12f-51c6-41e3-ab17-305e62d490f2/detailed
+  curl -w "\n\nResponse Time: %{time_total}s" -s localhost:9082/api/orders/87133d36-67f0-4388-b15b-7d66ad739374/detailed
   ```
   
   It will return
   ```
   {
-    "orderId": "f983e12f-51c6-41e3-ab17-305e62d490f2",
+    "orderId": "87133d36-67f0-4388-b15b-7d66ad739374",
     "status": "OPEN",
-    "created": "2020-03-29T22:47:58.51",
+    "created": "2020-06-12T22:14:08.342338",
     "products": [
+      {"id": "5ee3ee32b460d868af49f395","name": "product-13","quantity": 4,"price": 1399.99},
       ...
     ],
     "customer": {
-      ...
+      "id": "1",
+      "name": "Customer A",
+      "email": "customer.a@test.com",
+      "city": "Berlin",
+      "street": "NYC Strasse",
+      "number": "123"
     }
   }
   
@@ -253,44 +253,20 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   ```
   > Type `exit` to get out of `MongoDB shell`
 
-- **Couchbase**
+- **Postgres**
 
-  Couchbase Web Console can be accessed at http://localhost:8091
-  
-  The login credentials are
+  Select all customers
   ```
-  username: Administrator
-  password: password
+  docker exec -it studies-postgres psql -U postgres -d customerdb
+  \dt customer
+  SELECT * FROM CUSTOMER;
   ```
+  > Type `\q` to exit
 
 ## TODO
 
 - Validate if customer and products exist before creating an order
 
 ## Issues
-
-- `Customer` model in `customer-api` should be saved in `Couchbase` as
-  ```
-  {
-    "address": { "number": "234", "city": "Berlin", "street": "LA Strasse" },
-    "name": "Customer B",
-    "_class": "com.mycompany.customerapi.model.Customer",
-    "email": "customer.b@test.com"
-  }
-  ```
-  
-  However, the address information is added inside a `content`; besides, an `id` and `expiration` to address. I've opened this [issue](https://github.com/spring-projects/spring-data-examples/issues/572) 
-  ```
-  {
-    "address": {
-      "content": { "number": "234", "city": "Berlin", "street": "LA Strasse" },
-      "id": null,
-      "expiration": 0
-    },
-    "name": "Customer B",
-    "_class": "com.mycompany.customerapi.model.Customer",
-    "email": "customer.b@test.com"
-  }
-  ```
   
 - Openapi `@Schema` annotation not working on nested classes as described in this issue [Nested objects not getting exampe values from @Schema](https://github.com/swagger-api/swagger-core/issues/3584)

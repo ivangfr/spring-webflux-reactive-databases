@@ -9,16 +9,8 @@ public class CreateCustomerDto {
 
     private String name;
     private String email;
-    private AddressDto address;
-
-    @Data
-    @AllArgsConstructor
-    public static class AddressDto {
-
-        private String city;
-        private String street;
-        private String number;
-
-    }
+    private String city;
+    private String street;
+    private String number;
 
 }

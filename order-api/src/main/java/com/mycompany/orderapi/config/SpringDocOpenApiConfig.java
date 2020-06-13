@@ -16,9 +16,7 @@ public class SpringDocOpenApiConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .components(new Components())
-                .info(new Info().title(applicationName));
+        return new OpenAPI().components(new Components()).info(new Info().title(applicationName));
     }
 
     @Bean

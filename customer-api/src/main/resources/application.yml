@@ -1,14 +1,11 @@
 spring:
   application:
     name: customer-api
-  data:
-    couchbase:
-      auto-index: true
-      bucket-name: customers
-  couchbase:
-    connection-string: couchbase://127.0.0.1
-    username: Administrator
-    password: password
+  r2dbc:
+    url: r2dbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}
+    username: postgres
+    password: postgres
+    name: customerdb
 
 runner:
   num-customers: 10
@@ -20,6 +17,10 @@ management:
   endpoint:
     health:
       show-details: always
+
+#logging:
+#  level:
+#    org.springframework.data.r2dbc: DEBUG
 
 springdoc:
   show-actuator: true

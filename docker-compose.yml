@@ -12,16 +12,19 @@ services:
       test: "echo 'db.stats().ok' | mongo localhost:27017/bookdb --quiet"
       start_period: 30s
 
-  couchbase:
-    image: couchbase:6.5.1
-    container_name: couchbase
+  postgres:
+    image: postgres:12.3
+    container_name: postgres
     restart: unless-stopped
     ports:
-      - "8091-8094:8091-8094"
-      - "11210:11210"
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=customerdb
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
     healthcheck:
-      test: ["CMD", "curl", "-f", "-s", "-u", "Administrator:password", "http://localhost:8091/pools"]
-      start_period: 30s
+      test: "pg_isready -U postgres"
+      start_period: 10s
 
   cassandra:
     image: cassandra:3.11.6
