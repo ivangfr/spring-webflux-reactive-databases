@@ -1,5 +1,6 @@
 package com.mycompany.orderapi.rest.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class OrderDto {
     private String customerId;
 
     @Data
+    @Schema(name = "OrderProductDto")
     public static class ProductDto {
 
         private String id;

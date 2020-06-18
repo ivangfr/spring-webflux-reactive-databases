@@ -267,6 +267,3 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 - Validate if customer and products exist before creating an order
 
-## Issues
-  
-- Openapi `@Schema` annotation not working on nested classes as described in this issue [Nested objects not getting exampe values from @Schema](https://github.com/swagger-api/swagger-core/issues/3584)

@@ -11,15 +11,15 @@ import java.util.Set;
 @Data
 public class CreateOrderDto {
 
-    @Schema(example = "...")
+    @Schema(example = "1")
     @NotBlank
     private String customerId;
 
-    @Schema
     @NotEmpty
     private Set<ProductDto> products;
 
     @Data
+    @Schema(name = "CreateOrderProductDto")
     public static class ProductDto {
 
         @Schema(example = "...")
