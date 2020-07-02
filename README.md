@@ -34,9 +34,9 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
 ## Prerequisites
 
-- `Java 11+`
-- `Docker`
-- `Docker-Compose`
+- [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- [`Docker`](https://www.docker.com/)
+- [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
 ## Start Environment
 
