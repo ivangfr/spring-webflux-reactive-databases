@@ -13,4 +13,6 @@ customer-api:
 order-api:
   url: http://localhost:9082/api/orders
 
-logging.level.root: off
+logging:
+  level:
+    root: error

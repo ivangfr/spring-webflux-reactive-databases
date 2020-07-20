@@ -9,6 +9,7 @@ import com.mycompany.productapi.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     public Flux<ProductDto> getProducts() {
         log.info("==> getProducts");
         return productService.getProducts().map(productMapper::toProductDto);

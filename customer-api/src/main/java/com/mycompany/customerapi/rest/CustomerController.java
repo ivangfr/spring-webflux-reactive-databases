@@ -8,6 +8,7 @@ import com.mycompany.customerapi.rest.dto.UpdateCustomerDto;
 import com.mycompany.customerapi.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class CustomerController {
     private final CustomerService customerService;
     private final CustomerMapper customerMapper;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     public Flux<CustomerDto> getCustomers() {
         log.info("==> getCustomers");
         return customerService.getCustomers().map(customerMapper::toCustomerDto);

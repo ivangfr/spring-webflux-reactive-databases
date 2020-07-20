@@ -9,7 +9,7 @@ services:
     ports:
       - "27017:27017"
     healthcheck:
-      test: "echo 'db.stats().ok' | mongo localhost:27017/bookdb --quiet"
+      test: "echo 'db.stats().ok' | mongo localhost:27017/productdb --quiet"
       start_period: 30s
 
   postgres:

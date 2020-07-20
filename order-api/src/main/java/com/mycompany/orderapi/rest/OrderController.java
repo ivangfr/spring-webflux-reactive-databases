@@ -14,6 +14,7 @@ import com.mycompany.orderapi.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +43,7 @@ public class OrderController {
     private final ProductApiClient productApiClient;
     private final OrderMapper orderMapper;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     public Flux<OrderDto> getOrders() {
         log.info("==> getOrders");
         return orderService.getOrders().map(orderMapper::toOrderDto);

@@ -8,25 +8,25 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Applications
 
-- **product-api**
+- ### product-api
 
   `Spring Boot` Java Web application that exposes a REST API to manage `products`. It uses `MongoDB` as storage.
   
   ![product-api-swagger](images/product-api-swagger.png)
 
-- **customer-api**
+- ### customer-api
 
   `Spring Boot` Java Web application that exposes a REST API to manage `customers`. It uses `Postgres` as storage.
   
   ![customer-api-swagger](images/customer-api-swagger.png)
 
-- **order-api**
+- ### order-api
 
   `Spring Boot` Web Java application that exposes a REST API to manage `orders`. It uses `Cassandra` as storage. In order to get more information about an `order`, i.e, the `name` of the customer who placed it or the `name` or `price` of the products in the order, `order-api` uses [`WebClient`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client) and [`CompletableFuture`](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) to fetch those information from `customer-api` and `product-api`.
   
   ![order-api-swagger](images/order-api-swagger.png)
 
-- **client-shell**
+- ### client-shell
 
   `Spring Boot` Shell Java application that has a couple of commands to interact with `product-api`, `customer-api` and `order-api`. The picture below show those commands.
 
@@ -45,35 +45,35 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   docker-compose up -d
   ```
 
-- Wait a little bit until all containers are Up (healthy). You can check their status running
+- Wait a bit until all containers are Up (healthy). You can check their status by running
   ```
   docker-compose ps
   ```
 
 ## Start applications
 
-- **product-api**
+- ### product-api
 
   Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command
   ```
   ./mvnw clean spring-boot:run --projects product-api -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
   ```
 
-- **customer-api**
+- ### customer-api
 
   Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command
   ```
   ./mvnw clean spring-boot:run --projects customer-api -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
   ```
 
-- **order-api**
+- ### order-api
 
   Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command 
   ```
   ./mvnw clean spring-boot:run --projects order-api -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
   ```
 
-- **client-shell**
+- ### client-shell
 
   Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command to build the executable jar file
   ```
@@ -85,7 +85,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   ./client-shell/target/client-shell-0.0.1-SNAPSHOT.jar
   ```
 
-## Applications URLs
+## Application's URL
 
 | Application  | URL                                   |
 | ------------ | ------------------------------------- |
@@ -107,7 +107,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   get-customers
   ```
   
-  It returns
+  It should return
   ```
   {"id":"1","name":"Customer A","email":"customer.a@test.com","city":"Berlin","street":"NYC Strasse","number":"123"}
   {"id":"2","name":"Customer B","email":"customer.b@test.com","city":"Berlin","street":"LA Strasse","number":"234"}
@@ -120,7 +120,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   get-products
   ```
   
-  It returns
+  It should return
   ```
   {"id":"5ee3ee31b460d868af49f389","name":"product-1","price":199.99}
   {"id":"5ee3ee32b460d868af49f38a","name":"product-2","price":299.99}
@@ -132,7 +132,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   create-order --customer-id 1 --products 5ee3ee31b460d868af49f389:1;5ee3ee32b460d868af49f38a:2
   ```
   
-  It returns
+  It should return
   ```
   {
     "orderId": "5aaad64c-4e80-48e0-926d-8f1b7027955a",
@@ -151,7 +151,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   get-order-detailed 5aaad64c-4e80-48e0-926d-8f1b7027955a
   ```
   
-  It returns
+  It should return
   ```
   {
     "orderId": "5aaad64c-4e80-48e0-926d-8f1b7027955a",
@@ -177,7 +177,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   create-order-random --customer-id 1 --num-products 50
   ```
   
-  It returns
+  It should return
   ```
   {
     "orderId": "87133d36-67f0-4388-b15b-7d66ad739374",
@@ -197,7 +197,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   curl -w "\n\nResponse Time: %{time_total}s" -s localhost:9082/api/orders/87133d36-67f0-4388-b15b-7d66ad739374/detailed
   ```
   
-  It will return
+  It will return something like
   ```
   {
     "orderId": "87133d36-67f0-4388-b15b-7d66ad739374",
@@ -231,7 +231,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   docker-compose down -v
   ```
 
-## Useful Commands & Links
+## Useful Commands
 
 - **Cassandra**
 
@@ -257,7 +257,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
   Select all customers
   ```
-  docker exec -it studies-postgres psql -U postgres -d customerdb
+  docker exec -it postgres psql -U postgres -d customerdb
   \dt customer
   SELECT * FROM CUSTOMER;
   ```
