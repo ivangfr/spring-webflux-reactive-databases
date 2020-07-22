@@ -7,7 +7,6 @@ import com.mycompany.customerapi.rest.dto.CustomerDto;
 import com.mycompany.customerapi.rest.dto.UpdateCustomerDto;
 import com.mycompany.customerapi.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +21,6 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/customers")
@@ -33,26 +31,22 @@ public class CustomerController {
 
     @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     public Flux<CustomerDto> getCustomers() {
-        log.info("==> getCustomers");
         return customerService.getCustomers().map(customerMapper::toCustomerDto);
     }
 
     @GetMapping("/{id}")
-    public Mono<Customer> getCustomer(@PathVariable Long id) {
-        log.info("==> getCustomer {}", id);
-        return customerService.validateAndGetCustomer(id)/*.map(customerMapper::toCustomerDto)*/;
+    public Mono<CustomerDto> getCustomer(@PathVariable Long id) {
+        return customerService.validateAndGetCustomer(id).map(customerMapper::toCustomerDto);
     }
 
     @PostMapping
     public Mono<CustomerDto> createCustomer(@Valid @RequestBody CreateCustomerDto createCustomerDto) {
-        log.info("==> createCustomer {} ", createCustomerDto);
         Customer customer = customerMapper.toCustomer(createCustomerDto);
         return customerService.saveCustomer(customer).map(customerMapper::toCustomerDto);
     }
 
     @PutMapping("/{id}")
     public Mono<CustomerDto> updateCustomer(@PathVariable Long id, @Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
-        log.info("==> updateCustomer {} with {}", id, updateCustomerDto);
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> {
                     customerMapper.updateCustomerFromDto(updateCustomerDto, customer);
@@ -63,7 +57,6 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     public Mono<CustomerDto> deleteCustomer(@PathVariable Long id) {
-        log.info("==> deleteCustomer {}", id);
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> customerService.deleteCustomer(customer).subscribe())
                 .map(customerMapper::toCustomerDto);
