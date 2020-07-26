@@ -52,28 +52,28 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Start applications
 
-- ### product-api
+- **product-api**
 
   Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
   ```
   ./mvnw clean spring-boot:run --projects product-api -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
   ```
 
-- ### customer-api
+- **customer-api**
 
   Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
   ```
   ./mvnw clean spring-boot:run --projects customer-api -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
   ```
 
-- ### order-api
+- **order-api**
 
   Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command 
   ```
   ./mvnw clean spring-boot:run --projects order-api -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
   ```
 
-- ### client-shell
+- **client-shell**
 
   Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command to build the executable jar file
   ```
@@ -224,7 +224,6 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 - **Cassandra**
 
-  Select all orders
   ```
   docker exec -it cassandra cqlsh
   USE mycompany;
@@ -234,7 +233,6 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 - **MongoDB**
 
-  Find all products
   ```
   docker exec -it mongodb mongo
   use productdb
@@ -244,7 +242,6 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 - **Postgres**
 
-  Select all customers
   ```
   docker exec -it postgres psql -U postgres -d customerdb
   \dt customer
