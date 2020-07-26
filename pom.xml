@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>spring-webflux-client-server</artifactId>
+    <artifactId>spring-webflux-reactive-databases</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>spring-webflux-client-server</name>
+    <name>spring-webflux-reactive-databases</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

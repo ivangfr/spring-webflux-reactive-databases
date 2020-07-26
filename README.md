@@ -1,4 +1,4 @@
-# spring-webflux-client-server
+# spring-webflux-reactive-databases
 
 The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html) both on client and server side. For it, we will implement [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web applications (`product-api`, `customer-api`, `order-api` and `client-shell`) and use reactive NoSQL database like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/) and [`Postgres`](https://www.postgresql.org/).
 
@@ -40,7 +40,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Start Environment
 
-- Open a terminal and inside `spring-webflux-client-server` root folder run
+- Open a terminal and inside `spring-webflux-reactive-databases` root folder run
   ```
   docker-compose up -d
   ```
@@ -54,28 +54,28 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 - ### product-api
 
-  Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command
+  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
   ```
   ./mvnw clean spring-boot:run --projects product-api -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
   ```
 
 - ### customer-api
 
-  Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command
+  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
   ```
   ./mvnw clean spring-boot:run --projects customer-api -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
   ```
 
 - ### order-api
 
-  Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command 
+  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command 
   ```
   ./mvnw clean spring-boot:run --projects order-api -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
   ```
 
 - ### client-shell
 
-  Open a new terminal and, inside `spring-webflux-client-server` root folder, run the following command to build the executable jar file
+  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command to build the executable jar file
   ```
   ./mvnw clean package -DskipTests --projects client-shell
   ```
@@ -220,17 +220,6 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   Response Time: 0.292698s
   ```
 
-## Shutdown
-
-- Go to `client-shell` terminal and type `exit`
-
-- Go to `product-api`, `customer-api` and `order-api` terminals and press `Ctrl+C` on each one
-
-- To stop and remove docker-compose containers, network and volumes, run
-  ```
-  docker-compose down -v
-  ```
-
 ## Useful Commands
 
 - **Cassandra**
@@ -262,6 +251,15 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   SELECT * FROM CUSTOMER;
   ```
   > Type `\q` to exit
+
+## Shutdown
+
+- Go to `client-shell` terminal and type `exit`
+- Go to `product-api`, `customer-api` and `order-api` terminals and press `Ctrl+C` on each one
+- To stop and remove docker-compose containers, network and volumes, run
+  ```
+  docker-compose down -v
+  ```
 
 ## TODO
 
