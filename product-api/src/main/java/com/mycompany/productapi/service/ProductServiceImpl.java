@@ -16,8 +16,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono<Product> validateAndGetProduct(String id) {
-        return productRepository.findById(id)
-                .switchIfEmpty(Mono.error(new ProductNotFoundException(String.format("Product with id %s not found.", id))));
+        return productRepository.findById(id).switchIfEmpty(Mono.error(new ProductNotFoundException(id)));
     }
 
     @Override

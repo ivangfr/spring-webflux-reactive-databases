@@ -192,7 +192,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   }
   ```
   
-- In another terminal, to get the details of the order previously created and the response time of this call, we are using `order-api`'s endpoint `GET ​/api​/orders​/{orderId}​/detailed`
+- In another terminal, to get the details of the order previously created and the response time of this call, we are using `order-api`'s endpoint `GET /api/orders/{orderId}/detailed`
   ```
   curl -w "\n\nResponse Time: %{time_total}s" -s localhost:9082/api/orders/87133d36-67f0-4388-b15b-7d66ad739374/detailed
   ```

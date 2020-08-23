@@ -16,8 +16,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Mono<Customer> validateAndGetCustomer(Long id) {
-        return customerRepository.findById(id)
-                .switchIfEmpty(Mono.error(new CustomerNotFoundException(String.format("Customer with id %s not found.", id))));
+        return customerRepository.findById(id).switchIfEmpty(Mono.error(new CustomerNotFoundException(id)));
     }
 
     @Override
