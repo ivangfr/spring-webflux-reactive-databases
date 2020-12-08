@@ -22,7 +22,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 - ### order-api
 
-  `Spring Boot` Web Java application that exposes a REST API to manage `orders`. It uses `Cassandra` as storage. In order to get more information about an `order`, i.e, the `name` of the customer who placed it or the `name` or `price` of the products in the order, `order-api` uses [`WebClient`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client) and [`CompletableFuture`](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) to fetch those information from `customer-api` and `product-api`.
+  `Spring Boot` Web Java application that exposes a REST API to manage `orders`. It uses `Cassandra` as storage. In order to get more information about an `order`, i.e, the `name` of the customer who placed it or the `name` or `price` of the products in the order, `order-api` uses [`WebClient`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client) and [`CompletableFuture`](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) to fetch this information from `customer-api` and `product-api`.
   
   ![order-api-swagger](images/order-api-swagger.png)
 
@@ -172,7 +172,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   }
   ```
   
-- To check how fast `order-api` get details about customer and products of an order, create another order where `Customer A` order `50` random products
+- To check how fast `order-api` get details about the customer and products of an order, create another order where `Customer A` order `50` random products
   ```
   create-order-random --customer-id 1 --num-products 50
   ```

@@ -29,7 +29,7 @@ public class CustomerController {
     private final CustomerService customerService;
     private final CustomerMapper customerMapper;
 
-    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<CustomerDto> getCustomers() {
         return customerService.getCustomers().map(customerMapper::toCustomerDto);
     }

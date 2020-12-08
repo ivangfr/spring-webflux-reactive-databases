@@ -34,7 +34,7 @@ public class OrderController {
     private final OrderMapper orderMapper;
     private final OrderDetailCollector orderDetailCollector;
 
-    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<OrderDto> getOrders() {
         return orderService.getOrders().map(orderMapper::toOrderDto);
     }

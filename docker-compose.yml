@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   mongodb:
-    image: mongo:4.2.7
+    image: mongo:4.4.2
     container_name: mongodb
     restart: unless-stopped
     ports:
@@ -13,7 +13,7 @@ services:
       start_period: 30s
 
   postgres:
-    image: postgres:12.3
+    image: postgres:13.1
     container_name: postgres
     restart: unless-stopped
     ports:
@@ -27,7 +27,7 @@ services:
       start_period: 10s
 
   cassandra:
-    image: cassandra:3.11.7
+    image: cassandra:3.11.9
     container_name: cassandra
     restart: unless-stopped
     ports:

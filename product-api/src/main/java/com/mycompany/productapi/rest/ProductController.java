@@ -31,7 +31,7 @@ public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<ProductDto> getProducts() {
         return productService.getProducts().map(productMapper::toProductDto);
     }
