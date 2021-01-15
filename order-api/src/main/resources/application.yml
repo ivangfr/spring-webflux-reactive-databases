@@ -4,10 +4,11 @@ spring:
   data:
     cassandra:
       keyspace-name: mycompany
-      contact-points: ${CASSANDRA_HOST:localhost}
+      contact-points: ${CASSANDRA_HOST:localhost}:${CASSANDRA_PORT:9042}
       local-datacenter: datacenter1
-      port: ${CASSANDRA_PORT:9042}
       schema-action: CREATE_IF_NOT_EXISTS
+      request:
+        timeout: 10s
 
 product-api:
   url: http://localhost:9080/api/products

@@ -19,9 +19,6 @@ public class CassandraConfig {
     @Value("${spring.data.cassandra.contact-points}")
     private String contactPoints;
 
-    @Value("${spring.data.cassandra.port}")
-    private int port;
-
     @Value("${spring.data.cassandra.keyspace-name}")
     private String keyspaceName;
 
@@ -29,7 +26,6 @@ public class CassandraConfig {
     CqlSessionFactoryBean session() {
         CqlSessionFactoryBean session = new CqlSessionFactoryBean();
         session.setContactPoints(contactPoints);
-        session.setPort(port);
         session.setLocalDatacenter(localDatacenter);
         session.setKeyspaceName(keyspaceName);
         session.setKeyspaceCreations(getKeyspaceCreations());
