@@ -50,27 +50,27 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   docker-compose ps
   ```
 
-## Start applications
+## Running applications with Maven
 
 - **product-api**
 
   Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
   ```
-  ./mvnw clean spring-boot:run --projects product-api -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
+  ./mvnw clean spring-boot:run --projects product-api
   ```
 
 - **customer-api**
 
   Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
   ```
-  ./mvnw clean spring-boot:run --projects customer-api -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
+  ./mvnw clean spring-boot:run --projects customer-api
   ```
 
 - **order-api**
 
   Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command 
   ```
-  ./mvnw clean spring-boot:run --projects order-api -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
+  ./mvnw clean spring-boot:run --projects order-api
   ```
 
 - **client-shell**
@@ -82,9 +82,70 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
   To start `client-shell` run
   ```
-  ./client-shell/target/client-shell-0.0.1-SNAPSHOT.jar
+  ./client-shell/target/client-shell-1.0.0.jar
   ```
 
+## Running applications as Docker containers
+
+- ### Build Docker Images
+  
+  - In a terminal, make sure you are in `spring-webflux-reactive-databases` root folder
+  - Run the following script to build the Docker images
+    - JVM
+      ```
+      ./docker-build.sh
+      ```
+    - Native (it's not working yet)
+      ```
+      ./docker-build.sh native
+      ```
+
+- ### Environment Variables
+
+  - **product-api**
+
+    | Environment Variable | Description                                                       |
+    | -------------------- | ----------------------------------------------------------------- |
+    | `MONGODB_HOST`       | Specify host of the `Mongo` database to use (default `localhost`) |
+    | `MONGODB_PORT`       | Specify port of the `Mongo` database to use (default `27017`)     |
+
+  - **customer-api**
+
+    | Environment Variable | Description                                                          |
+    | -------------------- | -------------------------------------------------------------------- |
+    | `POSTGRES_HOST`      | Specify host of the `Postgres` database to use (default `localhost`) |
+    | `POSTGRES_PORT`      | Specify port of the `Postgres` database to use (default `5432`)      |
+
+  - **order-api**
+
+    | Environment Variable | Description                                                           |
+    | -------------------- | --------------------------------------------------------------------- |
+    | `CASSANDRA_HOST`     | Specify host of the `Cassandra` database to use (default `localhost`) |
+    | `CASSANDRA_PORT`     | Specify port of the `Cassandra` database to use (default `9042`)      |
+    | `PRODUCT_API_HOST`   | Specify host of the `product-api` to use (default `localhost`)        |
+    | `PRODUCT_API_PORT`   | Specify port of the `product-api` to use (default `9080`)             |
+    | `CUSTOMER_API_HOST`  | Specify host of the `customer-api` to use (default `localhost`)       |
+    | `CUSTOMER_API_PORT`  | Specify port of the `customer-api` to use (default `9081`)            |
+
+  - **client-shell**
+
+    | Environment Variable | Description                                                           |
+    | -------------------- | --------------------------------------------------------------------- |
+    | `PRODUCT_API_HOST`   | Specify host of the `product-api` to use (default `localhost`)        |
+    | `PRODUCT_API_PORT`   | Specify port of the `product-api` to use (default `9080`)             |
+    | `CUSTOMER_API_HOST`  | Specify host of the `customer-api` to use (default `localhost`)       |
+    | `CUSTOMER_API_PORT`  | Specify port of the `customer-api` to use (default `9081`)            |
+    | `ORDER_API_HOST`     | Specify host of the `order-api` to use (default `localhost`)          |
+    | `ORDER_API_PORT`     | Specify port of the `order-api` to use (default `9082`)               |
+
+- ### Start Docker Container
+
+  - In a terminal, make sure you are inside `spring-webflux-reactive-databases` root folder
+  - Run following command
+    ```
+    ./start-apis.sh && ./start-shell.sh
+    ```
+    
 ## Application's URL
 
 | Application  | URL                                   |
@@ -97,7 +158,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 > **Important:** the ids shown below will be different when you run it
 
-- Go to `client-shell` terminal and import some products and customers by running the following command
+- In `client-shell` terminal, import some products and customers by running the following command
   ```
   script ../samples.txt
   ```
@@ -251,8 +312,13 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Shutdown
 
-- Go to `client-shell` terminal and type `exit`
-- Go to `product-api`, `customer-api` and `order-api` terminals and press `Ctrl+C` on each one
+- To stop `client-shell`, go to its terminal and type `exit`
+- To stop `product-api`, `customer-api` and `order-api` 
+  - If you start them with `Maven`, go to their terminals and press `Ctrl+C`
+  - If you start them as Docker containers, make sure you are inside `spring-webflux-reactive-databases` root folder and run the following script
+    ```
+    ./stop-apis.sh
+    ```
 - To stop and remove docker-compose containers, network and volumes, run
   ```
   docker-compose down -v
