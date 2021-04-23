@@ -138,7 +138,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     | `ORDER_API_HOST`     | Specify host of the `order-api` to use (default `localhost`)          |
     | `ORDER_API_PORT`     | Specify port of the `order-api` to use (default `9082`)               |
 
-- ### Start Docker Container
+- ### Start Docker Containers
 
   - In a terminal, make sure you are inside `spring-webflux-reactive-databases` root folder
   - Run following command
