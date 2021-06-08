@@ -50,7 +50,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   docker-compose ps
   ```
 
-## Running applications with Maven
+## Run applications with Maven
 
 - **product-api**
 
@@ -85,7 +85,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   ./client-shell/target/client-shell-1.0.0.jar
   ```
 
-## Running applications as Docker containers
+## Run applications as Docker containers
 
 - ### Build Docker Images
   
@@ -159,10 +159,15 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 > **Important:** the ids shown below will be different when you run it
 
 - In `client-shell` terminal, import some products and customers by running the following command
-  ```
-  script ../samples.txt
-  ```
-  
+  - If you are running using `Maven`
+    ```
+    script ../src/main/resources/samples.txt
+    ```
+  - If you are running as Docker container
+    ```
+    script /app/resources/samples.txt
+    ```
+    
 - Get all customer
   ```
   get-customers
@@ -319,7 +324,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     ```
     ./stop-apis.sh
     ```
-- To stop and remove docker-compose containers, network and volumes, run
+- To stop and remove docker-compose containers, network and volumes, run the command below inside `spring-webflux-reactive-databases` root folder
   ```
   docker-compose down -v
   ```

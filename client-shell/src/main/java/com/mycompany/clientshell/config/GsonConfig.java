@@ -10,7 +10,7 @@ public class GsonConfig {
 
     @Bean
     Gson gson() {
-        return new GsonBuilder().create();
+        return new GsonBuilder().setPrettyPrinting().create();
     }
 
 }

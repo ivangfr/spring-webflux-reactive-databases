@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   mongodb:
-    image: mongo:4.4.5
+    image: mongo:4.4.6
     container_name: mongodb
     restart: unless-stopped
     ports:
@@ -13,7 +13,7 @@ services:
       start_period: 30s
 
   postgres:
-    image: postgres:13.2
+    image: postgres:13.3
     container_name: postgres
     restart: unless-stopped
     ports:
