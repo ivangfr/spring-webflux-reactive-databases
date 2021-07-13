@@ -317,17 +317,24 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Shutdown
 
-- To stop `client-shell`, go to its terminal and type `exit`
+- To stop `client-shell`, go to the terminal where it is running and type `exit`
 - To stop `product-api`, `customer-api` and `order-api` 
-  - If you start them with `Maven`, go to their terminals and press `Ctrl+C`
-  - If you start them as Docker containers, make sure you are inside `spring-webflux-reactive-databases` root folder and run the following script
+  - If you start them with `Maven`, go to the terminals were they are running and press `Ctrl+C`
+  - If you start them as Docker containers, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the following script
     ```
     ./stop-apis.sh
     ```
-- To stop and remove docker-compose containers, network and volumes, run the command below inside `spring-webflux-reactive-databases` root folder
+- To stop and remove docker-compose containers, network and volumes, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the command below
   ```
   docker-compose down -v
   ```
+
+## Cleanup
+
+To remove all Docker images created by this project, go to a terminan and run the following script
+```
+./remove-docker-images.sh
+```
 
 ## TODO
 
