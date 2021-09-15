@@ -21,5 +21,4 @@ public class LoggingAspect {
         log.info("<= {} :: Execution Time: {}ms", pjp.getSignature().toShortString(), System.currentTimeMillis() - t);
         return retVal;
     }
-
 }

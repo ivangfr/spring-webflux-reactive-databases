@@ -20,5 +20,4 @@ public class Order {
     public enum Status {
         OPEN, CANCELLED, DELIVERED
     }
-
 }

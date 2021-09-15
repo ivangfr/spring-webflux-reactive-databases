@@ -29,7 +29,5 @@ public class CreateOrderDto {
         @Schema(example = "1")
         @Positive
         private Integer quantity;
-
     }
-
 }

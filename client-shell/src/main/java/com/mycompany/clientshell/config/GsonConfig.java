@@ -12,5 +12,4 @@ public class GsonConfig {
     Gson gson() {
         return new GsonBuilder().setPrettyPrinting().create();
     }
-
 }

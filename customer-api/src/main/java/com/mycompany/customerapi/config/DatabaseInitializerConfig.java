@@ -23,5 +23,4 @@ public class DatabaseInitializerConfig {
 
         return initializer;
     }
-
 }

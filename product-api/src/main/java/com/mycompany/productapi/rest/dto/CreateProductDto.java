@@ -17,5 +17,4 @@ public class CreateProductDto {
     @Schema(example = "299.99")
     @NotNull
     private BigDecimal price;
-
 }

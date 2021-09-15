@@ -33,5 +33,4 @@ public class CustomerServiceImpl implements CustomerService {
     public Mono<Void> deleteCustomer(Customer customer) {
         return customerRepository.delete(customer);
     }
-
 }

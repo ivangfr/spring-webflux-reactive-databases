@@ -9,5 +9,4 @@ public class Product {
 
     private String id;
     private Integer quantity;
-
 }

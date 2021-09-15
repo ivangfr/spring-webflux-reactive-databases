@@ -11,5 +11,4 @@ public class CustomerDto {
     private String city;
     private String street;
     private String number;
-
 }

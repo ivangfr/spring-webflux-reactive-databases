@@ -50,5 +50,4 @@ public class OrderApiClient {
                 .retrieve()
                 .bodyToMono(OrderDto.class);
     }
-
 }

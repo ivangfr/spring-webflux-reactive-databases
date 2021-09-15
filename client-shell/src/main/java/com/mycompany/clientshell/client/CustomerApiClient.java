@@ -46,5 +46,4 @@ public class CustomerApiClient {
                 .retrieve()
                 .bodyToMono(CustomerDto.class);
     }
-
 }

@@ -13,5 +13,4 @@ public interface OrderService {
     Mono<Order> validateAndGetOrder(UUID id);
 
     Mono<Order> saveOrder(Order order);
-
 }

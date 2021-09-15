@@ -35,5 +35,4 @@ public class CustomerShellCommands {
     public String deleteCustomer(String id) {
         return customerApiClient.deleteCustomer(id).map(gson::toJson).block();
     }
-
 }

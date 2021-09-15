@@ -56,5 +56,4 @@ public class OrderController {
     public Mono<OrderDetailedDto> getOrderDetailed(@PathVariable UUID orderId) {
         return orderService.validateAndGetOrder(orderId).map(orderDetailCollector::getOrderDetailed);
     }
-
 }

@@ -11,5 +11,4 @@ public class CreateProductDto {
 
     private String name;
     private BigDecimal price;
-
 }

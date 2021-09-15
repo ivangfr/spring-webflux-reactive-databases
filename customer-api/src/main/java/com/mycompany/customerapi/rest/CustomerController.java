@@ -61,5 +61,4 @@ public class CustomerController {
                 .doOnSuccess(customer -> customerService.deleteCustomer(customer).subscribe())
                 .map(customerMapper::toCustomerDto);
     }
-
 }

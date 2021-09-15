@@ -20,5 +20,4 @@ public class Product {
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
-
 }

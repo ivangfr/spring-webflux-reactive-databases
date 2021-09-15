@@ -23,5 +23,4 @@ public class UpdateCustomerDto {
 
     @Schema(example = "20")
     private String number;
-
 }

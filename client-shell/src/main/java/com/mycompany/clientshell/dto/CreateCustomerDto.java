@@ -12,5 +12,4 @@ public class CreateCustomerDto {
     private String city;
     private String street;
     private String number;
-
 }

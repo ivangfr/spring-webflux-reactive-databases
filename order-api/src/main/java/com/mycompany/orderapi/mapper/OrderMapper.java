@@ -32,6 +32,6 @@ public interface OrderMapper {
 
     OrderDetailedDto.ProductDto toOrderDetailedDtoProductDto(Product product);
 
-    void updateOrderDetailedDtoProductDtoFromProductDto(ProductDto productDto, @MappingTarget OrderDetailedDto.ProductDto orderDetailedDtoProductDto);
-
+    void updateOrderDetailedDtoProductDtoFromProductDto(
+            ProductDto productDto,@MappingTarget OrderDetailedDto.ProductDto orderDetailedDtoProductDto);
 }

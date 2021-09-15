@@ -13,5 +13,4 @@ public class RandomConfig {
     Random random() {
         return new SecureRandom();
     }
-
 }

@@ -23,5 +23,4 @@ public class WebClientConfig {
     WebClient customerApiWebClient() {
         return WebClient.create(customerApiUrl);
     }
-
 }

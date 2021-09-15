@@ -13,5 +13,4 @@ public interface ProductService {
     Mono<Product> saveProduct(Product product);
 
     Mono<Void> deleteProduct(Product product);
-
 }

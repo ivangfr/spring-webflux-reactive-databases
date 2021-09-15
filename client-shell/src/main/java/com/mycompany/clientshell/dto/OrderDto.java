@@ -16,10 +16,7 @@ public class OrderDto {
 
     @Data
     public static class ProductDto {
-
         private String id;
         private Integer quantity;
-
     }
-
 }

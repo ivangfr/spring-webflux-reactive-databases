@@ -31,5 +31,4 @@ public class WebClientConfig {
     WebClient orderApiWebClient() {
         return WebClient.create(orderApiUrl);
     }
-
 }

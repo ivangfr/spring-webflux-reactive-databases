@@ -19,5 +19,4 @@ public interface ProductMapper {
     ProductDto toProductDto(Product product);
 
     void updateProductFromDto(UpdateProductDto updateProductDto, @MappingTarget Product product);
-
 }

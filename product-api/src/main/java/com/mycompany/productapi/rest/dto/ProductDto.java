@@ -10,5 +10,4 @@ public class ProductDto {
     private String id;
     private String name;
     private BigDecimal price;
-
 }

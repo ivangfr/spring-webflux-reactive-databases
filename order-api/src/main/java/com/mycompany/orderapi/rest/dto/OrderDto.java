@@ -19,10 +19,7 @@ public class OrderDto {
     @Data
     @Schema(name = "OrderProductDto")
     public static class ProductDto {
-
         private String id;
         private Integer quantity;
-
     }
-
 }

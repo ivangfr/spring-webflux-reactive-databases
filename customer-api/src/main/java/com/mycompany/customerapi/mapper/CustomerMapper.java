@@ -19,5 +19,4 @@ public interface CustomerMapper {
     CustomerDto toCustomerDto(Customer customer);
 
     void updateCustomerFromDto(UpdateCustomerDto updateCustomerDto, @MappingTarget Customer customer);
-
 }

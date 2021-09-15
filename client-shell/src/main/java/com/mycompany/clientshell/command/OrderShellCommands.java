@@ -62,5 +62,4 @@ public class OrderShellCommands {
     private int getRandomQuantity() {
         return 1 + random.nextInt(5);
     }
-
 }

@@ -64,5 +64,4 @@ public class ProductController {
                 .doOnSuccess(product -> productService.deleteProduct(product).subscribe())
                 .map(productMapper::toProductDto);
     }
-
 }

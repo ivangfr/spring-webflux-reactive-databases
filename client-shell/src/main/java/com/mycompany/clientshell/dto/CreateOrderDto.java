@@ -15,10 +15,7 @@ public class CreateOrderDto {
     @Data
     @AllArgsConstructor
     public static class ProductDto {
-
         private String id;
         private Integer quantity;
-
     }
-
 }

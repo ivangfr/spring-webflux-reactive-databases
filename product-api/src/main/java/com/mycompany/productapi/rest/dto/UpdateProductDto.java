@@ -13,5 +13,4 @@ public class UpdateProductDto {
 
     @Schema(example = "399.99")
     private BigDecimal price;
-
 }

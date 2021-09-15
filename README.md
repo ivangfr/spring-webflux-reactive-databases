@@ -45,7 +45,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   docker-compose up -d
   ```
 
-- Wait a bit until all containers are Up (healthy). You can check their status by running
+- Wait for all Docker containers to be `running (healthy)`. To check it, run
   ```
   docker-compose ps
   ```
@@ -95,7 +95,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
       ```
       ./docker-build.sh
       ```
-    - Native (it's not working yet)
+    - Native (it's not implemented yet)
       ```
       ./docker-build.sh native
       ```
@@ -331,7 +331,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Cleanup
 
-To remove all Docker images created by this project, go to a terminan and run the following script
+To remove all Docker images created by this project, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the following script
 ```
 ./remove-docker-images.sh
 ```

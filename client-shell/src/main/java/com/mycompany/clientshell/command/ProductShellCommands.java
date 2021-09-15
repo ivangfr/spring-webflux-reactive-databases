@@ -33,5 +33,4 @@ public class ProductShellCommands {
     public String deleteProduct(String id) {
         return productApiClient.deleteProduct(id).map(gson::toJson).block();
     }
-
 }

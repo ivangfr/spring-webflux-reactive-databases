@@ -12,5 +12,4 @@ public class ClientShellPromptProvider implements PromptProvider {
     public AttributedString getPrompt() {
         return new AttributedString("client-shell> ", AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
     }
-
 }

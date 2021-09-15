@@ -32,7 +32,6 @@ public class CassandraConfig {
         return session;
     }
 
-
     private List<CreateKeyspaceSpecification> getKeyspaceCreations() {
         final CreateKeyspaceSpecification specification =
                 CreateKeyspaceSpecification.createKeyspace(keyspaceName)
@@ -41,5 +40,4 @@ public class CassandraConfig {
                         .withSimpleReplication();
         return Collections.singletonList(specification);
     }
-
 }

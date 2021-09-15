@@ -11,5 +11,4 @@ class ClientShellApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

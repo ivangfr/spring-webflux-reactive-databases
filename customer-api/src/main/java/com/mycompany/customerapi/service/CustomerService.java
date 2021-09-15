@@ -13,5 +13,4 @@ public interface CustomerService {
     Mono<Customer> saveCustomer(Customer customer);
 
     Mono<Void> deleteCustomer(Customer customer);
-
 }

@@ -28,5 +28,4 @@ public class CreateCustomerDto {
 
     @Schema(example = "10")
     private String number;
-
 }
