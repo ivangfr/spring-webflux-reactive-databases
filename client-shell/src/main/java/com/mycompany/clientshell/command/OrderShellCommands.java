@@ -3,7 +3,7 @@ package com.mycompany.clientshell.command;
 import com.google.gson.Gson;
 import com.mycompany.clientshell.client.OrderApiClient;
 import com.mycompany.clientshell.client.ProductApiClient;
-import com.mycompany.clientshell.dto.CreateOrderDto;
+import com.mycompany.clientshell.dto.CreateOrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -42,7 +42,7 @@ public class OrderShellCommands {
 
     @ShellMethod("Create order.\n" +
             "\t\tExample: create-order --customer-id <customer-id> --products <product-1-id:quantity>[;<product-n-id:quantity>]")
-    public String createOrder(String customerId, Set<CreateOrderDto.ProductDto> products) {
+    public String createOrder(String customerId, Set<CreateOrderRequest.ProductDto> products) {
         return orderApiClient.createOrder(customerId, products).map(gson::toJson).block();
     }
 
@@ -51,11 +51,11 @@ public class OrderShellCommands {
         return orderApiClient.createOrder(customerId, getProducts(numProducts)).map(gson::toJson).block();
     }
 
-    private Set<CreateOrderDto.ProductDto> getProducts(int numProducts) {
+    private Set<CreateOrderRequest.ProductDto> getProducts(int numProducts) {
         return productApiClient.getProducts()
                 .toStream()
                 .limit(numProducts)
-                .map(productDto -> new CreateOrderDto.ProductDto(productDto.getId(), getRandomQuantity()))
+                .map(productDto -> new CreateOrderRequest.ProductDto(productDto.getId(), getRandomQuantity()))
                 .collect(Collectors.toSet());
     }
 

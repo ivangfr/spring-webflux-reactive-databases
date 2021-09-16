@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Data
-public class OrderDto {
+public class OrderResponse {
 
     private UUID orderId;
     private String status;

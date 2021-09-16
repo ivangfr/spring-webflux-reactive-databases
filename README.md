@@ -77,7 +77,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
   Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command to build the executable jar file
   ```
-  ./mvnw clean package -DskipTests --projects client-shell
+  ./mvnw clean package --projects client-shell -DskipTests
   ```
 
   To start `client-shell` run

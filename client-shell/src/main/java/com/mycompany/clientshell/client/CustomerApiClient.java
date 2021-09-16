@@ -1,7 +1,7 @@
 package com.mycompany.clientshell.client;
 
-import com.mycompany.clientshell.dto.CreateCustomerDto;
-import com.mycompany.clientshell.dto.CustomerDto;
+import com.mycompany.clientshell.dto.CreateCustomerRequest;
+import com.mycompany.clientshell.dto.CustomerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -17,33 +17,31 @@ public class CustomerApiClient {
     @Qualifier("customerApiWebClient")
     private WebClient webClient;
 
-    public Mono<CustomerDto> getCustomer(String id) {
+    public Mono<CustomerResponse> getCustomer(String id) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
                 .retrieve()
-                .bodyToMono(CustomerDto.class);
+                .bodyToMono(CustomerResponse.class);
     }
 
-    public Flux<CustomerDto> getCustomers() {
+    public Flux<CustomerResponse> getCustomers() {
         return webClient.get()
                 .retrieve()
-                .bodyToFlux(CustomerDto.class);
+                .bodyToFlux(CustomerResponse.class);
     }
 
-    public Mono<CustomerDto> createCustomer(String name, String email, String city, String street, String number) {
-        CreateCustomerDto createCustomerDto = new CreateCustomerDto(name, email, city, street, number);
-
+    public Mono<CustomerResponse> createCustomer(String name, String email, String city, String street, String number) {
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(createCustomerDto)
+                .bodyValue(CreateCustomerRequest.of(name, email, city, street, number))
                 .retrieve()
-                .bodyToMono(CustomerDto.class);
+                .bodyToMono(CustomerResponse.class);
     }
 
-    public Mono<CustomerDto> deleteCustomer(String id) {
+    public Mono<CustomerResponse> deleteCustomer(String id) {
         return webClient.delete()
                 .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
                 .retrieve()
-                .bodyToMono(CustomerDto.class);
+                .bodyToMono(CustomerResponse.class);
     }
 }

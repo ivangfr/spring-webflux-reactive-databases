@@ -3,11 +3,11 @@ package com.mycompany.orderapi.rest.collector;
 import com.mycompany.orderapi.aspect.LogInputAndExecutionTime;
 import com.mycompany.orderapi.client.CustomerApiClient;
 import com.mycompany.orderapi.client.ProductApiClient;
-import com.mycompany.orderapi.client.dto.CustomerDto;
-import com.mycompany.orderapi.client.dto.ProductDto;
+import com.mycompany.orderapi.client.dto.CustomerResponse;
+import com.mycompany.orderapi.client.dto.ProductResponse;
 import com.mycompany.orderapi.mapper.OrderMapper;
 import com.mycompany.orderapi.model.Order;
-import com.mycompany.orderapi.rest.dto.OrderDetailedDto;
+import com.mycompany.orderapi.rest.dto.OrderDetailedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,29 +24,30 @@ public class OrderDetailCollector {
     private final OrderMapper orderMapper;
 
     @LogInputAndExecutionTime
-    public OrderDetailedDto getOrderDetailed(Order order) {
-        CompletableFuture<OrderDetailedDto.CustomerDto> customerCompletableFuture =
+    public OrderDetailedResponse getOrderDetailed(Order order) {
+        CompletableFuture<OrderDetailedResponse.CustomerDto> customerCompletableFuture =
                 CompletableFuture.supplyAsync(() -> customerApiClient.getCustomer(order.getCustomerId())
-                        .onErrorReturn(new CustomerDto())
-                        .map(orderMapper::toOrderDetailedDtoCustomerDto)
+                        .onErrorReturn(new CustomerResponse())
+                        .map(orderMapper::toOrderDetailedResponseCustomerDto)
                         .block());
 
-        CompletableFuture<Set<OrderDetailedDto.ProductDto>> productsCompletableFuture =
+        CompletableFuture<Set<OrderDetailedResponse.ProductDto>> productsCompletableFuture =
                 CompletableFuture.supplyAsync(() -> order.getProducts().parallelStream().map(product -> {
-                    OrderDetailedDto.ProductDto orderDetailedDtoProductDto = orderMapper.toOrderDetailedDtoProductDto(product);
-                    ProductDto productDto = productApiClient.getProduct(product.getId())
-                            .onErrorReturn(new ProductDto())
+                    OrderDetailedResponse.ProductDto orderDetailedResponseProductDto = orderMapper.toOrderDetailedResponseProductDto(product);
+                    ProductResponse productResponse = productApiClient.getProduct(product.getId())
+                            .onErrorReturn(new ProductResponse())
                             .block();
-                    orderMapper.updateOrderDetailedDtoProductDtoFromProductDto(productDto, orderDetailedDtoProductDto);
-                    return orderDetailedDtoProductDto;
+                    orderMapper.updateOrderDetailedResponseProductDtoFromProductResponse(productResponse, orderDetailedResponseProductDto);
+                    return orderDetailedResponseProductDto;
                 }).collect(Collectors.toSet()));
 
-        OrderDetailedDto orderDetailedDto = orderMapper.toOrderDetailedDto(order);
-        CompletableFuture.allOf(customerCompletableFuture, productsCompletableFuture).thenAccept(aVoid -> {
-            orderDetailedDto.setCustomer(customerCompletableFuture.join());
-            orderDetailedDto.setProducts(productsCompletableFuture.join());
-        }).join();
+        OrderDetailedResponse orderDetailedResponse = orderMapper.toOrderDetailedResponse(order);
+        CompletableFuture.allOf(customerCompletableFuture, productsCompletableFuture)
+                .thenAccept(aVoid -> {
+                    orderDetailedResponse.setCustomer(customerCompletableFuture.join());
+                    orderDetailedResponse.setProducts(productsCompletableFuture.join());
+                }).join();
 
-        return orderDetailedDto;
+        return orderDetailedResponse;
     }
 }

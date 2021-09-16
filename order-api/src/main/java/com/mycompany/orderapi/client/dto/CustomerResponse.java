@@ -1,12 +1,11 @@
-package com.mycompany.clientshell.dto;
+package com.mycompany.orderapi.client.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
-public class CreateCustomerDto {
+public class CustomerResponse {
 
+    private String id;
     private String name;
     private String email;
     private String city;

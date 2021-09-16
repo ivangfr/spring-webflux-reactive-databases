@@ -9,7 +9,7 @@ import javax.validation.constraints.Positive;
 import java.util.Set;
 
 @Data
-public class CreateOrderDto {
+public class CreateOrderRequest {
 
     @Schema(example = "1")
     @NotBlank

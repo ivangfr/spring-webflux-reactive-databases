@@ -1,7 +1,7 @@
 package com.mycompany.clientshell.client;
 
-import com.mycompany.clientshell.dto.CreateProductDto;
-import com.mycompany.clientshell.dto.ProductDto;
+import com.mycompany.clientshell.dto.CreateProductRequest;
+import com.mycompany.clientshell.dto.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -19,32 +19,32 @@ public class ProductApiClient {
     @Qualifier("productApiWebClient")
     private WebClient webClient;
 
-    public Mono<ProductDto> getProduct(String id) {
+    public Mono<ProductResponse> getProduct(String id) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
                 .retrieve()
-                .bodyToMono(ProductDto.class);
+                .bodyToMono(ProductResponse.class);
     }
 
-    public Flux<ProductDto> getProducts() {
+    public Flux<ProductResponse> getProducts() {
         return webClient.get()
                 .retrieve()
-                .bodyToFlux(ProductDto.class);
+                .bodyToFlux(ProductResponse.class);
 
     }
 
-    public Mono<ProductDto> createProduct(String name, BigDecimal price) {
+    public Mono<ProductResponse> createProduct(String name, BigDecimal price) {
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new CreateProductDto(name, price))
+                .bodyValue(CreateProductRequest.of(name, price))
                 .retrieve()
-                .bodyToMono(ProductDto.class);
+                .bodyToMono(ProductResponse.class);
     }
 
-    public Mono<ProductDto> deleteProduct(String id) {
+    public Mono<ProductResponse> deleteProduct(String id) {
         return webClient.delete()
                 .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
                 .retrieve()
-                .bodyToMono(ProductDto.class);
+                .bodyToMono(ProductResponse.class);
     }
 }

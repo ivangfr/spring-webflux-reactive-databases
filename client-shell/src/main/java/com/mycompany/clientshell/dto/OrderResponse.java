@@ -1,19 +1,20 @@
 package com.mycompany.clientshell.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.Set;
+import java.util.UUID;
 
-@Data
-@AllArgsConstructor
-public class CreateOrderDto {
+@Getter
+public class OrderResponse {
 
-    private String customerId;
+    private UUID orderId;
+    private String status;
+    private String created;
     private Set<ProductDto> products;
+    private String customerId;
 
-    @Data
-    @AllArgsConstructor
+    @Getter
     public static class ProductDto {
         private String id;
         private Integer quantity;

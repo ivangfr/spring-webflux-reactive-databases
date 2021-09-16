@@ -1,24 +1,21 @@
-package com.mycompany.orderapi.rest.dto;
+package com.mycompany.clientshell.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
-public class OrderDetailedDto {
+@Getter
+public class OrderDetailedResponse {
 
     private UUID orderId;
     private String status;
-    private LocalDateTime created;
+    private String created;
     private Set<ProductDto> products;
     private CustomerDto customer;
 
-    @Data
-    @Schema(name = "OrderDetailedProductDto")
+    @Getter
     public static class ProductDto {
         private String id;
         private String name;
@@ -26,7 +23,7 @@ public class OrderDetailedDto {
         private BigDecimal price;
     }
 
-    @Data
+    @Getter
     public static class CustomerDto {
         private String id;
         private String name;

@@ -2,9 +2,9 @@ package com.mycompany.productapi.rest;
 
 import com.mycompany.productapi.mapper.ProductMapper;
 import com.mycompany.productapi.model.Product;
-import com.mycompany.productapi.rest.dto.CreateProductDto;
-import com.mycompany.productapi.rest.dto.ProductDto;
-import com.mycompany.productapi.rest.dto.UpdateProductDto;
+import com.mycompany.productapi.rest.dto.CreateProductRequest;
+import com.mycompany.productapi.rest.dto.ProductResponse;
+import com.mycompany.productapi.rest.dto.UpdateProductRequest;
 import com.mycompany.productapi.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,36 +32,37 @@ public class ProductController {
     private final ProductMapper productMapper;
 
     @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
-    public Flux<ProductDto> getProducts() {
-        return productService.getProducts().map(productMapper::toProductDto);
+    public Flux<ProductResponse> getProducts() {
+        return productService.getProducts().map(productMapper::toProductResponse);
     }
 
     @GetMapping("/{id}")
-    public Mono<ProductDto> getProduct(@PathVariable String id) {
-        return productService.validateAndGetProduct(id).map(productMapper::toProductDto);
+    public Mono<ProductResponse> getProduct(@PathVariable String id) {
+        return productService.validateAndGetProduct(id).map(productMapper::toProductResponse);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Mono<ProductDto> createProduct(@Valid @RequestBody CreateProductDto createProductDto) {
-        Product product = productMapper.toProduct(createProductDto);
-        return productService.saveProduct(product).map(productMapper::toProductDto);
+    public Mono<ProductResponse> createProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
+        Product product = productMapper.toProduct(createProductRequest);
+        return productService.saveProduct(product).map(productMapper::toProductResponse);
     }
 
     @PatchMapping("/{id}")
-    public Mono<ProductDto> updateProduct(@PathVariable String id, @RequestBody UpdateProductDto updateProductDto) {
+    public Mono<ProductResponse> updateProduct(@PathVariable String id,
+                                               @RequestBody UpdateProductRequest updateProductRequest) {
         return productService.validateAndGetProduct(id)
                 .doOnSuccess(product -> {
-                    productMapper.updateProductFromDto(updateProductDto, product);
+                    productMapper.updateProductFromRequest(updateProductRequest, product);
                     productService.saveProduct(product).subscribe();
                 })
-                .map(productMapper::toProductDto);
+                .map(productMapper::toProductResponse);
     }
 
     @DeleteMapping("/{id}")
-    public Mono<ProductDto> deleteProduct(@PathVariable String id) {
+    public Mono<ProductResponse> deleteProduct(@PathVariable String id) {
         return productService.validateAndGetProduct(id)
                 .doOnSuccess(product -> productService.deleteProduct(product).subscribe())
-                .map(productMapper::toProductDto);
+                .map(productMapper::toProductResponse);
     }
 }

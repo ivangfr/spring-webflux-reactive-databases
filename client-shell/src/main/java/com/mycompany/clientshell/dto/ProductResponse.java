@@ -1,11 +1,11 @@
 package com.mycompany.clientshell.dto;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 
-@Data
-public class ProductDto {
+@Getter
+public class ProductResponse {
 
     private String id;
     private String name;

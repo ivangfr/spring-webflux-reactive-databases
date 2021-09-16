@@ -1,9 +1,9 @@
-package com.mycompany.orderapi.client.dto;
+package com.mycompany.clientshell.dto;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-public class CustomerDto {
+@Getter
+public class CustomerResponse {
 
     private String id;
     private String name;

@@ -1,4 +1,5 @@
 client-shell/*.log
+client-shell.log
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

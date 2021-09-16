@@ -1,9 +1,9 @@
 package com.mycompany.customerapi.mapper;
 
 import com.mycompany.customerapi.model.Customer;
-import com.mycompany.customerapi.rest.dto.CreateCustomerDto;
-import com.mycompany.customerapi.rest.dto.CustomerDto;
-import com.mycompany.customerapi.rest.dto.UpdateCustomerDto;
+import com.mycompany.customerapi.rest.dto.CreateCustomerRequest;
+import com.mycompany.customerapi.rest.dto.CustomerResponse;
+import com.mycompany.customerapi.rest.dto.UpdateCustomerRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -14,9 +14,9 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 )
 public interface CustomerMapper {
 
-    Customer toCustomer(CreateCustomerDto createCustomerDto);
+    Customer toCustomer(CreateCustomerRequest createCustomerRequest);
 
-    CustomerDto toCustomerDto(Customer customer);
+    CustomerResponse toCustomerResponse(Customer customer);
 
-    void updateCustomerFromDto(UpdateCustomerDto updateCustomerDto, @MappingTarget Customer customer);
+    void updateCustomerFromRequest(UpdateCustomerRequest updateCustomerRequest, @MappingTarget Customer customer);
 }

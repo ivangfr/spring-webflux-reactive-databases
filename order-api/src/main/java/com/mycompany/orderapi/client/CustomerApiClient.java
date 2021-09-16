@@ -1,6 +1,6 @@
 package com.mycompany.orderapi.client;
 
-import com.mycompany.orderapi.client.dto.CustomerDto;
+import com.mycompany.orderapi.client.dto.CustomerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -14,10 +14,10 @@ public class CustomerApiClient {
     @Qualifier("customerApiWebClient")
     private WebClient webClient;
 
-    public Mono<CustomerDto> getCustomer(String id) {
+    public Mono<CustomerResponse> getCustomer(String id) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/{customerId}").build(id))
                 .retrieve()
-                .bodyToMono(CustomerDto.class);
+                .bodyToMono(CustomerResponse.class);
     }
 }

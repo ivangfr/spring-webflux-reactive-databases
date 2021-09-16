@@ -4,9 +4,9 @@ import com.mycompany.orderapi.mapper.OrderMapper;
 import com.mycompany.orderapi.model.Order;
 import com.mycompany.orderapi.model.OrderKey;
 import com.mycompany.orderapi.rest.collector.OrderDetailCollector;
-import com.mycompany.orderapi.rest.dto.CreateOrderDto;
-import com.mycompany.orderapi.rest.dto.OrderDetailedDto;
-import com.mycompany.orderapi.rest.dto.OrderDto;
+import com.mycompany.orderapi.rest.dto.CreateOrderRequest;
+import com.mycompany.orderapi.rest.dto.OrderDetailedResponse;
+import com.mycompany.orderapi.rest.dto.OrderResponse;
 import com.mycompany.orderapi.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,25 +35,25 @@ public class OrderController {
     private final OrderDetailCollector orderDetailCollector;
 
     @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
-    public Flux<OrderDto> getOrders() {
-        return orderService.getOrders().map(orderMapper::toOrderDto);
+    public Flux<OrderResponse> getOrders() {
+        return orderService.getOrders().map(orderMapper::toOrderResponse);
     }
 
     @GetMapping("/{orderId}")
-    public Mono<OrderDto> getOrder(@PathVariable UUID orderId) {
-        return orderService.validateAndGetOrder(orderId).map(orderMapper::toOrderDto);
+    public Mono<OrderResponse> getOrder(@PathVariable UUID orderId) {
+        return orderService.validateAndGetOrder(orderId).map(orderMapper::toOrderResponse);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Mono<OrderDto> createOrder(@Valid @RequestBody CreateOrderDto createOrderDto) {
-        Order order = orderMapper.toOrder(createOrderDto);
+    public Mono<OrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
+        Order order = orderMapper.toOrder(createOrderRequest);
         order.setKey(new OrderKey(UUID.randomUUID(), LocalDateTime.now()));
-        return orderService.saveOrder(order).map(orderMapper::toOrderDto);
+        return orderService.saveOrder(order).map(orderMapper::toOrderResponse);
     }
 
     @GetMapping("/{orderId}/detailed")
-    public Mono<OrderDetailedDto> getOrderDetailed(@PathVariable UUID orderId) {
+    public Mono<OrderDetailedResponse> getOrderDetailed(@PathVariable UUID orderId) {
         return orderService.validateAndGetOrder(orderId).map(orderDetailCollector::getOrderDetailed);
     }
 }

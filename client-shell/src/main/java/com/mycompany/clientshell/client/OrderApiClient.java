@@ -1,8 +1,8 @@
 package com.mycompany.clientshell.client;
 
-import com.mycompany.clientshell.dto.CreateOrderDto;
-import com.mycompany.clientshell.dto.OrderDetailedDto;
-import com.mycompany.clientshell.dto.OrderDto;
+import com.mycompany.clientshell.dto.CreateOrderRequest;
+import com.mycompany.clientshell.dto.OrderDetailedResponse;
+import com.mycompany.clientshell.dto.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -21,33 +21,31 @@ public class OrderApiClient {
     @Qualifier("orderApiWebClient")
     private WebClient webClient;
 
-    public Mono<OrderDto> getOrder(UUID id) {
+    public Mono<OrderResponse> getOrder(UUID id) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
                 .retrieve()
-                .bodyToMono(OrderDto.class);
+                .bodyToMono(OrderResponse.class);
     }
 
-    public Mono<OrderDetailedDto> getOrderDetailed(UUID id) {
+    public Mono<OrderDetailedResponse> getOrderDetailed(UUID id) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/{id}/detailed").build(id))
                 .retrieve()
-                .bodyToMono(OrderDetailedDto.class);
+                .bodyToMono(OrderDetailedResponse.class);
     }
 
-    public Flux<OrderDto> getOrders() {
+    public Flux<OrderResponse> getOrders() {
         return webClient.get()
                 .retrieve()
-                .bodyToFlux(OrderDto.class);
+                .bodyToFlux(OrderResponse.class);
     }
 
-    public Mono<OrderDto> createOrder(String customerId, Set<CreateOrderDto.ProductDto> products) {
-        CreateOrderDto createOrderDto = new CreateOrderDto(customerId, products);
-
+    public Mono<OrderResponse> createOrder(String customerId, Set<CreateOrderRequest.ProductDto> products) {
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(createOrderDto)
+                .bodyValue(CreateOrderRequest.of(customerId, products))
                 .retrieve()
-                .bodyToMono(OrderDto.class);
+                .bodyToMono(OrderResponse.class);
     }
 }

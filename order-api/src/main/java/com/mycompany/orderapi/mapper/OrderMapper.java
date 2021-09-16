@@ -1,12 +1,12 @@
 package com.mycompany.orderapi.mapper;
 
-import com.mycompany.orderapi.client.dto.CustomerDto;
-import com.mycompany.orderapi.client.dto.ProductDto;
+import com.mycompany.orderapi.client.dto.CustomerResponse;
+import com.mycompany.orderapi.client.dto.ProductResponse;
 import com.mycompany.orderapi.model.Order;
 import com.mycompany.orderapi.model.Product;
-import com.mycompany.orderapi.rest.dto.CreateOrderDto;
-import com.mycompany.orderapi.rest.dto.OrderDetailedDto;
-import com.mycompany.orderapi.rest.dto.OrderDto;
+import com.mycompany.orderapi.rest.dto.CreateOrderRequest;
+import com.mycompany.orderapi.rest.dto.OrderDetailedResponse;
+import com.mycompany.orderapi.rest.dto.OrderResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -18,20 +18,20 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 )
 public interface OrderMapper {
 
-    Order toOrder(CreateOrderDto createOrderDto);
+    Order toOrder(CreateOrderRequest createOrderRequest);
 
     @Mapping(source = "key.orderId", target = "orderId")
     @Mapping(source = "key.created", target = "created")
-    OrderDto toOrderDto(Order order);
+    OrderResponse toOrderResponse(Order order);
 
     @Mapping(source = "key.orderId", target = "orderId")
     @Mapping(source = "key.created", target = "created")
-    OrderDetailedDto toOrderDetailedDto(Order order);
+    OrderDetailedResponse toOrderDetailedResponse(Order order);
 
-    OrderDetailedDto.CustomerDto toOrderDetailedDtoCustomerDto(CustomerDto customerDto);
+    OrderDetailedResponse.CustomerDto toOrderDetailedResponseCustomerDto(CustomerResponse customerResponse);
 
-    OrderDetailedDto.ProductDto toOrderDetailedDtoProductDto(Product product);
+    OrderDetailedResponse.ProductDto toOrderDetailedResponseProductDto(Product product);
 
-    void updateOrderDetailedDtoProductDtoFromProductDto(
-            ProductDto productDto,@MappingTarget OrderDetailedDto.ProductDto orderDetailedDtoProductDto);
+    void updateOrderDetailedResponseProductDtoFromProductResponse(
+            ProductResponse productResponse, @MappingTarget OrderDetailedResponse.ProductDto orderDetailedResponseProductDto);
 }

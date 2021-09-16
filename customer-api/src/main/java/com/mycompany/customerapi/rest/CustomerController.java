@@ -2,9 +2,9 @@ package com.mycompany.customerapi.rest;
 
 import com.mycompany.customerapi.mapper.CustomerMapper;
 import com.mycompany.customerapi.model.Customer;
-import com.mycompany.customerapi.rest.dto.CreateCustomerDto;
-import com.mycompany.customerapi.rest.dto.CustomerDto;
-import com.mycompany.customerapi.rest.dto.UpdateCustomerDto;
+import com.mycompany.customerapi.rest.dto.CreateCustomerRequest;
+import com.mycompany.customerapi.rest.dto.CustomerResponse;
+import com.mycompany.customerapi.rest.dto.UpdateCustomerRequest;
 import com.mycompany.customerapi.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -30,35 +30,36 @@ public class CustomerController {
     private final CustomerMapper customerMapper;
 
     @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
-    public Flux<CustomerDto> getCustomers() {
-        return customerService.getCustomers().map(customerMapper::toCustomerDto);
+    public Flux<CustomerResponse> getCustomers() {
+        return customerService.getCustomers().map(customerMapper::toCustomerResponse);
     }
 
     @GetMapping("/{id}")
-    public Mono<CustomerDto> getCustomer(@PathVariable Long id) {
-        return customerService.validateAndGetCustomer(id).map(customerMapper::toCustomerDto);
+    public Mono<CustomerResponse> getCustomer(@PathVariable Long id) {
+        return customerService.validateAndGetCustomer(id).map(customerMapper::toCustomerResponse);
     }
 
     @PostMapping
-    public Mono<CustomerDto> createCustomer(@Valid @RequestBody CreateCustomerDto createCustomerDto) {
-        Customer customer = customerMapper.toCustomer(createCustomerDto);
-        return customerService.saveCustomer(customer).map(customerMapper::toCustomerDto);
+    public Mono<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
+        Customer customer = customerMapper.toCustomer(createCustomerRequest);
+        return customerService.saveCustomer(customer).map(customerMapper::toCustomerResponse);
     }
 
     @PatchMapping("/{id}")
-    public Mono<CustomerDto> updateCustomer(@PathVariable Long id, @Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
+    public Mono<CustomerResponse> updateCustomer(@PathVariable Long id,
+                                                 @Valid @RequestBody UpdateCustomerRequest updateCustomerRequest) {
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> {
-                    customerMapper.updateCustomerFromDto(updateCustomerDto, customer);
+                    customerMapper.updateCustomerFromRequest(updateCustomerRequest, customer);
                     customerService.saveCustomer(customer).subscribe();
                 })
-                .map(customerMapper::toCustomerDto);
+                .map(customerMapper::toCustomerResponse);
     }
 
     @DeleteMapping("/{id}")
-    public Mono<CustomerDto> deleteCustomer(@PathVariable Long id) {
+    public Mono<CustomerResponse> deleteCustomer(@PathVariable Long id) {
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> customerService.deleteCustomer(customer).subscribe())
-                .map(customerMapper::toCustomerDto);
+                .map(customerMapper::toCustomerResponse);
     }
 }

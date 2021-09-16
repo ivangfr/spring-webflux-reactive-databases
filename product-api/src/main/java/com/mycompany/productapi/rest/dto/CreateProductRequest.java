@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Data
-public class CreateProductDto {
+public class CreateProductRequest {
 
     @Schema(example = "iPhone 7")
     @NotBlank
