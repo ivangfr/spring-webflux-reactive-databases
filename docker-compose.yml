@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   mongodb:
-    image: mongo:4.4.8
+    image: mongo:5.0.3
     container_name: mongodb
     restart: unless-stopped
     ports:
@@ -12,7 +12,7 @@ services:
       test: "echo 'db.stats().ok' | mongo localhost:27017/productdb --quiet"
 
   postgres:
-    image: postgres:13.4
+    image: postgres:14.1
     container_name: postgres
     restart: unless-stopped
     ports:
@@ -25,7 +25,7 @@ services:
       test: "pg_isready -U postgres"
 
   cassandra:
-    image: cassandra:3.11.11
+    image: cassandra:4.0.1
     container_name: cassandra
     restart: unless-stopped
     ports:

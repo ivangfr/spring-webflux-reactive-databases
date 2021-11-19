@@ -4,7 +4,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Project Architecture
 
-![project-diagram](images/project-diagram.png)
+![project-diagram](documentation/project-diagram.png)
 
 ## Applications
 
@@ -12,29 +12,29 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
   `Spring Boot` Java Web application that exposes a REST API to manage `products`. It uses `MongoDB` as storage.
   
-  ![product-api-swagger](images/product-api-swagger.png)
+  ![product-api-swagger](documentation/product-api-swagger.png)
 
 - ### customer-api
 
   `Spring Boot` Java Web application that exposes a REST API to manage `customers`. It uses `Postgres` as storage.
   
-  ![customer-api-swagger](images/customer-api-swagger.png)
+  ![customer-api-swagger](documentation/customer-api-swagger.png)
 
 - ### order-api
 
   `Spring Boot` Web Java application that exposes a REST API to manage `orders`. It uses `Cassandra` as storage. In order to get more information about an `order`, i.e, the `name` of the customer who placed it or the `name` or `price` of the products in the order, `order-api` uses [`WebClient`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client) and [`CompletableFuture`](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) to fetch this information from `customer-api` and `product-api`.
   
-  ![order-api-swagger](images/order-api-swagger.png)
+  ![order-api-swagger](documentation/order-api-swagger.png)
 
 - ### client-shell
 
   `Spring Boot` Shell Java application that has a couple of commands to interact with `product-api`, `customer-api` and `order-api`. The picture below show those commands.
 
-  ![client-shell](images/client-shell.png)
+  ![client-shell](documentation/client-shell.png)
   
 ## Prerequisites
 
-- [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
 - [`Docker`](https://www.docker.com/)
 - [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
@@ -45,7 +45,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   docker-compose up -d
   ```
 
-- Wait for all Docker containers to be `running (healthy)`. To check it, run
+- Wait for Docker containers to be up and running. To check it, run
   ```
   docker-compose ps
   ```

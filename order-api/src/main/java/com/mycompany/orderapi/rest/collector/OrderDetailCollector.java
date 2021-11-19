@@ -32,14 +32,16 @@ public class OrderDetailCollector {
                         .block());
 
         CompletableFuture<Set<OrderDetailedResponse.ProductDto>> productsCompletableFuture =
-                CompletableFuture.supplyAsync(() -> order.getProducts().parallelStream().map(product -> {
-                    OrderDetailedResponse.ProductDto orderDetailedResponseProductDto = orderMapper.toOrderDetailedResponseProductDto(product);
-                    ProductResponse productResponse = productApiClient.getProduct(product.getId())
-                            .onErrorReturn(new ProductResponse())
-                            .block();
-                    orderMapper.updateOrderDetailedResponseProductDtoFromProductResponse(productResponse, orderDetailedResponseProductDto);
-                    return orderDetailedResponseProductDto;
-                }).collect(Collectors.toSet()));
+                CompletableFuture.supplyAsync(() -> order.getProducts()
+                        .parallelStream()
+                        .map(product -> {
+                            OrderDetailedResponse.ProductDto orderDetailedResponseProductDto = orderMapper.toOrderDetailedResponseProductDto(product);
+                            ProductResponse productResponse = productApiClient.getProduct(product.getId())
+                                    .onErrorReturn(new ProductResponse())
+                                    .block();
+                            orderMapper.updateOrderDetailedResponseProductDtoFromProductResponse(productResponse, orderDetailedResponseProductDto);
+                            return orderDetailedResponseProductDto;
+                        }).collect(Collectors.toSet()));
 
         OrderDetailedResponse orderDetailedResponse = orderMapper.toOrderDetailedResponse(order);
         CompletableFuture.allOf(customerCompletableFuture, productsCompletableFuture)
