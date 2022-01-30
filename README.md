@@ -105,21 +105,21 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   - **product-api**
 
     | Environment Variable | Description                                                       |
-    | -------------------- | ----------------------------------------------------------------- |
+    |----------------------|-------------------------------------------------------------------|
     | `MONGODB_HOST`       | Specify host of the `Mongo` database to use (default `localhost`) |
     | `MONGODB_PORT`       | Specify port of the `Mongo` database to use (default `27017`)     |
 
   - **customer-api**
 
     | Environment Variable | Description                                                          |
-    | -------------------- | -------------------------------------------------------------------- |
+    |----------------------|----------------------------------------------------------------------|
     | `POSTGRES_HOST`      | Specify host of the `Postgres` database to use (default `localhost`) |
     | `POSTGRES_PORT`      | Specify port of the `Postgres` database to use (default `5432`)      |
 
   - **order-api**
 
     | Environment Variable | Description                                                           |
-    | -------------------- | --------------------------------------------------------------------- |
+    |----------------------|-----------------------------------------------------------------------|
     | `CASSANDRA_HOST`     | Specify host of the `Cassandra` database to use (default `localhost`) |
     | `CASSANDRA_PORT`     | Specify port of the `Cassandra` database to use (default `9042`)      |
     | `PRODUCT_API_HOST`   | Specify host of the `product-api` to use (default `localhost`)        |
@@ -130,7 +130,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   - **client-shell**
 
     | Environment Variable | Description                                                           |
-    | -------------------- | --------------------------------------------------------------------- |
+    |----------------------|-----------------------------------------------------------------------|
     | `PRODUCT_API_HOST`   | Specify host of the `product-api` to use (default `localhost`)        |
     | `PRODUCT_API_PORT`   | Specify port of the `product-api` to use (default `9080`)             |
     | `CUSTOMER_API_HOST`  | Specify host of the `customer-api` to use (default `localhost`)       |
@@ -149,7 +149,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 ## Application's URL
 
 | Application  | URL                                   |
-| ------------ | ------------------------------------- |
+|--------------|---------------------------------------|
 | product-api  | http://localhost:9080/swagger-ui.html |
 | customer-api | http://localhost:9081/swagger-ui.html |
 | order-api    | http://localhost:9082/swagger-ui.html | 
