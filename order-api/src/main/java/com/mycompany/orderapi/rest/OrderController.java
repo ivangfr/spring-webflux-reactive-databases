@@ -1,5 +1,6 @@
 package com.mycompany.orderapi.rest;
 
+import com.mycompany.orderapi.exception.CreateOrderRequestInvalidException;
 import com.mycompany.orderapi.mapper.OrderMapper;
 import com.mycompany.orderapi.model.Order;
 import com.mycompany.orderapi.model.OrderKey;
@@ -48,6 +49,9 @@ public class OrderController {
     @PostMapping
     public Mono<OrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
         Order order = orderMapper.toOrder(createOrderRequest);
+        if (order.getCustomerId() == null || order.getProducts().isEmpty()) {
+            return Mono.error(new CreateOrderRequestInvalidException());
+        }
         order.setKey(new OrderKey(UUID.randomUUID(), LocalDateTime.now()));
         return orderService.saveOrder(order).map(orderMapper::toOrderResponse);
     }

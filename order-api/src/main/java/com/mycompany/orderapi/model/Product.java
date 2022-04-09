@@ -1,9 +1,13 @@
 package com.mycompany.orderapi.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @UserDefinedType
 public class Product {
 

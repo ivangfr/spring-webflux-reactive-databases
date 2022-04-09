@@ -335,8 +335,3 @@ To remove all Docker images created by this project, go to a terminal and, insid
 ```
 ./remove-docker-images.sh
 ```
-
-## TODO
-
-- Validate if customer and products exist before creating an order
-
