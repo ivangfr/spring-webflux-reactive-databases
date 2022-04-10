@@ -14,9 +14,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import reactor.core.publisher.Mono;
 
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Mapper(
@@ -46,36 +46,36 @@ public abstract class OrderMapper {
     public abstract void updateOrderDetailedResponseProductDtoFromProductResponse(
             ProductResponse productResponse, @MappingTarget OrderDetailedResponse.ProductDto orderDetailedResponseProductDto);
 
-    public Order toOrder(CreateOrderRequest createOrderRequest) {
-        Order order = new Order();
-        if (validateCustomerAndProducts(createOrderRequest)) {
-            order.setCustomerId(createOrderRequest.getCustomerId());
-            Set<Product> products = createOrderRequest.getProducts()
-                    .stream()
-                    .map(productDto -> new Product(productDto.getId(), productDto.getQuantity()))
-                    .collect(Collectors.toSet());
-            order.setProducts(products);
-        }
-        return order;
+    public Mono<Order> toOrder(CreateOrderRequest createOrderRequest) {
+        return validateCustomerAndProducts(createOrderRequest)
+                .flatMap(isValid -> {
+                    if (!isValid) {
+                        return Mono.empty();
+                    }
+                    Order order = new Order();
+                    order.setCustomerId(createOrderRequest.getCustomerId());
+                    Set<Product> products = createOrderRequest.getProducts()
+                            .stream()
+                            .map(productDto -> new Product(productDto.getId(), productDto.getQuantity()))
+                            .collect(Collectors.toSet());
+                    order.setProducts(products);
+                    return Mono.just(order);
+                });
     }
 
-    private boolean validateCustomerAndProducts(CreateOrderRequest createOrderRequest) {
-        CompletableFuture<Boolean> customerCompletableFuture =
-                CompletableFuture.supplyAsync(() -> customerApiClient.getCustomer(createOrderRequest.getCustomerId())
-                        .onErrorReturn(new CustomerResponse())
-                        .map(customerResponse -> customerResponse.getId() != null)
-                        .block());
+    private Mono<Boolean> validateCustomerAndProducts(CreateOrderRequest createOrderRequest) {
+        Mono<Boolean> customerResponseMono = customerApiClient.getCustomer(createOrderRequest.getCustomerId())
+                .onErrorReturn(new CustomerResponse())
+                .map(customerResponse -> customerResponse.getId() != null);
 
-        CompletableFuture<Boolean> productsCompletableFuture =
-                CompletableFuture.supplyAsync(() -> createOrderRequest.getProducts()
-                        .parallelStream()
-                        .allMatch(productDto -> productApiClient.getProduct(productDto.getId())
-                                .onErrorReturn(new ProductResponse())
-                                .map(productResponse -> productResponse.getId() != null)
-                                .block()));
+        Mono<Boolean> productsResponseMono = createOrderRequest.getProducts()
+                .parallelStream()
+                .map(productDto -> productApiClient.getProduct(productDto.getId())
+                        .onErrorReturn(new ProductResponse())
+                        .flatMap(productResponse -> Mono.just(productResponse.getId() != null)))
+                .reduce(Mono.just(true), (b1Mono, b2Mono) -> Mono.zip(b1Mono, b2Mono).map(tuple2 -> tuple2.getT1() && tuple2.getT2()));
 
-        return CompletableFuture.allOf(customerCompletableFuture, productsCompletableFuture)
-                .thenApply(Boolean -> customerCompletableFuture.join() && productsCompletableFuture.join())
-                .join();
+        return Mono.zip(customerResponseMono, productsResponseMono)
+                .map(tuple2 -> tuple2.getT1() && tuple2.getT2());
     }
 }

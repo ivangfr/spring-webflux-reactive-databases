@@ -37,3 +37,15 @@ docker run -d --rm --name order-api \
   ivanfranchin/order-api:1.0.0
 
 wait_for_container_log "order-api" "Started"
+
+echo
+echo "Starting notification-api..."
+
+docker run -d --rm --name notification-api \
+  -p 9083:9083 \
+  -e MYSQL_HOST=mysql -e ORDER_API_HOST=order-api -e CUSTOMER_API_HOST=customer-api \
+  --network spring-webflux-reactive-databases_default \
+  --health-cmd="curl -f http://localhost:9083/actuator/health || exit 1" \
+  ivanfranchin/notification-api:1.0.0
+
+wait_for_container_log "notification-api" "Started"

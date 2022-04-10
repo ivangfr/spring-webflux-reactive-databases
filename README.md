@@ -1,6 +1,6 @@
 # spring-webflux-reactive-databases
 
-The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html) both on client and server side. For it, we will implement [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web applications (`product-api`, `customer-api`, `order-api` and `client-shell`) and use reactive NoSQL database like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/) and [`Postgres`](https://www.postgresql.org/).
+The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html) both on client and server side. For it, we will implement [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web applications (`product-api`, `customer-api`, `order-api`, `notification-api` and `client-shell`) and use different databases like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/), [`Postgres`](https://www.postgresql.org/) and [`MySQL`](https://www.mysql.com/).
 
 ## Project Architecture
 
@@ -26,9 +26,15 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
   ![order-api-swagger](documentation/order-api-swagger.png)
 
+- ### notification-api
+
+  `Spring Boot` Web Java application that exposes a REST API to manage `notifications`.
+
+  ![notification-api-swagger](documentation/notification-api-swagger.png)
+
 - ### client-shell
 
-  `Spring Boot` Shell Java application that has a couple of commands to interact with `product-api`, `customer-api` and `order-api`. The picture below show those commands.
+  `Spring Boot` Shell Java application that has a couple of commands to interact with `product-api`, `customer-api`, `order-api` and `notification-api`. The picture below show those commands.
 
   ![client-shell](documentation/client-shell.png)
   
@@ -71,6 +77,13 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command 
   ```
   ./mvnw clean spring-boot:run --projects order-api
+  ```
+
+- **notification-api**
+
+  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
+  ```
+  ./mvnw clean spring-boot:run --projects notification-api
   ```
 
 - **client-shell**
@@ -127,6 +140,13 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     | `CUSTOMER_API_HOST`  | Specify host of the `customer-api` to use (default `localhost`)       |
     | `CUSTOMER_API_PORT`  | Specify port of the `customer-api` to use (default `9081`)            |
 
+  - **notification-api**
+
+    | Environment Variable | Description                                                       |
+    |----------------------|-------------------------------------------------------------------|
+    | `MYSQL_HOST`         | Specify host of the `MySQL` database to use (default `localhost`) |
+    | `MYSQL_PORT`         | Specify port of the `MySQL` database to use (default `3306`)      |
+
   - **client-shell**
 
     | Environment Variable | Description                                                           |
@@ -148,11 +168,12 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     
 ## Application's URL
 
-| Application  | URL                                   |
-|--------------|---------------------------------------|
-| product-api  | http://localhost:9080/swagger-ui.html |
-| customer-api | http://localhost:9081/swagger-ui.html |
-| order-api    | http://localhost:9082/swagger-ui.html | 
+| Application      | URL                                   |
+|------------------|---------------------------------------|
+| product-api      | http://localhost:9080/swagger-ui.html |
+| customer-api     | http://localhost:9081/swagger-ui.html |
+| order-api        | http://localhost:9082/swagger-ui.html |
+| notification-api | http://localhost:9083/swagger-ui.html |
 
 ## Playing around
 
@@ -313,7 +334,15 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   \dt customer
   SELECT * FROM CUSTOMER;
   ```
-  > Type `\q` to exit
+  > Type `exit` to get out of `psql`
+
+- **MySQL**
+
+  ```
+  docker exec -it mysql mysql -uroot -psecret --database notificationdb
+  SELECT * FROM notification;
+  ```
+  > Type `exit` to get out of `MySQL monitor`
 
 ## Shutdown
 
@@ -335,3 +364,11 @@ To remove all Docker images created by this project, go to a terminal and, insid
 ```
 ./remove-docker-images.sh
 ```
+
+## References
+
+- https://projectreactor.io/docs/core/release/reference/
+
+## TODO
+
+In `OrderDetailCollector` class, try to use `Reactor` implementation (as done in `OrderMapper`) instead of the one using `CompletableFuture`.

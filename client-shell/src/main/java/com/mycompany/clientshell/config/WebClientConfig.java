@@ -17,6 +17,9 @@ public class WebClientConfig {
     @Value("${order-api.url}")
     private String orderApiUrl;
 
+    @Value("${notification-api.url}")
+    private String notificationApiUrl;
+
     @Bean(name = "productApiWebClient")
     WebClient productApiWebClient() {
         return WebClient.create(productApiUrl);
@@ -30,5 +33,10 @@ public class WebClientConfig {
     @Bean(name = "orderApiWebClient")
     WebClient orderApiWebClient() {
         return WebClient.create(orderApiUrl);
+    }
+
+    @Bean(name = "notificationApiWebClient")
+    WebClient notificationApiWebClient() {
+        return WebClient.create(notificationApiUrl);
     }
 }
