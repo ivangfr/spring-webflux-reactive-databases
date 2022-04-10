@@ -146,17 +146,23 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     |----------------------|-------------------------------------------------------------------|
     | `MYSQL_HOST`         | Specify host of the `MySQL` database to use (default `localhost`) |
     | `MYSQL_PORT`         | Specify port of the `MySQL` database to use (default `3306`)      |
+    | `CUSTOMER_API_HOST`  | Specify host of the `customer-api` to use (default `localhost`)   |
+    | `CUSTOMER_API_PORT`  | Specify port of the `customer-api` to use (default `9081`)        |
+    | `ORDER_API_HOST`     | Specify host of the `order-api` to use (default `localhost`)      |
+    | `ORDER_API_PORT`     | Specify port of the `order-api` to use (default `9082`)           |
 
   - **client-shell**
 
-    | Environment Variable | Description                                                           |
-    |----------------------|-----------------------------------------------------------------------|
-    | `PRODUCT_API_HOST`   | Specify host of the `product-api` to use (default `localhost`)        |
-    | `PRODUCT_API_PORT`   | Specify port of the `product-api` to use (default `9080`)             |
-    | `CUSTOMER_API_HOST`  | Specify host of the `customer-api` to use (default `localhost`)       |
-    | `CUSTOMER_API_PORT`  | Specify port of the `customer-api` to use (default `9081`)            |
-    | `ORDER_API_HOST`     | Specify host of the `order-api` to use (default `localhost`)          |
-    | `ORDER_API_PORT`     | Specify port of the `order-api` to use (default `9082`)               |
+    | Environment Variable    | Description                                                         |
+    |-------------------------|---------------------------------------------------------------------|
+    | `PRODUCT_API_HOST`      | Specify host of the `product-api` to use (default `localhost`)      |
+    | `PRODUCT_API_PORT`      | Specify port of the `product-api` to use (default `9080`)           |
+    | `CUSTOMER_API_HOST`     | Specify host of the `customer-api` to use (default `localhost`)     |
+    | `CUSTOMER_API_PORT`     | Specify port of the `customer-api` to use (default `9081`)          |
+    | `ORDER_API_HOST`        | Specify host of the `order-api` to use (default `localhost`)        |
+    | `ORDER_API_PORT`        | Specify port of the `order-api` to use (default `9082`)             |
+    | `NOTIFICATION_API_HOST` | Specify host of the `notification-api` to use (default `localhost`) |
+    | `NOTIFICATION_API_PORT` | Specify port of the `notification-api` to use (default `9083`)      |
 
 - ### Start Docker Containers
 
