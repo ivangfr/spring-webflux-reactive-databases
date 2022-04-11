@@ -4,6 +4,7 @@ import com.mycompany.orderapi.client.CustomerApiClient;
 import com.mycompany.orderapi.client.ProductApiClient;
 import com.mycompany.orderapi.client.dto.CustomerResponse;
 import com.mycompany.orderapi.client.dto.ProductResponse;
+import com.mycompany.orderapi.exception.CreateOrderException;
 import com.mycompany.orderapi.model.Order;
 import com.mycompany.orderapi.model.Product;
 import com.mycompany.orderapi.rest.dto.CreateOrderRequest;
@@ -14,8 +15,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,23 +38,24 @@ public abstract class OrderMapper {
     @Mapping(source = "key.created", target = "created")
     public abstract OrderResponse toOrderResponse(Order order);
 
+    @Mapping(target = "customer", ignore = true)
     @Mapping(source = "key.orderId", target = "orderId")
     @Mapping(source = "key.created", target = "created")
     public abstract OrderDetailedResponse toOrderDetailedResponse(Order order);
 
     public abstract OrderDetailedResponse.CustomerDto toOrderDetailedResponseCustomerDto(CustomerResponse customerResponse);
 
+    @Mapping(target = "name", ignore = true)
+    @Mapping(target = "price", ignore = true)
     public abstract OrderDetailedResponse.ProductDto toOrderDetailedResponseProductDto(Product product);
 
+    @Mapping(target = "quantity", ignore = true)
     public abstract void updateOrderDetailedResponseProductDtoFromProductResponse(
             ProductResponse productResponse, @MappingTarget OrderDetailedResponse.ProductDto orderDetailedResponseProductDto);
 
     public Mono<Order> toOrder(CreateOrderRequest createOrderRequest) {
         return validateCustomerAndProducts(createOrderRequest)
                 .flatMap(isValid -> {
-                    if (!isValid) {
-                        return Mono.empty();
-                    }
                     Order order = new Order();
                     order.setCustomerId(createOrderRequest.getCustomerId());
                     Set<Product> products = createOrderRequest.getProducts()
@@ -65,15 +69,16 @@ public abstract class OrderMapper {
 
     private Mono<Boolean> validateCustomerAndProducts(CreateOrderRequest createOrderRequest) {
         Mono<Boolean> customerResponseMono = customerApiClient.getCustomer(createOrderRequest.getCustomerId())
-                .onErrorReturn(new CustomerResponse())
-                .map(customerResponse -> customerResponse.getId() != null);
+                .onErrorMap(e -> new CreateOrderException(
+                        String.format("Unable to get customer id %s", createOrderRequest.getCustomerId())))
+                .map(Objects::nonNull);
 
-        Mono<Boolean> productsResponseMono = createOrderRequest.getProducts()
-                .parallelStream()
-                .map(productDto -> productApiClient.getProduct(productDto.getId())
-                        .onErrorReturn(new ProductResponse())
-                        .flatMap(productResponse -> Mono.just(productResponse.getId() != null)))
-                .reduce(Mono.just(true), (b1Mono, b2Mono) -> Mono.zip(b1Mono, b2Mono).map(tuple2 -> tuple2.getT1() && tuple2.getT2()));
+        Mono<Boolean> productsResponseMono = Flux.fromIterable(createOrderRequest.getProducts())
+                .flatMap(productDto -> productApiClient.getProduct(productDto.getId())
+                        .onErrorMap(e -> new CreateOrderException(
+                                String.format("Unable to get product id %s", productDto.getId())))
+                        .map(Objects::nonNull))
+                .reduce(true, (b1, b2) -> b1 && b2);
 
         return Mono.zip(customerResponseMono, productsResponseMono)
                 .map(tuple2 -> tuple2.getT1() && tuple2.getT2());

@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class SendNotificationException extends RuntimeException {
+public class CreateNotificationException extends RuntimeException {
 
-    public SendNotificationException() {
-        super("Invalid order id or customer doesn't have email.");
+    public CreateNotificationException(String message) {
+        super(message);
     }
 }

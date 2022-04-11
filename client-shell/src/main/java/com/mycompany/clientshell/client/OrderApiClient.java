@@ -3,7 +3,6 @@ package com.mycompany.clientshell.client;
 import com.mycompany.clientshell.dto.CreateOrderRequest;
 import com.mycompany.clientshell.dto.OrderDetailedResponse;
 import com.mycompany.clientshell.dto.OrderResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -17,9 +16,11 @@ import java.util.UUID;
 @Component
 public class OrderApiClient {
 
-    @Autowired
-    @Qualifier("orderApiWebClient")
-    private WebClient webClient;
+    private final WebClient webClient;
+
+    public OrderApiClient(@Qualifier("orderApiWebClient") WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     public Mono<OrderResponse> getOrder(UUID id) {
         return webClient.get()

@@ -2,7 +2,6 @@ package com.mycompany.clientshell.client;
 
 import com.mycompany.clientshell.dto.CreateCustomerRequest;
 import com.mycompany.clientshell.dto.CustomerResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -13,9 +12,11 @@ import reactor.core.publisher.Mono;
 @Component
 public class CustomerApiClient {
 
-    @Autowired
-    @Qualifier("customerApiWebClient")
-    private WebClient webClient;
+    private final WebClient webClient;
+
+    public CustomerApiClient(@Qualifier("customerApiWebClient") WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     public Mono<CustomerResponse> getCustomer(String id) {
         return webClient.get()

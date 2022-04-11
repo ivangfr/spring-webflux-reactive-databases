@@ -10,10 +10,11 @@ import com.mycompany.orderapi.model.Order;
 import com.mycompany.orderapi.rest.dto.OrderDetailedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -24,32 +25,28 @@ public class OrderDetailCollector {
     private final OrderMapper orderMapper;
 
     @LogInputAndExecutionTime
-    public OrderDetailedResponse getOrderDetailed(Order order) {
-        CompletableFuture<OrderDetailedResponse.CustomerDto> customerCompletableFuture =
-                CompletableFuture.supplyAsync(() -> customerApiClient.getCustomer(order.getCustomerId())
-                        .onErrorReturn(new CustomerResponse())
-                        .map(orderMapper::toOrderDetailedResponseCustomerDto)
-                        .block());
+    public Mono<OrderDetailedResponse> getOrderDetailed(Order order) {
+        Mono<OrderDetailedResponse.CustomerDto> customerDtoMono = customerApiClient.getCustomer(order.getCustomerId())
+                .onErrorReturn(new CustomerResponse())
+                .map(orderMapper::toOrderDetailedResponseCustomerDto);
 
-        CompletableFuture<Set<OrderDetailedResponse.ProductDto>> productsCompletableFuture =
-                CompletableFuture.supplyAsync(() -> order.getProducts()
-                        .parallelStream()
-                        .map(product -> {
+        Mono<Set<OrderDetailedResponse.ProductDto>> setProductDtoMono = Flux.fromIterable(order.getProducts())
+                .map(product -> productApiClient.getProduct(product.getId())
+                        .onErrorReturn(new ProductResponse())
+                        .map(productResponse -> {
                             OrderDetailedResponse.ProductDto orderDetailedResponseProductDto = orderMapper.toOrderDetailedResponseProductDto(product);
-                            ProductResponse productResponse = productApiClient.getProduct(product.getId())
-                                    .onErrorReturn(new ProductResponse())
-                                    .block();
                             orderMapper.updateOrderDetailedResponseProductDtoFromProductResponse(productResponse, orderDetailedResponseProductDto);
                             return orderDetailedResponseProductDto;
-                        }).collect(Collectors.toSet()));
+                        })
+                        .block())
+                .collect(HashSet::new, Set::add);
 
-        OrderDetailedResponse orderDetailedResponse = orderMapper.toOrderDetailedResponse(order);
-        CompletableFuture.allOf(customerCompletableFuture, productsCompletableFuture)
-                .thenAccept(aVoid -> {
-                    orderDetailedResponse.setCustomer(customerCompletableFuture.join());
-                    orderDetailedResponse.setProducts(productsCompletableFuture.join());
-                }).join();
-
-        return orderDetailedResponse;
+        return Mono.zip(customerDtoMono, setProductDtoMono)
+                .map(tuple2 -> {
+                    OrderDetailedResponse orderDetailedResponse = orderMapper.toOrderDetailedResponse(order);
+                    orderDetailedResponse.setCustomer(tuple2.getT1());
+                    orderDetailedResponse.setProducts(tuple2.getT2());
+                    return orderDetailedResponse;
+                });
     }
 }

@@ -1,10 +1,9 @@
 package com.mycompany.notificationapi.rest;
 
-import com.mycompany.notificationapi.exception.SendNotificationException;
 import com.mycompany.notificationapi.mapper.NotificationMapper;
 import com.mycompany.notificationapi.model.Notification;
-import com.mycompany.notificationapi.rest.dto.NotificationResponse;
 import com.mycompany.notificationapi.rest.dto.CreateNotificationRequest;
+import com.mycompany.notificationapi.rest.dto.NotificationResponse;
 import com.mycompany.notificationapi.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -46,7 +45,6 @@ public class NotificationController {
     @PostMapping
     public Mono<NotificationResponse> createNotification(@Valid @RequestBody CreateNotificationRequest createNotificationRequest) {
         return notificationMapper.toNotification(createNotificationRequest)
-                .switchIfEmpty(Mono.error(new SendNotificationException()))
                 .flatMap(notification -> notificationService.saveNotification(notification)
                         .map(notificationMapper::toNotificationResponse));
     }

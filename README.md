@@ -374,7 +374,3 @@ To remove all Docker images created by this project, go to a terminal and, insid
 ## References
 
 - https://projectreactor.io/docs/core/release/reference/
-
-## TODO
-
-In `OrderDetailCollector` class, try to use `Reactor` implementation (as done in `OrderMapper`) instead of the one using `CompletableFuture`.

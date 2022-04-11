@@ -1,6 +1,5 @@
 package com.mycompany.orderapi.rest;
 
-import com.mycompany.orderapi.exception.CreateOrderRequestInvalidException;
 import com.mycompany.orderapi.mapper.OrderMapper;
 import com.mycompany.orderapi.model.OrderKey;
 import com.mycompany.orderapi.rest.collector.OrderDetailCollector;
@@ -47,16 +46,14 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Mono<OrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
-        return orderMapper.toOrder(createOrderRequest)
-                .switchIfEmpty(Mono.error(new CreateOrderRequestInvalidException()))
-                .flatMap(order -> {
-                    order.setKey(new OrderKey(UUID.randomUUID(), LocalDateTime.now()));
-                    return orderService.saveOrder(order).map(orderMapper::toOrderResponse);
-                });
+        return orderMapper.toOrder(createOrderRequest).flatMap(order -> {
+            order.setKey(new OrderKey(UUID.randomUUID(), LocalDateTime.now()));
+            return orderService.saveOrder(order).map(orderMapper::toOrderResponse);
+        });
     }
 
     @GetMapping("/{orderId}/detailed")
     public Mono<OrderDetailedResponse> getOrderDetailed(@PathVariable UUID orderId) {
-        return orderService.validateAndGetOrder(orderId).map(orderDetailCollector::getOrderDetailed);
+        return orderService.validateAndGetOrder(orderId).flatMap(orderDetailCollector::getOrderDetailed);
     }
 }
