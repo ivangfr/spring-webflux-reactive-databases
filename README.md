@@ -264,7 +264,12 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     }
   }
   ```
-  
+
+- To create a notification to the order created above
+  ```
+  create-notification 5aaad64c-4e80-48e0-926d-8f1b7027955a
+  ```
+
 - To check how fast `order-api` get details about the customer and products of an order, create another order where `Customer A` order `50` random products
   ```
   create-order-random --customer-id 1 --num-products 50
@@ -345,7 +350,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 - **MySQL**
 
   ```
-  docker exec -it mysql mysql -uroot -psecret --database notificationdb
+  docker exec -it -e MYSQL_PWD=secret mysql mysql -uroot --database notificationdb
   SELECT * FROM notification;
   ```
   > Type `exit` to get out of `MySQL monitor`
