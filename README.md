@@ -12,31 +12,31 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
   `Spring Boot` Java Web application that exposes a REST API to manage `products`. It uses `MongoDB` as storage.
   
-  ![product-api-swagger](documentation/product-api-swagger.png)
+  ![product-api-swagger](documentation/product-api-swagger.jpeg)
 
 - ### customer-api
 
   `Spring Boot` Java Web application that exposes a REST API to manage `customers`. It uses `Postgres` as storage.
   
-  ![customer-api-swagger](documentation/customer-api-swagger.png)
+  ![customer-api-swagger](documentation/customer-api-swagger.jpeg)
 
 - ### order-api
 
   `Spring Boot` Web Java application that exposes a REST API to manage `orders`. It uses `Cassandra` as storage. In order to get more information about an `order`, i.e, the `name` of the customer who placed it or the `name` or `price` of the products in the order, `order-api` uses [`WebClient`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-client) and [`CompletableFuture`](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) to fetch this information from `customer-api` and `product-api`.
   
-  ![order-api-swagger](documentation/order-api-swagger.png)
+  ![order-api-swagger](documentation/order-api-swagger.jpeg)
 
 - ### notification-api
 
   `Spring Boot` Web Java application that exposes a REST API to manage `notifications`.
 
-  ![notification-api-swagger](documentation/notification-api-swagger.png)
+  ![notification-api-swagger](documentation/notification-api-swagger.jpeg)
 
 - ### client-shell
 
   `Spring Boot` Shell Java application that has a couple of commands to interact with `product-api`, `customer-api`, `order-api` and `notification-api`. The picture below show those commands.
 
-  ![client-shell](documentation/client-shell.png)
+  ![client-shell](documentation/client-shell.jpeg)
   
 ## Prerequisites
 
@@ -174,12 +174,12 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     
 ## Application's URL
 
-| Application      | URL                                   |
-|------------------|---------------------------------------|
-| product-api      | http://localhost:9080/swagger-ui.html |
-| customer-api     | http://localhost:9081/swagger-ui.html |
-| order-api        | http://localhost:9082/swagger-ui.html |
-| notification-api | http://localhost:9083/swagger-ui.html |
+| Application      | URL                                         |
+|------------------|---------------------------------------------|
+| product-api      | http://localhost:9080/swagger-ui/index.html |
+| customer-api     | http://localhost:9081/swagger-ui/index.html |
+| order-api        | http://localhost:9082/swagger-ui/index.html |
+| notification-api | http://localhost:9083/swagger-ui/index.html |
 
 ## Playing around
 

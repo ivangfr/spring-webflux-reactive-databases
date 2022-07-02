@@ -15,7 +15,7 @@
 
     <properties>
         <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
-        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <springdoc-openapi.version>1.6.9</springdoc-openapi.version>
     </properties>

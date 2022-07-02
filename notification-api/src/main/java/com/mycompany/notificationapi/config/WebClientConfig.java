@@ -15,12 +15,12 @@ public class WebClientConfig {
     private String customerApiUrl;
 
     @Bean(name = "orderApiWebClient")
-    WebClient orderApiWebClient() {
+    public WebClient orderApiWebClient() {
         return WebClient.create(orderApiUrl);
     }
 
     @Bean(name = "customerApiWebClient")
-    WebClient customerApiWebClient() {
+    public WebClient customerApiWebClient() {
         return WebClient.create(customerApiUrl);
     }
 }

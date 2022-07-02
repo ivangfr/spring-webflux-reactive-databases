@@ -21,22 +21,22 @@ public class WebClientConfig {
     private String notificationApiUrl;
 
     @Bean(name = "productApiWebClient")
-    WebClient productApiWebClient() {
+    public WebClient productApiWebClient() {
         return WebClient.create(productApiUrl);
     }
 
     @Bean(name = "customerApiWebClient")
-    WebClient customerApiWebClient() {
+    public WebClient customerApiWebClient() {
         return WebClient.create(customerApiUrl);
     }
 
     @Bean(name = "orderApiWebClient")
-    WebClient orderApiWebClient() {
+    public WebClient orderApiWebClient() {
         return WebClient.create(orderApiUrl);
     }
 
     @Bean(name = "notificationApiWebClient")
-    WebClient notificationApiWebClient() {
+    public WebClient notificationApiWebClient() {
         return WebClient.create(notificationApiUrl);
     }
 }
