@@ -183,7 +183,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Playing around
 
-> **Important:** the ids shown below will be different when you run it
+> **Warning**: the ids shown below will be different when you run it
 
 - In `client-shell` terminal, import some products and customers by running the following command
   - If you are running using `Maven`
@@ -228,14 +228,14 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   It should return
   ```
   {
-    "orderId": "5aaad64c-4e80-48e0-926d-8f1b7027955a",
-    "status": "OPEN",
-    "created": "2020-06-12T22:09:59.558232",
+    "orderId":"5aaad64c-4e80-48e0-926d-8f1b7027955a",
+    "status":"OPEN",
+    "created":"2020-06-12T22:09:59.558232",
     "products": [
-      {"id": "5ee3ee31b460d868af49f389","quantity": 1},
-      {"id": "5ee3ee32b460d868af49f38a","quantity": 2}
+      {"id":"5ee3ee31b460d868af49f389", "quantity":1},
+      {"id":"5ee3ee32b460d868af49f38a", "quantity":2}
     ],
-    "customerId": "1"
+    "customerId":"1"
   }
   ```
   
@@ -247,20 +247,20 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   It should return
   ```
   {
-    "orderId": "5aaad64c-4e80-48e0-926d-8f1b7027955a",
-    "status": "OPEN",
-    "created": "2020-06-12T22:09:59.558",
+    "orderId":"5aaad64c-4e80-48e0-926d-8f1b7027955a",
+    "status":"OPEN",
+    "created":"2020-06-12T22:09:59.558",
     "products": [
-      {"id": "5ee3ee32b460d868af49f38a","name": "product-2","quantity": 2,"price": 299.99},
-      {"id": "5ee3ee31b460d868af49f389","name": "product-1","quantity": 1,"price": 199.99}
+      {"id":"5ee3ee32b460d868af49f38a", "name":"product-2", "quantity":2, "price":299.99},
+      {"id":"5ee3ee31b460d868af49f389", "name":"product-1", "quantity":1, "price":199.99}
     ],
     "customer": {
-      "id": "1",
-      "name": "Customer A",
-      "email": "customer.a@test.com",
-      "city": "Berlin",
-      "street": "NYC Strasse",
-      "number": "123"
+      "id":"1",
+      "name":"Customer A",
+      "email":"customer.a@test.com",
+      "city":"Berlin",
+      "street":"NYC Strasse",
+      "number":"123"
     }
   }
   ```
@@ -278,15 +278,15 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   It should return
   ```
   {
-    "orderId": "87133d36-67f0-4388-b15b-7d66ad739374",
-    "status": "OPEN",
-    "created": "2020-06-12T22:14:08.342338",
+    "orderId":"87133d36-67f0-4388-b15b-7d66ad739374",
+    "status":"OPEN",
+    "created":"2020-06-12T22:14:08.342338",
     "products": [
-      {"id": "5ee3ee32b460d868af49f38a","quantity": 4},
+      {"id":"5ee3ee32b460d868af49f38a", "quantity":4},
       ...
-      {"id": "5ee3ee32b460d868af49f396","quantity": 3}
+      {"id":"5ee3ee32b460d868af49f396", "quantity":3}
     ],
-    "customerId": "1"
+    "customerId":"1"
   }
   ```
   
@@ -298,20 +298,20 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   It will return something like
   ```
   {
-    "orderId": "87133d36-67f0-4388-b15b-7d66ad739374",
-    "status": "OPEN",
-    "created": "2020-06-12T22:14:08.342338",
+    "orderId":"87133d36-67f0-4388-b15b-7d66ad739374",
+    "status":"OPEN",
+    "created":"2020-06-12T22:14:08.342338",
     "products": [
-      {"id": "5ee3ee32b460d868af49f395","name": "product-13","quantity": 4,"price": 1399.99},
+      {"id":"5ee3ee32b460d868af49f395", "name":"product-13", "quantity":4, "price":1399.99},
       ...
     ],
     "customer": {
-      "id": "1",
-      "name": "Customer A",
-      "email": "customer.a@test.com",
-      "city": "Berlin",
-      "street": "NYC Strasse",
-      "number": "123"
+      "id":"1",
+      "name":"Customer A",
+      "email":"customer.a@test.com",
+      "city":"Berlin",
+      "street":"NYC Strasse",
+      "number":"123"
     }
   }
   
