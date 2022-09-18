@@ -2,19 +2,22 @@ package com.ivanfranchin.clientshell.command;
 
 import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.NotificationApiClient;
-import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @ShellComponent
 public class NotificationShellCommands {
 
     private final NotificationApiClient notificationApiClient;
     private final Gson gson;
+
+    public NotificationShellCommands(NotificationApiClient notificationApiClient, Gson gson) {
+        this.notificationApiClient = notificationApiClient;
+        this.gson = gson;
+    }
 
     @ShellMethod("Get notification by id")
     public String getNotification(String id) {

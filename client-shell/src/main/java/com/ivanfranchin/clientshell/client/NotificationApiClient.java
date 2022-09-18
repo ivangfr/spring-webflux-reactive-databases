@@ -35,7 +35,7 @@ public class NotificationApiClient {
     public Mono<NotificationResponse> createNotification(String orderId) {
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(CreateNotificationRequest.of(orderId))
+                .bodyValue(new CreateNotificationRequest(orderId))
                 .retrieve()
                 .bodyToMono(NotificationResponse.class);
     }

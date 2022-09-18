@@ -33,7 +33,7 @@ public abstract class NotificationMapper {
                         .flatMap(customerResponse -> {
                             Notification notification = new Notification();
                             notification.setOrderId(createNotificationRequest.getOrderId());
-                            notification.setEmail(customerResponse.getEmail());
+                            notification.setEmail(customerResponse.email());
                             notification.setCreatedAt(LocalDateTime.now());
                             return Mono.just(notification);
                         }));

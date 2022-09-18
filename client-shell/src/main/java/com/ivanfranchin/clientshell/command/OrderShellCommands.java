@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.OrderApiClient;
 import com.ivanfranchin.clientshell.client.ProductApiClient;
 import com.ivanfranchin.clientshell.dto.CreateOrderRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
@@ -16,7 +15,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @ShellComponent
 public class OrderShellCommands {
 
@@ -24,6 +22,13 @@ public class OrderShellCommands {
     private final ProductApiClient productApiClient;
     private final Gson gson;
     private final Random random;
+
+    public OrderShellCommands(OrderApiClient orderApiClient, ProductApiClient productApiClient, Gson gson, Random random) {
+        this.orderApiClient = orderApiClient;
+        this.productApiClient = productApiClient;
+        this.gson = gson;
+        this.random = random;
+    }
 
     @ShellMethod("Get order by id")
     public String getOrder(UUID id) {
@@ -55,7 +60,7 @@ public class OrderShellCommands {
         return productApiClient.getProducts()
                 .toStream()
                 .limit(numProducts)
-                .map(productDto -> new CreateOrderRequest.ProductDto(productDto.getId(), getRandomQuantity()))
+                .map(productDto -> new CreateOrderRequest.ProductDto(productDto.id(), getRandomQuantity()))
                 .collect(Collectors.toSet());
     }
 

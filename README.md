@@ -40,7 +40,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
 ## Prerequisites
 
-- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
+- [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
 - [`Docker`](https://www.docker.com/)
 - [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
@@ -174,12 +174,12 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     
 ## Application's URL
 
-| Application      | URL                                         |
-|------------------|---------------------------------------------|
-| product-api      | http://localhost:9080/swagger-ui/index.html |
-| customer-api     | http://localhost:9081/swagger-ui/index.html |
-| order-api        | http://localhost:9082/swagger-ui/index.html |
-| notification-api | http://localhost:9083/swagger-ui/index.html |
+| Application      | URL                                   |
+|------------------|---------------------------------------|
+| product-api      | http://localhost:9080/swagger-ui.html |
+| customer-api     | http://localhost:9081/swagger-ui.html |
+| order-api        | http://localhost:9082/swagger-ui.html |
+| notification-api | http://localhost:9083/swagger-ui.html |
 
 ## Playing around
 
@@ -222,7 +222,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
   
 - Create an order where `Customer A` buys `1 unit` of `product-1` and `2 units` of `product-2`
   ```
-  create-order --customer-id 1 --products 5ee3ee31b460d868af49f389:1;5ee3ee32b460d868af49f38a:2
+  create-order --customerId 1 --products 5ee3ee31b460d868af49f389:1;5ee3ee32b460d868af49f38a:2
   ```
   
   It should return
@@ -272,7 +272,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 - To check how fast `order-api` get details about the customer and products of an order, create another order where `Customer A` order `50` random products
   ```
-  create-order-random --customer-id 1 --num-products 50
+  create-order-random --customerId 1 --numProducts 50
   ```
   
   It should return
@@ -332,8 +332,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 - **MongoDB**
 
   ```
-  docker exec -it mongodb mongo
-  use productdb
+  docker exec -it mongodb mongosh productdb
   db.products.find()
   ```
   > Type `exit` to get out of `MongoDB shell`

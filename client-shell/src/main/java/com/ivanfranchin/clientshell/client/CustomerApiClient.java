@@ -34,7 +34,7 @@ public class CustomerApiClient {
     public Mono<CustomerResponse> createCustomer(String name, String email, String city, String street, String number) {
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(CreateCustomerRequest.of(name, email, city, street, number))
+                .bodyValue(new CreateCustomerRequest(name, email, city, street, number))
                 .retrieve()
                 .bodyToMono(CustomerResponse.class);
     }

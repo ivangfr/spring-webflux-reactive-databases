@@ -37,7 +37,7 @@ public class ProductApiClient {
     public Mono<ProductResponse> createProduct(String name, BigDecimal price) {
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(CreateProductRequest.of(name, price))
+                .bodyValue(new CreateProductRequest(name, price))
                 .retrieve()
                 .bodyToMono(ProductResponse.class);
     }

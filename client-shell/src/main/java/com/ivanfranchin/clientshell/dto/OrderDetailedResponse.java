@@ -1,35 +1,15 @@
 package com.ivanfranchin.clientshell.dto;
 
-import lombok.Getter;
-
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
 
-@Getter
-public class OrderDetailedResponse {
+public record OrderDetailedResponse(UUID orderId, String status, String created, Set<ProductDto> products,
+                                    CustomerDto customer) {
 
-    private UUID orderId;
-    private String status;
-    private String created;
-    private Set<ProductDto> products;
-    private CustomerDto customer;
-
-    @Getter
-    public static class ProductDto {
-        private String id;
-        private String name;
-        private Integer quantity;
-        private BigDecimal price;
+    public record ProductDto(String id, String name, Integer quantity, BigDecimal price) {
     }
 
-    @Getter
-    public static class CustomerDto {
-        private String id;
-        private String name;
-        private String email;
-        private String city;
-        private String street;
-        private String number;
+    public record CustomerDto(String id, String name, String email, String city, String street, String number) {
     }
 }

@@ -45,7 +45,7 @@ public class OrderApiClient {
     public Mono<OrderResponse> createOrder(String customerId, Set<CreateOrderRequest.ProductDto> products) {
         return webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(CreateOrderRequest.of(customerId, products))
+                .bodyValue(new CreateOrderRequest(customerId, products))
                 .retrieve()
                 .bodyToMono(OrderResponse.class);
     }

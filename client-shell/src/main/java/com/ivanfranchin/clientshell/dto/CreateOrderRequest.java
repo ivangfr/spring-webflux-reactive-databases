@@ -1,18 +1,9 @@
 package com.ivanfranchin.clientshell.dto;
 
-import lombok.Value;
-
 import java.util.Set;
 
-@Value(staticConstructor = "of")
-public class CreateOrderRequest {
+public record CreateOrderRequest(String customerId, Set<ProductDto> products) {
 
-    String customerId;
-    Set<ProductDto> products;
-
-    @Value
-    public static class ProductDto {
-        String id;
-        Integer quantity;
+    public record ProductDto(String id, Integer quantity) {
     }
 }

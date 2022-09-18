@@ -2,19 +2,22 @@ package com.ivanfranchin.clientshell.command;
 
 import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.CustomerApiClient;
-import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import javax.validation.constraints.Email;
 import java.util.List;
 
-@RequiredArgsConstructor
 @ShellComponent
 public class CustomerShellCommands {
 
     private final CustomerApiClient customerApiClient;
     private final Gson gson;
+
+    public CustomerShellCommands(CustomerApiClient customerApiClient, Gson gson) {
+        this.customerApiClient = customerApiClient;
+        this.gson = gson;
+    }
 
     @ShellMethod("Get customer by id")
     public String getCustomer(String id) {
