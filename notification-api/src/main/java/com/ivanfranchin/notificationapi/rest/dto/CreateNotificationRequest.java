@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class CreateNotificationRequest {
 
-    @Schema(example = "123")
+    @Schema(example = "...")
     @NotBlank
     private String orderId;
 }

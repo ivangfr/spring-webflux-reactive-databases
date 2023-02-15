@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   mongodb:
-    image: mongo:6.0.1
+    image: mongo:6.0.4
     container_name: mongodb
     restart: unless-stopped
     ports:
@@ -12,7 +12,7 @@ services:
       test: "echo 'db.stats().ok' | mongosh localhost:27017/productdb --quiet"
 
   postgres:
-    image: postgres:14.5
+    image: postgres:15.2
     container_name: postgres
     restart: unless-stopped
     ports:
@@ -25,7 +25,7 @@ services:
       test: "pg_isready -U postgres"
 
   cassandra:
-    image: cassandra:4.0.6
+    image: cassandra:4.1.0
     container_name: cassandra
     restart: unless-stopped
     ports:
@@ -36,7 +36,7 @@ services:
       test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
 
   mysql:
-    image: mysql:8.0.30
+    image: mysql:8.0.32
     container_name: mysql
     ports:
       - "3306:3306"

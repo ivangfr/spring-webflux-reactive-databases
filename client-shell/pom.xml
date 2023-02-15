@@ -14,7 +14,9 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <spring-shell.version>2.1.1</spring-shell.version>
+        <!-- the version 2.1.6 that was supposed to be for spring-boot 2.7.8 is not calling
+             the converter CreateOrderProductConverter! -->
+        <spring-shell.version>2.1.5</spring-shell.version>
     </properties>
 
     <dependencies>
@@ -22,13 +24,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.shell</groupId>
             <artifactId>spring-shell-starter</artifactId>
-            <version>${spring-shell.version}</version>
         </dependency>
 
+        <!-- Gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

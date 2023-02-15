@@ -14,10 +14,10 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
-        <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
+        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <springdoc-openapi.version>1.6.11</springdoc-openapi.version>
+        <springdoc-openapi.version>1.6.14</springdoc-openapi.version>
+        <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
     </properties>
 
     <dependencies>
@@ -41,17 +41,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <dependency>
-            <groupId>dev.miku</groupId>
-            <artifactId>r2dbc-mysql</artifactId>
-            <version>${r2dbc-mysql.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
 
         <!-- MapStruct -->
         <dependency>
@@ -67,6 +56,17 @@
             <version>${springdoc-openapi.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.miku</groupId>
+            <artifactId>r2dbc-mysql</artifactId>
+            <version>${r2dbc-mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
