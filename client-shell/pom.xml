@@ -14,9 +14,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <!-- the version 2.1.6 that was supposed to be for spring-boot 2.7.8 is not calling
-             the converter CreateOrderProductConverter! -->
-        <spring-shell.version>2.1.5</spring-shell.version>
+        <spring-shell.version>3.0.0</spring-shell.version>
     </properties>
 
     <dependencies>

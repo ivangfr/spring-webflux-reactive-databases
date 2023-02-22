@@ -2,10 +2,10 @@ package com.ivanfranchin.clientshell.command;
 
 import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.CustomerApiClient;
+import jakarta.validation.constraints.Email;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
-import javax.validation.constraints.Email;
 import java.util.List;
 
 @ShellComponent

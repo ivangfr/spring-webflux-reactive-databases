@@ -1,11 +1,12 @@
 package com.ivanfranchin.productapi.rest;
 
-import com.ivanfranchin.productapi.service.ProductService;
 import com.ivanfranchin.productapi.mapper.ProductMapper;
 import com.ivanfranchin.productapi.model.Product;
 import com.ivanfranchin.productapi.rest.dto.CreateProductRequest;
 import com.ivanfranchin.productapi.rest.dto.ProductResponse;
 import com.ivanfranchin.productapi.rest.dto.UpdateProductRequest;
+import com.ivanfranchin.productapi.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController

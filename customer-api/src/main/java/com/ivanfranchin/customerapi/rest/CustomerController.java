@@ -1,11 +1,12 @@
 package com.ivanfranchin.customerapi.rest;
 
-import com.ivanfranchin.customerapi.model.Customer;
-import com.ivanfranchin.customerapi.rest.dto.CustomerResponse;
 import com.ivanfranchin.customerapi.mapper.CustomerMapper;
+import com.ivanfranchin.customerapi.model.Customer;
 import com.ivanfranchin.customerapi.rest.dto.CreateCustomerRequest;
+import com.ivanfranchin.customerapi.rest.dto.CustomerResponse;
 import com.ivanfranchin.customerapi.rest.dto.UpdateCustomerRequest;
 import com.ivanfranchin.customerapi.service.CustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController

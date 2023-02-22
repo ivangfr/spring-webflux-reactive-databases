@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.OrderApiClient;
 import com.ivanfranchin.clientshell.client.ProductApiClient;
 import com.ivanfranchin.clientshell.dto.CreateOrderRequest;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;

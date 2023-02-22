@@ -12,8 +12,6 @@ docker run -d --rm --name product-api \
   --health-cmd="curl -f http://localhost:9080/actuator/health || exit 1" \
   ivanfranchin/product-api:1.0.0
 
-wait_for_container_log "product-api" "Started"
-
 echo
 echo "Starting customer-api..."
 
@@ -23,8 +21,6 @@ docker run -d --rm --name customer-api \
   --network spring-webflux-reactive-databases_default \
   --health-cmd="curl -f http://localhost:9081/actuator/health || exit 1" \
   ivanfranchin/customer-api:1.0.0
-
-wait_for_container_log "customer-api" "Started"
 
 echo
 echo "Starting order-api..."
@@ -36,8 +32,6 @@ docker run -d --rm --name order-api \
   --health-cmd="curl -f http://localhost:9082/actuator/health || exit 1" \
   ivanfranchin/order-api:1.0.0
 
-wait_for_container_log "order-api" "Started"
-
 echo
 echo "Starting notification-api..."
 
@@ -48,4 +42,19 @@ docker run -d --rm --name notification-api \
   --health-cmd="curl -f http://localhost:9083/actuator/health || exit 1" \
   ivanfranchin/notification-api:1.0.0
 
+echo
+wait_for_container_log "product-api" "Started"
+
+echo
+wait_for_container_log "customer-api" "Started"
+
+echo
+wait_for_container_log "order-api" "Started"
+
+echo
 wait_for_container_log "notification-api" "Started"
+
+echo
+echo "APIs are Up and Running"
+echo "======================="
+echo

@@ -1,10 +1,11 @@
 package com.ivanfranchin.notificationapi.rest;
 
 import com.ivanfranchin.notificationapi.mapper.NotificationMapper;
-import com.ivanfranchin.notificationapi.rest.dto.NotificationResponse;
-import com.ivanfranchin.notificationapi.service.NotificationService;
 import com.ivanfranchin.notificationapi.model.Notification;
 import com.ivanfranchin.notificationapi.rest.dto.CreateNotificationRequest;
+import com.ivanfranchin.notificationapi.rest.dto.NotificationResponse;
+import com.ivanfranchin.notificationapi.service.NotificationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController

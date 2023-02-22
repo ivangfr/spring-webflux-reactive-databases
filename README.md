@@ -44,17 +44,14 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 - [`Docker`](https://www.docker.com/)
 - [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
-## Start Environment
+## Initialize Environment
 
 - Open a terminal and inside `spring-webflux-reactive-databases` root folder run
   ```
-  docker-compose up -d
+  ./init-environment.sh
   ```
 
-- Wait for Docker containers to be up and running. To check it, run
-  ```
-  docker-compose ps
-  ```
+- Wait for the script to finish
 
 ## Run applications with Maven
 
@@ -363,9 +360,9 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
     ```
     ./stop-apis.sh
     ```
-- To stop and remove docker-compose containers, network and volumes, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the command below
+- To stop and remove docker-compose containers, network and volumes, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the script below
   ```
-  docker-compose down -v
+  ./shutdown-environment.sh
   ```
 
 ## Cleanup
