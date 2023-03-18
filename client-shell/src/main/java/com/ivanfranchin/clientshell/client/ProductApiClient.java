@@ -2,50 +2,27 @@ package com.ivanfranchin.clientshell.client;
 
 import com.ivanfranchin.clientshell.dto.CreateProductRequest;
 import com.ivanfranchin.clientshell.dto.ProductResponse;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.DeleteExchange;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.math.BigDecimal;
+@HttpExchange("/api/products")
+public interface ProductApiClient {
 
-@Component
-public class ProductApiClient {
+    @GetExchange("/{id}")
+    Mono<ProductResponse> getProduct(@PathVariable String id);
 
-    private final WebClient webClient;
+    @GetExchange
+    Flux<ProductResponse> getProducts();
 
-    public ProductApiClient(@Qualifier("productApiWebClient") WebClient webClient) {
-        this.webClient = webClient;
-    }
+    @PostExchange
+    Mono<ProductResponse> createProduct(@RequestBody CreateProductRequest createProductRequest);
 
-    public Mono<ProductResponse> getProduct(String id) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
-                .retrieve()
-                .bodyToMono(ProductResponse.class);
-    }
-
-    public Flux<ProductResponse> getProducts() {
-        return webClient.get()
-                .retrieve()
-                .bodyToFlux(ProductResponse.class);
-
-    }
-
-    public Mono<ProductResponse> createProduct(String name, BigDecimal price) {
-        return webClient.post()
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new CreateProductRequest(name, price))
-                .retrieve()
-                .bodyToMono(ProductResponse.class);
-    }
-
-    public Mono<ProductResponse> deleteProduct(String id) {
-        return webClient.delete()
-                .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
-                .retrieve()
-                .bodyToMono(ProductResponse.class);
-    }
+    @DeleteExchange("/{id}")
+    Mono<ProductResponse> deleteProduct(@PathVariable String id);
 }

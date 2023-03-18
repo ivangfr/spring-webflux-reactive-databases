@@ -2,6 +2,7 @@ package com.ivanfranchin.clientshell.command;
 
 import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.NotificationApiClient;
+import com.ivanfranchin.clientshell.dto.CreateNotificationRequest;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -31,6 +32,7 @@ public class NotificationShellCommands {
 
     @ShellMethod("Create notification")
     public String createNotification(String orderId) {
-        return notificationApiClient.createNotification(orderId).map(gson::toJson).block();
+        CreateNotificationRequest createNotificationRequest = new CreateNotificationRequest(orderId);
+        return notificationApiClient.createNotification(createNotificationRequest).map(gson::toJson).block();
     }
 }

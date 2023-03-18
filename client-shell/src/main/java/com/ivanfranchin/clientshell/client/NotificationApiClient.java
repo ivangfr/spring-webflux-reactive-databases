@@ -2,41 +2,24 @@ package com.ivanfranchin.clientshell.client;
 
 import com.ivanfranchin.clientshell.dto.CreateNotificationRequest;
 import com.ivanfranchin.clientshell.dto.NotificationResponse;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Component
-public class NotificationApiClient {
+@HttpExchange("/api/notifications")
+public interface NotificationApiClient {
 
-    private final WebClient webClient;
+    @GetExchange("/{id}")
+    Mono<NotificationResponse> getNotification(@PathVariable String id);
 
-    public NotificationApiClient(@Qualifier("notificationApiWebClient") WebClient webClient) {
-        this.webClient = webClient;
-    }
+    @GetExchange
+    Flux<NotificationResponse> getNotifications(@RequestParam String orderId);
 
-    public Mono<NotificationResponse> getNotification(String id) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
-                .retrieve()
-                .bodyToMono(NotificationResponse.class);
-    }
-
-    public Flux<NotificationResponse> getNotifications(String orderId) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder.queryParam("orderId", orderId).build())
-                .retrieve()
-                .bodyToFlux(NotificationResponse.class);
-    }
-
-    public Mono<NotificationResponse> createNotification(String orderId) {
-        return webClient.post()
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new CreateNotificationRequest(orderId))
-                .retrieve()
-                .bodyToMono(NotificationResponse.class);
-    }
+    @PostExchange
+    Mono<NotificationResponse> createNotification(@RequestBody CreateNotificationRequest createNotificationRequest);
 }

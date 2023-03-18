@@ -48,12 +48,14 @@ public class OrderShellCommands {
     @ShellMethod("Create order.\n" +
             "\t\tExample: create-order --customer-id <customer-id> --products <product-1-id:quantity>[;<product-n-id:quantity>]")
     public String createOrder(String customerId, Set<CreateOrderRequest.ProductDto> products) {
-        return orderApiClient.createOrder(customerId, products).map(gson::toJson).block();
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, products);
+        return orderApiClient.createOrder(createOrderRequest).map(gson::toJson).block();
     }
 
     @ShellMethod("Create order with random products")
     public String createOrderRandom(String customerId, @Min(1) @Max(50) int numProducts) {
-        return orderApiClient.createOrder(customerId, getProducts(numProducts)).map(gson::toJson).block();
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, getProducts(numProducts));
+        return orderApiClient.createOrder(createOrderRequest).map(gson::toJson).block();
     }
 
     private Set<CreateOrderRequest.ProductDto> getProducts(int numProducts) {

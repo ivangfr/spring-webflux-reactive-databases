@@ -2,6 +2,7 @@ package com.ivanfranchin.clientshell.command;
 
 import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.CustomerApiClient;
+import com.ivanfranchin.clientshell.dto.CreateCustomerRequest;
 import jakarta.validation.constraints.Email;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -31,7 +32,8 @@ public class CustomerShellCommands {
 
     @ShellMethod("Create customer")
     public String createCustomer(String name, @Email String email, String city, String street, String number) {
-        return customerApiClient.createCustomer(name, email, city, street, number).map(gson::toJson).block();
+        CreateCustomerRequest createCustomerRequest = new CreateCustomerRequest(name, email, city, street, number);
+        return customerApiClient.createCustomer(createCustomerRequest).map(gson::toJson).block();
     }
 
     @ShellMethod("Delete customer")

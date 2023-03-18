@@ -2,6 +2,7 @@ package com.ivanfranchin.clientshell.command;
 
 import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.ProductApiClient;
+import com.ivanfranchin.clientshell.dto.CreateProductRequest;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
@@ -20,7 +21,9 @@ public class ProductShellCommands {
     }
 
     @ShellMethod("Get product by id")
-    public String getProduct(String id) { return productApiClient.getProduct(id).map(gson::toJson).block(); }
+    public String getProduct(String id) {
+        return productApiClient.getProduct(id).map(gson::toJson).block();
+    }
 
     @ShellMethod("Get all products")
     public List<String> getProducts() {
@@ -29,7 +32,8 @@ public class ProductShellCommands {
 
     @ShellMethod("Create product")
     public String createProduct(String name, BigDecimal price) {
-        return productApiClient.createProduct(name, price).map(gson::toJson).block();
+        CreateProductRequest createProductRequest = new CreateProductRequest(name, price);
+        return productApiClient.createProduct(createProductRequest).map(gson::toJson).block();
     }
 
     @ShellMethod("Delete product")

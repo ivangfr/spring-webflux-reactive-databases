@@ -2,47 +2,27 @@ package com.ivanfranchin.clientshell.client;
 
 import com.ivanfranchin.clientshell.dto.CreateCustomerRequest;
 import com.ivanfranchin.clientshell.dto.CustomerResponse;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.DeleteExchange;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Component
-public class CustomerApiClient {
+@HttpExchange("/api/customers")
+public interface CustomerApiClient {
 
-    private final WebClient webClient;
+    @GetExchange("/{id}")
+    Mono<CustomerResponse> getCustomer(@PathVariable String id);
 
-    public CustomerApiClient(@Qualifier("customerApiWebClient") WebClient webClient) {
-        this.webClient = webClient;
-    }
+    @GetExchange
+    Flux<CustomerResponse> getCustomers();
 
-    public Mono<CustomerResponse> getCustomer(String id) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
-                .retrieve()
-                .bodyToMono(CustomerResponse.class);
-    }
+    @PostExchange
+    Mono<CustomerResponse> createCustomer(@RequestBody CreateCustomerRequest createCustomerRequest);
 
-    public Flux<CustomerResponse> getCustomers() {
-        return webClient.get()
-                .retrieve()
-                .bodyToFlux(CustomerResponse.class);
-    }
-
-    public Mono<CustomerResponse> createCustomer(String name, String email, String city, String street, String number) {
-        return webClient.post()
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new CreateCustomerRequest(name, email, city, street, number))
-                .retrieve()
-                .bodyToMono(CustomerResponse.class);
-    }
-
-    public Mono<CustomerResponse> deleteCustomer(String id) {
-        return webClient.delete()
-                .uri(uriBuilder -> uriBuilder.path("/{id}").build(id))
-                .retrieve()
-                .bodyToMono(CustomerResponse.class);
-    }
+    @DeleteExchange("/{id}")
+    Mono<CustomerResponse> deleteCustomer(@PathVariable String id);
 }
