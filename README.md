@@ -4,7 +4,7 @@ The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.
 
 ## Project Architecture
 
-![project-diagram](documentation/project-diagram.png)
+![project-diagram](documentation/project-diagram.jpeg)
 
 ## Applications
 
