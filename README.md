@@ -46,7 +46,6 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
 - [`Docker`](https://www.docker.com/)
-- [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
 ## Initialize Environment
 
@@ -364,7 +363,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
     ```
     ./stop-apis.sh
     ```
-- To stop and remove docker-compose containers, network and volumes, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the script below
+- To stop and remove the database containers, network and volumes, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the script below
   ```
   ./shutdown-environment.sh
   ```
