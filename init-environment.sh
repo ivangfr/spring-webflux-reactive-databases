@@ -2,10 +2,10 @@
 
 source scripts/my-functions.sh
 
-CASSANDRA_VERSION="4.1.0"
-MYSQL_VERSION="8.0.32"
-MONGO_VERSION="6.0.4"
-POSTGRES_VERSION="15.2"
+CASSANDRA_VERSION="4.1.1"
+MYSQL_VERSION="8.0.33"
+MONGO_VERSION="6.0.6"
+POSTGRES_VERSION="15.3"
 
 echo
 echo "Starting environment"
@@ -19,10 +19,11 @@ docker network create spring-webflux-reactive-databases_default
 echo
 echo "Starting Cassandra"
 echo "------------------"
-docker run -d --rm --name cassandra \
+docker run -d --name cassandra \
   -p 9042:9042 \
   -p 7199:7199 \
   -p 9160:9160 \
+  --restart=unless-stopped \
   --network=spring-webflux-reactive-databases_default \
   --health-cmd="cqlsh < /dev/null" \
   cassandra:${CASSANDRA_VERSION}
