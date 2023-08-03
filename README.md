@@ -2,6 +2,10 @@
 
 The goal of this project is to play with [`Spring WebFlux`](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html) both on client and server side. For it, we will implement [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Java Web applications (`product-api`, `customer-api`, `order-api`, `notification-api` and `client-shell`) and use different databases like [`Cassandra`](https://cassandra.apache.org/), [`MongoDB`](https://www.mongodb.com/), [`Postgres`](https://www.postgresql.org/) and [`MySQL`](https://www.mysql.com/).
 
+## Proof-of-Concepts & Articles
+
+On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-Concepts (PoCs) and articles. You can easily search for the technology you are interested in by using the filter. Who knows, perhaps I have already implemented a PoC or written an article about what you are looking for.
+
 ## Project Architecture
 
 ![project-diagram](documentation/project-diagram.jpeg)
