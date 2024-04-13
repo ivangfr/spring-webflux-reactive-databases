@@ -20,7 +20,7 @@ public class NotificationApiClientConfig {
                 .baseUrl(notificationApiUrl)
                 .build();
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
-                .builder(WebClientAdapter.forClient(webClient))
+                .builderFor(WebClientAdapter.create(webClient))
                 .build();
         return factory.createClient(NotificationApiClient.class);
     }

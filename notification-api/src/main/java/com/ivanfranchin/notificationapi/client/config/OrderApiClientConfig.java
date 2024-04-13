@@ -20,7 +20,7 @@ public class OrderApiClientConfig {
                 .baseUrl(orderApiUrl)
                 .build();
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
-                .builder(WebClientAdapter.forClient(webClient))
+                .builderFor(WebClientAdapter.create(webClient))
                 .build();
         return factory.createClient(OrderApiClient.class);
     }

@@ -20,7 +20,7 @@ public class ProductApiClientConfig {
                 .baseUrl(productApiUrl)
                 .build();
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
-                .builder(WebClientAdapter.forClient(webClient))
+                .builderFor(WebClientAdapter.create(webClient))
                 .build();
         return factory.createClient(ProductApiClient.class);
     }

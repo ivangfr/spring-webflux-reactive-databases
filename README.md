@@ -221,6 +221,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   ```
   
 - Create an order where `Customer A` buys `1 unit` of `product-1` and `2 units` of `product-2`
+  > **Warning**: the product ids informed here are just a sample. You will have different ones.
   ```
   create-order --customerId 1 --products 5ee3ee31b460d868af49f389:1;5ee3ee32b460d868af49f38a:2
   ```

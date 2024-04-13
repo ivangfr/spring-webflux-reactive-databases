@@ -2,10 +2,10 @@
 
 source scripts/my-functions.sh
 
-CASSANDRA_VERSION="4.1.1"
-MYSQL_VERSION="8.0.33"
-MONGO_VERSION="6.0.6"
-POSTGRES_VERSION="15.3"
+CASSANDRA_VERSION="4.1.3"
+MYSQL_VERSION="8.3.0"
+MONGO_VERSION="7.0.6"
+POSTGRES_VERSION="16.1"
 
 echo
 echo "Starting environment"
