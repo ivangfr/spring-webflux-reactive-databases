@@ -72,9 +72,6 @@ wait_for_container_log "mongodb" "Waiting for connections"
 echo
 wait_for_container_log "mysql" "port: 3306"
 
-MYSQL_PWD=secret
-docker exec -i -e MYSQL_PWD=$MYSQL_PWD mysql mysql -uroot notificationdb < notification-api/src/main/resources/db-schema.sql
-
 echo
 wait_for_container_log "cassandra" "Created default superuser role"
 
