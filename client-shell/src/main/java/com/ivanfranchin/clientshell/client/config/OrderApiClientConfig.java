@@ -15,10 +15,8 @@ public class OrderApiClientConfig {
     private String orderApiUrl;
 
     @Bean
-    public OrderApiClient orderApiClient() {
-        WebClient webClient = WebClient.builder()
-                .baseUrl(orderApiUrl)
-                .build();
+    public OrderApiClient orderApiClient(WebClient.Builder builder) {
+        WebClient webClient = builder.baseUrl(orderApiUrl).build();
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
                 .builderFor(WebClientAdapter.create(webClient))
                 .build();
