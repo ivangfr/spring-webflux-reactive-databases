@@ -108,14 +108,9 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   
   - In a terminal, make sure you are in `spring-webflux-reactive-databases` root folder
   - Run the following script to build the Docker images
-    - JVM
-      ```
-      ./docker-build.sh
-      ```
-    - Native (it's not implemented yet)
-      ```
-      ./docker-build.sh native
-      ```
+    ```
+    ./docker-build.sh
+    ```
 
 - ### Environment Variables
 
@@ -196,7 +191,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
     ```
   - If you are running as Docker container
     ```
-    script /app/resources/samples.txt
+    script /workspace/BOOT-INF/classes/samples.txt
     ```
     
 - Get all customer
