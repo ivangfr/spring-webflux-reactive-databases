@@ -17,8 +17,27 @@ CLIENT_SHELL_DOCKER_IMAGE_NAME="${DOCKER_IMAGE_PREFIX}/${CLIENT_SHELL_APP_NAME}:
 
 SKIP_TESTS="true"
 
-./mvnw clean spring-boot:build-image --projects "$PRODUCT_API_APP_NAME" -DskipTests="$SKIP_TESTS" -Dspring-boot.build-image.imageName="$PRODUCT_API_DOCKER_IMAGE_NAME"
-./mvnw clean spring-boot:build-image --projects "$CUSTOMER_API_APP_NAME" -DskipTests="$SKIP_TESTS" -Dspring-boot.build-image.imageName="$CUSTOMER_API_DOCKER_IMAGE_NAME"
-./mvnw clean spring-boot:build-image --projects "$ORDER_API_APP_NAME" -DskipTests="$SKIP_TESTS" -Dspring-boot.build-image.imageName="$ORDER_API_DOCKER_IMAGE_NAME"
-./mvnw clean spring-boot:build-image --projects "$NOTIFICATION_API_APP_NAME" -DskipTests="$SKIP_TESTS" -Dspring-boot.build-image.imageName="$NOTIFICATION_API_DOCKER_IMAGE_NAME"
-./mvnw clean spring-boot:build-image --projects "$CLIENT_SHELL_APP_NAME" -DskipTests="$SKIP_TESTS" -Dspring-boot.build-image.imageName="$CLIENT_SHELL_DOCKER_IMAGE_NAME"
+./mvnw clean spring-boot:build-image \
+--projects "$PRODUCT_API_APP_NAME" \
+-DskipTests="$SKIP_TESTS" \
+-Dspring-boot.build-image.imageName="$PRODUCT_API_DOCKER_IMAGE_NAME"
+
+./mvnw clean spring-boot:build-image \
+--projects "$CUSTOMER_API_APP_NAME" \
+-DskipTests="$SKIP_TESTS" \
+-Dspring-boot.build-image.imageName="$CUSTOMER_API_DOCKER_IMAGE_NAME"
+
+./mvnw clean spring-boot:build-image \
+--projects "$ORDER_API_APP_NAME" \
+-DskipTests="$SKIP_TESTS" \
+-Dspring-boot.build-image.imageName="$ORDER_API_DOCKER_IMAGE_NAME"
+
+./mvnw clean spring-boot:build-image \
+--projects "$NOTIFICATION_API_APP_NAME" \
+-DskipTests="$SKIP_TESTS" \
+-Dspring-boot.build-image.imageName="$NOTIFICATION_API_DOCKER_IMAGE_NAME"
+
+./mvnw clean spring-boot:build-image \
+--projects "$CLIENT_SHELL_APP_NAME" \
+-DskipTests="$SKIP_TESTS" \
+-Dspring-boot.build-image.imageName="$CLIENT_SHELL_DOCKER_IMAGE_NAME"

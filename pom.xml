@@ -8,26 +8,28 @@
         <version>3.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
     <groupId>com.ivanfranchin</groupId>
     <artifactId>spring-webflux-reactive-databases</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>spring-webflux-reactive-databases</name>
     <description>Demo project for Spring Boot</description>
-
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
     <properties>
         <java.version>21</java.version>
-        <jdk-image.version>21.0.5</jdk-image.version>
     </properties>
-
-    <modules>
-        <module>order-api</module>
-        <module>product-api</module>
-        <module>customer-api</module>
-        <module>notification-api</module>
-        <module>client-shell</module>
-    </modules>
 
     <build>
         <plugins>
@@ -37,5 +39,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <modules>
+        <module>order-api</module>
+        <module>product-api</module>
+        <module>customer-api</module>
+        <module>notification-api</module>
+        <module>client-shell</module>
+    </modules>
 
 </project>
