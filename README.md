@@ -42,63 +42,63 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### client-shell
 
-  `Spring Boot` Shell Java application that has a couple of commands to interact with `product-api`, `customer-api`, `order-api` and `notification-api`. The picture below show those commands.
+  `Spring Boot` Shell Java application that has a couple of commands to interact with `product-api`, `customer-api`, `order-api` and `notification-api`. The picture below shows those commands.
 
   ![client-shell](documentation/client-shell.jpeg)
   
 ## Prerequisites
 
-- [`Java 21+`](https://www.oracle.com/java/technologies/downloads/#java21)
-- [`Docker`](https://www.docker.com/)
+- [`Java 21`](https://www.oracle.com/java/technologies/downloads/#java21) or higher;
+- - A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
 ## Initialize Environment
 
-- Open a terminal and inside `spring-webflux-reactive-databases` root folder run
-  ```
+- Open a terminal and inside the `spring-webflux-reactive-databases` root folder, run
+  ```bash
   ./init-environment.sh
   ```
 
-- Wait for the script to finish
+- Wait for the script to finish.
 
 ## Run applications with Maven
 
 - **product-api**
 
-  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
-  ```
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command
+  ```bash
   ./mvnw clean spring-boot:run --projects product-api
   ```
 
 - **customer-api**
 
-  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
-  ```
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command
+  ```bash
   ./mvnw clean spring-boot:run --projects customer-api
   ```
 
 - **order-api**
 
-  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command 
-  ```
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command 
+  ```bash
   ./mvnw clean spring-boot:run --projects order-api
   ```
 
 - **notification-api**
 
-  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command
-  ```
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command
+  ```bash
   ./mvnw clean spring-boot:run --projects notification-api
   ```
 
 - **client-shell**
 
-  Open a new terminal and, inside `spring-webflux-reactive-databases` root folder, run the following command to build the executable jar file
-  ```
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command to build the executable jar file
+  ```bash
   ./mvnw clean package --projects client-shell -DskipTests
   ```
 
-  To start `client-shell` run
-  ```
+  To start `client-shell`, run:
+  ```bash
   ./client-shell/target/client-shell-1.0.0.jar
   ```
 
@@ -106,10 +106,10 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### Build Docker Images
   
-  - In a terminal, make sure you are in `spring-webflux-reactive-databases` root folder
-  - Run the following script to build the Docker images
-    ```
-    ./docker-build.sh
+  - In a terminal, make sure you are in the `spring-webflux-reactive-databases` root folder/
+  - Run the following script to build the Docker images:
+    ```bash
+    ./build-docker-images.sh
     ```
 
 - ### Environment Variables
@@ -165,9 +165,9 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### Start Docker Containers
 
-  - In a terminal, make sure you are inside `spring-webflux-reactive-databases` root folder
-  - Run following command
-    ```
+  - In a terminal, make sure you are inside the `spring-webflux-reactive-databases` root folder.
+  - Run following command:
+    ```bash
     ./start-apis.sh && ./start-shell.sh
     ```
     
@@ -184,23 +184,23 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 > **Warning**: the ids shown below will be different when you run it
 
-- In `client-shell` terminal, import some products and customers by running the following command
-  - If you are running using `Maven`
-    ```
+- In `client-shell` terminal, import some products and customers by running the following command:
+  - If you are running using `Maven`:
+    ```bash
     script ../src/main/resources/samples.txt
     ```
-  - If you are running as Docker container
-    ```
+  - If you are running as Docker container:
+    ```bash
     script /workspace/BOOT-INF/classes/samples.txt
     ```
     
-- Get all customer
-  ```
+- Get all customers
+  ```bash
   get-customers
   ```
   
-  It should return
-  ```
+  It should return:
+  ```bash
   {"id":"1","name":"Customer A","email":"customer.a@test.com","city":"Berlin","street":"NYC Strasse","number":"123"}
   {"id":"2","name":"Customer B","email":"customer.b@test.com","city":"Berlin","street":"LA Strasse","number":"234"}
   {"id":"3","name":"Customer C","email":"customer.c@test.com","city":"Berlin","street":"DC Strasse","number":"345"}
@@ -208,12 +208,12 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   ```
   
 - Get all products
-  ```
+  ```bash
   get-products
   ```
   
-  It should return
-  ```
+  It should return:
+  ```bash
   {"id":"5ee3ee31b460d868af49f389","name":"product-1","price":199.99}
   {"id":"5ee3ee32b460d868af49f38a","name":"product-2","price":299.99}
   ...
@@ -221,12 +221,12 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   
 - Create an order where `Customer A` buys `1 unit` of `product-1` and `2 units` of `product-2`
   > **Warning**: the product ids informed here are just a sample. You will have different ones.
-  ```
+  ```bash
   create-order --customerId 1 --products 5ee3ee31b460d868af49f389:1;5ee3ee32b460d868af49f38a:2
   ```
   
-  It should return
-  ```
+  It should return:
+  ```bash
   {
     "orderId":"5aaad64c-4e80-48e0-926d-8f1b7027955a",
     "status":"OPEN",
@@ -240,12 +240,12 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   ```
   
 - Get details about the order created
-  ```
+  ```bash
   get-order-detailed 5aaad64c-4e80-48e0-926d-8f1b7027955a
   ```
   
-  It should return
-  ```
+  It should return:
+  ```bash
   {
     "orderId":"5aaad64c-4e80-48e0-926d-8f1b7027955a",
     "status":"OPEN",
@@ -265,17 +265,17 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   }
   ```
 
-- To create a notification to the order created above
-  ```
+- To create a notification for the order created above
+  ```bash
   create-notification 5aaad64c-4e80-48e0-926d-8f1b7027955a
   ```
 
 - To check how fast `order-api` get details about the customer and products of an order, create another order where `Customer A` order `50` random products
-  ```
+  ```bash
   create-order-random --customerId 1 --numProducts 50
   ```
   
-  It should return
+  It should return:
   ```
   {
     "orderId":"87133d36-67f0-4388-b15b-7d66ad739374",
@@ -290,13 +290,13 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   }
   ```
   
-- In another terminal, to get the details of the order previously created and the response time of this call, we are using `order-api`'s endpoint `GET /api/orders/{orderId}/detailed`
-  ```
+- In another terminal, to get the details of the previously created order and the response time of this call, use `order-api`'s endpoint `GET /api/orders/{orderId}/detailed`
+  ```bash
   curl -w "\n\nResponse Time: %{time_total}s" -s localhost:9082/api/orders/87133d36-67f0-4388-b15b-7d66ad739374/detailed
   ```
   
-  It will return something like
-  ```
+  It will return something like:
+  ```bash
   {
     "orderId":"87133d36-67f0-4388-b15b-7d66ad739374",
     "status":"OPEN",
@@ -322,7 +322,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **Cassandra**
 
-  ```
+  ```bash
   docker exec -it cassandra cqlsh
   USE mycompany;
   SELECT * FROM orders;
@@ -331,7 +331,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **MongoDB**
 
-  ```
+  ```bash
   docker exec -it mongodb mongosh productdb
   db.products.find()
   ```
@@ -339,7 +339,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **Postgres**
 
-  ```
+  ```bash
   docker exec -it postgres psql -U postgres -d customerdb
   \dt customer
   SELECT * FROM CUSTOMER;
@@ -348,7 +348,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **MySQL**
 
-  ```
+  ```bash
   docker exec -it -e MYSQL_PWD=secret mysql mysql -uroot --database notificationdb
   SELECT * FROM notification;
   ```
@@ -356,22 +356,22 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Shutdown
 
-- To stop `client-shell`, go to the terminal where it is running and type `exit`
-- To stop `product-api`, `customer-api` and `order-api` 
-  - If you start them with `Maven`, go to the terminals were they are running and press `Ctrl+C`
-  - If you start them as Docker containers, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the following script
-    ```
+- To stop `client-shell`, go to the terminal where it is running and type `exit`.
+- To stop `product-api`, `customer-api`, and `order-api`:
+  - If you start them with `Maven`, go to the terminals where they are running and press `Ctrl+C`.
+  - If you start them as Docker containers, go to a terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following script:
+    ```bash
     ./stop-apis.sh
     ```
-- To stop and remove the database containers, network and volumes, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the script below
-  ```
+- To stop and remove the database containers, network, and volumes, go to a terminal and, inside the `spring-webflux-reactive-databases` root folder, run the script below:
+  ```bash
   ./shutdown-environment.sh
   ```
 
 ## Cleanup
 
-To remove all Docker images created by this project, go to a terminal and, inside `spring-webflux-reactive-databases` root folder, run the following script
-```
+To remove all Docker images created by this project, go to a terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following script:
+```bash
 ./remove-docker-images.sh
 ```
 
