@@ -23,7 +23,7 @@ public class CassandraConfig {
     private String keyspaceName;
 
     @Bean
-    public CqlSessionFactoryBean session() {
+    CqlSessionFactoryBean session() {
         CqlSessionFactoryBean session = new CqlSessionFactoryBean();
         session.setContactPoints(contactPoints);
         session.setLocalDatacenter(localDatacenter);

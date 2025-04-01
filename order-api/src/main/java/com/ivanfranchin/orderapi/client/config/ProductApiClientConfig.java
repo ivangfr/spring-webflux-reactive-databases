@@ -15,7 +15,7 @@ public class ProductApiClientConfig {
     private String productApiUrl;
 
     @Bean
-    public ProductApiClient productApiClient(WebClient.Builder builder) {
+    ProductApiClient productApiClient(WebClient.Builder builder) {
         WebClient webClient = builder.baseUrl(productApiUrl).build();
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
                 .builderFor(WebClientAdapter.create(webClient))

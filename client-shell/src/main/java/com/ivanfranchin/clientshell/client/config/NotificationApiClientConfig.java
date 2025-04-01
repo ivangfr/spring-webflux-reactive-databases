@@ -15,7 +15,7 @@ public class NotificationApiClientConfig {
     private String notificationApiUrl;
 
     @Bean
-    public NotificationApiClient notificationApiClient(WebClient.Builder builder) {
+    NotificationApiClient notificationApiClient(WebClient.Builder builder) {
         WebClient webClient = builder.baseUrl(notificationApiUrl).build();
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
                 .builderFor(WebClientAdapter.create(webClient))

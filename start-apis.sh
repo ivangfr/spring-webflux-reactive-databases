@@ -9,7 +9,6 @@ docker run -d --rm --name product-api \
   -p 9080:9080 \
   -e MONGODB_HOST=mongodb \
   --network spring-webflux-reactive-databases_default \
-  --health-cmd='[ -z "$(echo "" > /dev/tcp/localhost/9080)" ] || exit 1' \
   ivanfranchin/product-api:1.0.0
 
 echo
@@ -19,7 +18,6 @@ docker run -d --rm --name customer-api \
   -p 9081:9081 \
   -e POSTGRES_HOST=postgres \
   --network spring-webflux-reactive-databases_default \
-  --health-cmd='[ -z "$(echo "" > /dev/tcp/localhost/9081)" ] || exit 1' \
   ivanfranchin/customer-api:1.0.0
 
 echo
@@ -29,7 +27,6 @@ docker run -d --rm --name order-api \
   -p 9082:9082 \
   -e CASSANDRA_HOST=cassandra -e PRODUCT_API_HOST=product-api -e CUSTOMER_API_HOST=customer-api \
   --network spring-webflux-reactive-databases_default \
-  --health-cmd='[ -z "$(echo "" > /dev/tcp/localhost/9082)" ] || exit 1' \
   ivanfranchin/order-api:1.0.0
 
 echo
@@ -39,7 +36,6 @@ docker run -d --rm --name notification-api \
   -p 9083:9083 \
   -e MYSQL_HOST=mysql -e ORDER_API_HOST=order-api -e CUSTOMER_API_HOST=customer-api \
   --network spring-webflux-reactive-databases_default \
-  --health-cmd='[ -z "$(echo "" > /dev/tcp/localhost/9083)" ] || exit 1' \
   ivanfranchin/notification-api:1.0.0
 
 echo
