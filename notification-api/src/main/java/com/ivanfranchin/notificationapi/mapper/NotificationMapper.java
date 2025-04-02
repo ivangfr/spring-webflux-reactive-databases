@@ -24,15 +24,15 @@ public abstract class NotificationMapper {
     public abstract NotificationResponse toNotificationResponse(Notification notification);
 
     public Mono<Notification> toNotification(CreateNotificationRequest createNotificationRequest) {
-        return orderApiClient.getOrder(createNotificationRequest.getOrderId())
+        return orderApiClient.getOrder(createNotificationRequest.orderId())
                 .onErrorMap(e -> new CreateNotificationException(
-                        String.format("Unable to get order id %s", createNotificationRequest.getOrderId())))
-                .flatMap(orderResponse -> customerApiClient.getCustomer(orderResponse.getCustomerId())
+                        String.format("Unable to get order id %s", createNotificationRequest.orderId())))
+                .flatMap(orderResponse -> customerApiClient.getCustomer(orderResponse.customerId())
                         .onErrorMap(e -> new CreateNotificationException(
-                                String.format("Unable to get customer id %s", createNotificationRequest.getOrderId())))
+                                String.format("Unable to get customer id %s", createNotificationRequest.orderId())))
                         .flatMap(customerResponse -> {
                             Notification notification = new Notification();
-                            notification.setOrderId(createNotificationRequest.getOrderId());
+                            notification.setOrderId(createNotificationRequest.orderId());
                             notification.setEmail(customerResponse.email());
                             notification.setCreatedAt(LocalDateTime.now());
                             return Mono.just(notification);

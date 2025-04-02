@@ -1,25 +1,15 @@
 package com.ivanfranchin.notificationapi.client.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
-public class OrderResponse {
+public record OrderResponse(UUID orderId, String status, LocalDateTime created, Set<ProductDto> products,
+                            String customerId) {
 
-    private UUID orderId;
-    private String status;
-    private LocalDateTime created;
-    private Set<ProductDto> products;
-    private String customerId;
-
-    @Data
     @Schema(name = "OrderProductDto")
-    public static class ProductDto {
-        private String id;
-        private Integer quantity;
+    public record ProductDto(String id, Integer quantity) {
     }
 }

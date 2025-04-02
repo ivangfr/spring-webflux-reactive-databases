@@ -57,10 +57,10 @@ public abstract class OrderMapper {
         return validateCustomerAndProducts(createOrderRequest)
                 .flatMap(isValid -> {
                     Order order = new Order();
-                    order.setCustomerId(createOrderRequest.getCustomerId());
-                    Set<Product> products = createOrderRequest.getProducts()
+                    order.setCustomerId(createOrderRequest.customerId());
+                    Set<Product> products = createOrderRequest.products()
                             .stream()
-                            .map(productDto -> new Product(productDto.getId(), productDto.getQuantity()))
+                            .map(productDto -> new Product(productDto.id(), productDto.quantity()))
                             .collect(Collectors.toSet());
                     order.setProducts(products);
                     return Mono.just(order);
@@ -68,15 +68,15 @@ public abstract class OrderMapper {
     }
 
     private Mono<Boolean> validateCustomerAndProducts(CreateOrderRequest createOrderRequest) {
-        Mono<Boolean> customerResponseMono = customerApiClient.getCustomer(createOrderRequest.getCustomerId())
+        Mono<Boolean> customerResponseMono = customerApiClient.getCustomer(createOrderRequest.customerId())
                 .onErrorMap(e -> new CreateOrderException(
-                        String.format("Unable to get customer id %s", createOrderRequest.getCustomerId())))
+                        String.format("Unable to get customer id %s", createOrderRequest.customerId())))
                 .map(Objects::nonNull);
 
-        Mono<Boolean> productsResponseMono = Flux.fromIterable(createOrderRequest.getProducts())
-                .flatMap(productDto -> productApiClient.getProduct(productDto.getId())
+        Mono<Boolean> productsResponseMono = Flux.fromIterable(createOrderRequest.products())
+                .flatMap(productDto -> productApiClient.getProduct(productDto.id())
                         .onErrorMap(e -> new CreateOrderException(
-                                String.format("Unable to get product id %s", productDto.getId())))
+                                String.format("Unable to get product id %s", productDto.id())))
                         .map(Objects::nonNull))
                 .reduce(true, (b1, b2) -> b1 && b2);
 

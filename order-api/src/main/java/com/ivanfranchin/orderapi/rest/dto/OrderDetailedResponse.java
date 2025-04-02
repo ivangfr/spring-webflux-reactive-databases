@@ -17,22 +17,10 @@ public class OrderDetailedResponse {
     private Set<ProductDto> products;
     private CustomerDto customer;
 
-    @Data
     @Schema(name = "OrderDetailedProductDto")
-    public static class ProductDto {
-        private String id;
-        private String name;
-        private Integer quantity;
-        private BigDecimal price;
+    public record ProductDto(String id, String name, Integer quantity, BigDecimal price) {
     }
 
-    @Data
-    public static class CustomerDto {
-        private String id;
-        private String name;
-        private String email;
-        private String city;
-        private String street;
-        private String number;
+    public record CustomerDto(String id, String name, String email, String city, String street, String number) {
     }
 }
