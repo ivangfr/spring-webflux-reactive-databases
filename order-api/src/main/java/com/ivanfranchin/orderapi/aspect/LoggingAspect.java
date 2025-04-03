@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LoggingAspect {
 
-    @Around("@annotation(LogInputAndExecutionTime) || execution(public * com.ivanfranchin.orderapi.rest.OrderController.*(..))")
+    @Around("@annotation(LogInputAndExecutionTime) || execution(public * com.ivanfranchin.orderapi.order.OrderController.*(..))")
     public Object logInputAndExecutionTime(ProceedingJoinPoint pjp) throws Throwable {
         long t = System.currentTimeMillis();
         log.info("=> {} :: args: {}", pjp.getSignature().toShortString(), pjp.getArgs());
