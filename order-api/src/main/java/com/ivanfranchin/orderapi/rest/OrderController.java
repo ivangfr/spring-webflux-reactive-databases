@@ -35,12 +35,12 @@ public class OrderController {
 
     @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<OrderResponse> getOrders() {
-        return orderService.getOrders().map(orderMapper::toOrderResponse);
+        return orderService.getOrders().map(OrderResponse::from);
     }
 
     @GetMapping("/{orderId}")
     public Mono<OrderResponse> getOrder(@PathVariable UUID orderId) {
-        return orderService.validateAndGetOrder(orderId).map(orderMapper::toOrderResponse);
+        return orderService.validateAndGetOrder(orderId).map(OrderResponse::from);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -48,7 +48,7 @@ public class OrderController {
     public Mono<OrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
         return orderMapper.toOrder(createOrderRequest).flatMap(order -> {
             order.setKey(new OrderKey(UUID.randomUUID(), LocalDateTime.now()));
-            return orderService.saveOrder(order).map(orderMapper::toOrderResponse);
+            return orderService.saveOrder(order).map(OrderResponse::from);
         });
     }
 

@@ -1,6 +1,5 @@
 package com.ivanfranchin.productapi.rest;
 
-import com.ivanfranchin.productapi.mapper.ProductMapper;
 import com.ivanfranchin.productapi.model.Product;
 import com.ivanfranchin.productapi.rest.dto.CreateProductRequest;
 import com.ivanfranchin.productapi.rest.dto.ProductResponse;
@@ -28,23 +27,22 @@ import reactor.core.publisher.Mono;
 public class ProductController {
 
     private final ProductService productService;
-    private final ProductMapper productMapper;
 
     @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<ProductResponse> getProducts() {
-        return productService.getProducts().map(productMapper::toProductResponse);
+        return productService.getProducts().map(ProductResponse::from);
     }
 
     @GetMapping("/{id}")
     public Mono<ProductResponse> getProduct(@PathVariable String id) {
-        return productService.validateAndGetProduct(id).map(productMapper::toProductResponse);
+        return productService.validateAndGetProduct(id).map(ProductResponse::from);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Mono<ProductResponse> createProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
-        Product product = productMapper.toProduct(createProductRequest);
-        return productService.saveProduct(product).map(productMapper::toProductResponse);
+        Product product = Product.from(createProductRequest);
+        return productService.saveProduct(product).map(ProductResponse::from);
     }
 
     @PatchMapping("/{id}")
@@ -52,16 +50,16 @@ public class ProductController {
                                                @RequestBody UpdateProductRequest updateProductRequest) {
         return productService.validateAndGetProduct(id)
                 .doOnSuccess(product -> {
-                    productMapper.updateProductFromRequest(updateProductRequest, product);
+                    Product.updateFrom(updateProductRequest, product);
                     productService.saveProduct(product).subscribe();
                 })
-                .map(productMapper::toProductResponse);
+                .map(ProductResponse::from);
     }
 
     @DeleteMapping("/{id}")
     public Mono<ProductResponse> deleteProduct(@PathVariable String id) {
         return productService.validateAndGetProduct(id)
                 .doOnSuccess(product -> productService.deleteProduct(product).subscribe())
-                .map(productMapper::toProductResponse);
+                .map(ProductResponse::from);
     }
 }

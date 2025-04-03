@@ -2,19 +2,12 @@ package com.ivanfranchin.orderapi.mapper;
 
 import com.ivanfranchin.orderapi.client.CustomerApiClient;
 import com.ivanfranchin.orderapi.client.ProductApiClient;
-import com.ivanfranchin.orderapi.client.dto.CustomerResponse;
-import com.ivanfranchin.orderapi.client.dto.ProductResponse;
 import com.ivanfranchin.orderapi.exception.CreateOrderException;
 import com.ivanfranchin.orderapi.model.Order;
 import com.ivanfranchin.orderapi.model.Product;
 import com.ivanfranchin.orderapi.rest.dto.CreateOrderRequest;
-import com.ivanfranchin.orderapi.rest.dto.OrderDetailedResponse;
-import com.ivanfranchin.orderapi.rest.dto.OrderResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -22,36 +15,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(
-        componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
-)
-public abstract class OrderMapper {
+@RequiredArgsConstructor
+@Component
+public class OrderMapper {
 
-    @Autowired
-    private CustomerApiClient customerApiClient;
-
-    @Autowired
-    private ProductApiClient productApiClient;
-
-    @Mapping(source = "key.orderId", target = "orderId")
-    @Mapping(source = "key.created", target = "created")
-    public abstract OrderResponse toOrderResponse(Order order);
-
-    @Mapping(target = "customer", ignore = true)
-    @Mapping(source = "key.orderId", target = "orderId")
-    @Mapping(source = "key.created", target = "created")
-    public abstract OrderDetailedResponse toOrderDetailedResponse(Order order);
-
-    public abstract OrderDetailedResponse.CustomerDto toOrderDetailedResponseCustomerDto(CustomerResponse customerResponse);
-
-    @Mapping(target = "name", ignore = true)
-    @Mapping(target = "price", ignore = true)
-    public abstract OrderDetailedResponse.ProductDto toOrderDetailedResponseProductDto(Product product);
-
-    @Mapping(target = "quantity", ignore = true)
-    public abstract void updateOrderDetailedResponseProductDtoFromProductResponse(
-            ProductResponse productResponse, @MappingTarget OrderDetailedResponse.ProductDto orderDetailedResponseProductDto);
+    private final CustomerApiClient customerApiClient;
+    private final ProductApiClient productApiClient;
 
     public Mono<Order> toOrder(CreateOrderRequest createOrderRequest) {
         return validateCustomerAndProducts(createOrderRequest)

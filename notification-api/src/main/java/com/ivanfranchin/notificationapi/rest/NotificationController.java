@@ -33,18 +33,18 @@ public class NotificationController {
         if (StringUtils.hasLength(orderId)) {
             notificationFlux = notificationFlux.filter(notification -> notification.getOrderId().equals(orderId));
         }
-        return notificationFlux.map(notificationMapper::toNotificationResponse);
+        return notificationFlux.map(NotificationResponse::from);
     }
 
     @GetMapping("/{id}")
     public Mono<NotificationResponse> getNotification(@PathVariable Long id) {
-        return notificationService.validateAndGetNotification(id).map(notificationMapper::toNotificationResponse);
+        return notificationService.validateAndGetNotification(id).map(NotificationResponse::from);
     }
 
     @PostMapping
     public Mono<NotificationResponse> createNotification(@Valid @RequestBody CreateNotificationRequest createNotificationRequest) {
         return notificationMapper.toNotification(createNotificationRequest)
                 .flatMap(notification -> notificationService.saveNotification(notification)
-                        .map(notificationMapper::toNotificationResponse));
+                        .map(NotificationResponse::from));
     }
 }

@@ -1,5 +1,7 @@
 package com.ivanfranchin.productapi.model;
 
+import com.ivanfranchin.productapi.rest.dto.CreateProductRequest;
+import com.ivanfranchin.productapi.rest.dto.UpdateProductRequest;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,4 +22,20 @@ public class Product {
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
+
+    public static Product from(CreateProductRequest createProductRequest) {
+        Product product = new Product();
+        product.setName(createProductRequest.name());
+        product.setPrice(createProductRequest.price());
+        return product;
+    }
+
+    public static void updateFrom(UpdateProductRequest updateProductRequest, Product product) {
+        if (updateProductRequest.name() != null) {
+            product.setName(updateProductRequest.name());
+        }
+        if (updateProductRequest.price() != null) {
+            product.setPrice(updateProductRequest.price());
+        }
+    }
 }

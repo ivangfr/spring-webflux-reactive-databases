@@ -1,6 +1,5 @@
 package com.ivanfranchin.customerapi.rest;
 
-import com.ivanfranchin.customerapi.mapper.CustomerMapper;
 import com.ivanfranchin.customerapi.model.Customer;
 import com.ivanfranchin.customerapi.rest.dto.CreateCustomerRequest;
 import com.ivanfranchin.customerapi.rest.dto.CustomerResponse;
@@ -26,22 +25,21 @@ import reactor.core.publisher.Mono;
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final CustomerMapper customerMapper;
 
     @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<CustomerResponse> getCustomers() {
-        return customerService.getCustomers().map(customerMapper::toCustomerResponse);
+        return customerService.getCustomers().map(CustomerResponse::from);
     }
 
     @GetMapping("/{id}")
     public Mono<CustomerResponse> getCustomer(@PathVariable Long id) {
-        return customerService.validateAndGetCustomer(id).map(customerMapper::toCustomerResponse);
+        return customerService.validateAndGetCustomer(id).map(CustomerResponse::from);
     }
 
     @PostMapping
     public Mono<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
-        Customer customer = customerMapper.toCustomer(createCustomerRequest);
-        return customerService.saveCustomer(customer).map(customerMapper::toCustomerResponse);
+        Customer customer = Customer.from(createCustomerRequest);
+        return customerService.saveCustomer(customer).map(CustomerResponse::from);
     }
 
     @PatchMapping("/{id}")
@@ -49,16 +47,16 @@ public class CustomerController {
                                                  @Valid @RequestBody UpdateCustomerRequest updateCustomerRequest) {
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> {
-                    customerMapper.updateCustomerFromRequest(updateCustomerRequest, customer);
+                    Customer.updateFrom(updateCustomerRequest, customer);
                     customerService.saveCustomer(customer).subscribe();
                 })
-                .map(customerMapper::toCustomerResponse);
+                .map(CustomerResponse::from);
     }
 
     @DeleteMapping("/{id}")
     public Mono<CustomerResponse> deleteCustomer(@PathVariable Long id) {
         return customerService.validateAndGetCustomer(id)
                 .doOnSuccess(customer -> customerService.deleteCustomer(customer).subscribe())
-                .map(customerMapper::toCustomerResponse);
+                .map(CustomerResponse::from);
     }
 }

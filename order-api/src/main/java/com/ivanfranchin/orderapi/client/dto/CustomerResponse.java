@@ -1,14 +1,6 @@
 package com.ivanfranchin.orderapi.client.dto;
 
-import lombok.Data;
+public record CustomerResponse(String id, String name, String email, String city, String street, String number) {
 
-@Data
-public class CustomerResponse {
-
-    private String id;
-    private String name;
-    private String email;
-    private String city;
-    private String street;
-    private String number;
+    public static CustomerResponse EMPTY = new CustomerResponse("", "", "", "", "", "");
 }

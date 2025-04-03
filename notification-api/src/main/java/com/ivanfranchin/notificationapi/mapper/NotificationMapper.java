@@ -5,23 +5,18 @@ import com.ivanfranchin.notificationapi.client.OrderApiClient;
 import com.ivanfranchin.notificationapi.exception.CreateNotificationException;
 import com.ivanfranchin.notificationapi.model.Notification;
 import com.ivanfranchin.notificationapi.rest.dto.CreateNotificationRequest;
-import com.ivanfranchin.notificationapi.rest.dto.NotificationResponse;
-import org.mapstruct.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 
-@Mapper(componentModel = "spring")
-public abstract class NotificationMapper {
+@RequiredArgsConstructor
+@Component
+public class NotificationMapper {
 
-    @Autowired
-    private OrderApiClient orderApiClient;
-
-    @Autowired
-    private CustomerApiClient customerApiClient;
-
-    public abstract NotificationResponse toNotificationResponse(Notification notification);
+    private final OrderApiClient orderApiClient;
+    private final CustomerApiClient customerApiClient;
 
     public Mono<Notification> toNotification(CreateNotificationRequest createNotificationRequest) {
         return orderApiClient.getOrder(createNotificationRequest.orderId())
