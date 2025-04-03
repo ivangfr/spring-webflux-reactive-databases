@@ -49,7 +49,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 ## Prerequisites
 
 - [`Java 21`](https://www.oracle.com/java/technologies/downloads/#java21) or higher;
-- - A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
+- A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
 ## Initialize Environment
 
