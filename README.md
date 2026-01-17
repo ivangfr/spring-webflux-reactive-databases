@@ -48,12 +48,12 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   
 ## Prerequisites
 
-- [`Java 21`](https://www.oracle.com/java/technologies/downloads/#java21) or higher;
+- [`Java 25`](https://www.oracle.com/java/technologies/downloads/#java25) or higher;
 - A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
 ## Initialize Environment
 
-- Open a terminal and inside the `spring-webflux-reactive-databases` root folder, run
+- Open a terminal and inside the `spring-webflux-reactive-databases` root folder, run:
   ```bash
   ./init-environment.sh
   ```
@@ -64,49 +64,44 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - **product-api**
 
-  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command:
   ```bash
   ./mvnw clean spring-boot:run --projects product-api
   ```
 
 - **customer-api**
 
-  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command:
   ```bash
   ./mvnw clean spring-boot:run --projects customer-api
   ```
 
 - **order-api**
 
-  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command 
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command:
   ```bash
   ./mvnw clean spring-boot:run --projects order-api
   ```
 
 - **notification-api**
 
-  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command:
   ```bash
   ./mvnw clean spring-boot:run --projects notification-api
   ```
 
 - **client-shell**
 
-  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command to build the executable jar file
+  Open a new terminal and, inside the `spring-webflux-reactive-databases` root folder, run the following command:
   ```bash
-  ./mvnw clean package --projects client-shell -DskipTests
-  ```
-
-  To start `client-shell`, run:
-  ```bash
-  ./client-shell/target/client-shell-1.0.0.jar
+  ./mvnw clean spring-boot:run --projects client-shell
   ```
 
 ## Run applications as Docker containers
 
 - ### Build Docker Images
   
-  - In a terminal, make sure you are in the `spring-webflux-reactive-databases` root folder/
+  - In a terminal, make sure you are in the `spring-webflux-reactive-databases` root folder.
   - Run the following script to build the Docker images:
     ```bash
     ./build-docker-images.sh

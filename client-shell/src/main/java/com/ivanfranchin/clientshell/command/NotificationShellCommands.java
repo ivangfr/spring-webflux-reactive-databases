@@ -1,38 +1,50 @@
 package com.ivanfranchin.clientshell.command;
 
-import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.NotificationApiClient;
 import com.ivanfranchin.clientshell.dto.CreateNotificationRequest;
-import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
+import org.springframework.shell.core.command.annotation.Command;
+import org.springframework.shell.core.command.annotation.Option;
+import org.springframework.stereotype.Component;
+import tools.jackson.databind.ObjectMapper;
 
-import java.util.List;
+import java.util.Objects;
 
-@ShellComponent
+@Component
 public class NotificationShellCommands {
 
     private final NotificationApiClient notificationApiClient;
-    private final Gson gson;
+    private final ObjectMapper objectMapper;
 
-    public NotificationShellCommands(NotificationApiClient notificationApiClient, Gson gson) {
+    public NotificationShellCommands(NotificationApiClient notificationApiClient, ObjectMapper objectMapper) {
         this.notificationApiClient = notificationApiClient;
-        this.gson = gson;
+        this.objectMapper = objectMapper;
     }
 
-    @ShellMethod("Get notification by id")
-    public String getNotification(String id) {
-        return notificationApiClient.getNotification(id).map(gson::toJson).block();
+    @Command(name = "get-notification", description = "Get notification by id", group = "Notification Commands")
+    public String getNotification(@Option(longName = "id", required = true) String id) {
+        try {
+            return notificationApiClient.getNotification(id).map(objectMapper::writeValueAsString).block();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
-    @ShellMethod("Get all notifications")
-    public List<String> getNotifications(@ShellOption(defaultValue = "") String orderId) {
-        return notificationApiClient.getNotifications(orderId).map(gson::toJson).collectList().block();
+    @Command(name = "get-notifications", description = "Get all notifications", group = "Notification Commands")
+    public String getNotifications(@Option(longName = "orderId") String orderId) {
+        try {
+            return Objects.requireNonNull(notificationApiClient.getNotifications(orderId).map(objectMapper::writeValueAsString).collectList().block()).toString();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
-    @ShellMethod("Create notification")
-    public String createNotification(String orderId) {
+    @Command(name = "create-notification", description = "Create notification", group = "Notification Commands")
+    public String createNotification(@Option(longName = "orderId", required = true) String orderId) {
         CreateNotificationRequest createNotificationRequest = new CreateNotificationRequest(orderId);
-        return notificationApiClient.createNotification(createNotificationRequest).map(gson::toJson).block();
+        try {
+            return notificationApiClient.createNotification(createNotificationRequest).map(objectMapper::writeValueAsString).block();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 }

@@ -1,43 +1,61 @@
 package com.ivanfranchin.clientshell.command;
 
-import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.ProductApiClient;
 import com.ivanfranchin.clientshell.dto.CreateProductRequest;
-import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.core.command.annotation.Command;
+import org.springframework.shell.core.command.annotation.Option;
+import org.springframework.stereotype.Component;
+import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Objects;
 
-@ShellComponent
+@Component
 public class ProductShellCommands {
 
     private final ProductApiClient productApiClient;
-    private final Gson gson;
+    private final ObjectMapper objectMapper;
 
-    public ProductShellCommands(ProductApiClient productApiClient, Gson gson) {
+    public ProductShellCommands(ProductApiClient productApiClient, ObjectMapper objectMapper) {
         this.productApiClient = productApiClient;
-        this.gson = gson;
+        this.objectMapper = objectMapper;
     }
 
-    @ShellMethod("Get product by id")
-    public String getProduct(String id) {
-        return productApiClient.getProduct(id).map(gson::toJson).block();
+    @Command(name = "get-product", description = "Get product by id", group = "Product Commands")
+    public String getProduct(@Option(longName = "id", required = true) String id) {
+        try {
+            return productApiClient.getProduct(id).map(objectMapper::writeValueAsString).block();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
-    @ShellMethod("Get all products")
-    public List<String> getProducts() {
-        return productApiClient.getProducts().map(gson::toJson).collectList().block();
+    @Command(name = "get-products", description = "Get all products", group = "Product Commands")
+    public String getProducts() {
+        try {
+            return Objects.requireNonNull(productApiClient.getProducts().map(objectMapper::writeValueAsString).collectList().block()).toString();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
-    @ShellMethod("Create product")
-    public String createProduct(String name, BigDecimal price) {
+    @Command(name = "create-product", description = "Create product", group = "Product Commands")
+    public String createProduct(@Option(longName = "name", required = true) String name,
+                                @Option(longName = "price", required = true) BigDecimal price) {
         CreateProductRequest createProductRequest = new CreateProductRequest(name, price);
-        return productApiClient.createProduct(createProductRequest).map(gson::toJson).block();
+        try {
+            return productApiClient.createProduct(createProductRequest).map(objectMapper::writeValueAsString).block();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
-    @ShellMethod("Delete product")
-    public String deleteProduct(String id) {
-        return productApiClient.deleteProduct(id).map(gson::toJson).block();
+    @Command(name = "delete-product", description = "Delete product", group = "Product Commands")
+    public String deleteProduct(@Option(longName = "id", required = true) String id) {
+        try {
+            return productApiClient.deleteProduct(id).map(objectMapper::writeValueAsString).block();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 }

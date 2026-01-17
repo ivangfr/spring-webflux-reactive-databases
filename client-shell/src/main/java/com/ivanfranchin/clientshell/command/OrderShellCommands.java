@@ -1,61 +1,84 @@
 package com.ivanfranchin.clientshell.command;
 
-import com.google.gson.Gson;
 import com.ivanfranchin.clientshell.client.OrderApiClient;
 import com.ivanfranchin.clientshell.client.ProductApiClient;
 import com.ivanfranchin.clientshell.dto.CreateOrderRequest;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.core.command.annotation.Command;
+import org.springframework.shell.core.command.annotation.Option;
+import org.springframework.stereotype.Component;
+import tools.jackson.databind.ObjectMapper;
 
-import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@ShellComponent
+@Component
 public class OrderShellCommands {
 
     private final OrderApiClient orderApiClient;
     private final ProductApiClient productApiClient;
-    private final Gson gson;
+    private final ObjectMapper objectMapper;
     private final Random random;
 
-    public OrderShellCommands(OrderApiClient orderApiClient, ProductApiClient productApiClient, Gson gson, Random random) {
+    public OrderShellCommands(OrderApiClient orderApiClient, ProductApiClient productApiClient, ObjectMapper objectMapper, Random random) {
         this.orderApiClient = orderApiClient;
         this.productApiClient = productApiClient;
-        this.gson = gson;
+        this.objectMapper = objectMapper;
         this.random = random;
     }
 
-    @ShellMethod("Get order by id")
-    public String getOrder(UUID id) {
-        return orderApiClient.getOrder(id).map(gson::toJson).block();
+    @Command(name = "get-order", description = "Get order by id", group = "Order Commands")
+    public String getOrder(@Option(longName = "id", required = true) UUID id) {
+        try {
+            return orderApiClient.getOrder(id).map(objectMapper::writeValueAsString).block();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
-    @ShellMethod("Get order detailed by id")
-    public String getOrderDetailed(UUID id) {
-        return orderApiClient.getOrderDetailed(id).map(gson::toJson).block();
+    @Command(name = "get-order-detailed", description = "Get order detailed by id", group = "Order Commands")
+    public String getOrderDetailed(@Option(longName = "id", required = true) UUID id) {
+        try {
+            return orderApiClient.getOrderDetailed(id).map(objectMapper::writeValueAsString).block();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
-    @ShellMethod("Get all orders")
-    public List<String> getOrders() {
-        return orderApiClient.getOrders().map(gson::toJson).collectList().block();
+    @Command(name = "get-orders", description = "Get all orders")
+    public String getOrders() {
+        try {
+            return Objects.requireNonNull(orderApiClient.getOrders().map(objectMapper::writeValueAsString).collectList().block()).toString();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
-    @ShellMethod("Create order.\n" +
-            "\t\tExample: create-order --customer-id <customer-id> --products <product-1-id:quantity>[;<product-n-id:quantity>]")
+    @Command(name = "create-order",
+            description = "Create order.\n" + "\t\tExample: create-order --customer-id <customer-id> --products <product-1-id:quantity>[;<product-n-id:quantity>]",
+            group = "Order Commands")
     public String createOrder(String customerId, Set<CreateOrderRequest.ProductDto> products) {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, products);
-        return orderApiClient.createOrder(createOrderRequest).map(gson::toJson).block();
+        try {
+            return orderApiClient.createOrder(createOrderRequest).map(objectMapper::writeValueAsString).block();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
-    @ShellMethod("Create order with random products")
-    public String createOrderRandom(String customerId, @Min(1) @Max(50) int numProducts) {
+    @Command(name = "create-order-random", description = "Create order with random products", group = "Order Commands")
+    public String createOrderRandom(@Option(longName = "customerId", required = true) String customerId,
+                                    @Option(longName = "numProducts", required = true) @Min(1) @Max(50) int numProducts) {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(customerId, getProducts(numProducts));
-        return orderApiClient.createOrder(createOrderRequest).map(gson::toJson).block();
+        try {
+            return orderApiClient.createOrder(createOrderRequest).map(objectMapper::writeValueAsString).block();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
     private Set<CreateOrderRequest.ProductDto> getProducts(int numProducts) {
